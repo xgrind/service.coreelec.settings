@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
-ADDON_NAME=service.libreelec.settings
+ADDON_NAME=service.coreelec.settings
 ADDON_VERSION=9.0.0
-DISTRONAME:=LibreELEC
+DISTRONAME:=CoreELEC
 
 SHELL=/bin/bash
 BUILDDIR=build
@@ -30,7 +31,6 @@ uninstall:
 $(BUILDDIR)/$(ADDON_NAME): $(BUILDDIR)/$(ADDON_NAME)/resources
 	mkdir -p $(BUILDDIR)/$(ADDON_NAME)
 	cp -R src/*.py $(BUILDDIR)/$(ADDON_NAME)
-	cp COPYING $(BUILDDIR)/$(ADDON_NAME)
 	cp addon.xml $(BUILDDIR)/$(ADDON_NAME)
 	sed -e "s,@ADDONNAME@,$(ADDON_NAME),g" \
 	    -e "s,@ADDONVERSION@,$(ADDON_VERSION),g" \

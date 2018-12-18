@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 from __future__ import absolute_import, print_function, unicode_literals, division
 import os
@@ -110,7 +111,7 @@ class bluetooth:
                 self.oe.dbg_log('bluetooth::adapter_powered', 'set state (' + unicode(state) + ')', 0)
                 adapter_interface = dbus.Interface(self.oe.dbusSystemBus.get_object('org.bluez', adapter.object_path),
                                                    'org.freedesktop.DBus.Properties')
-                adapter_interface.Set('org.bluez.Adapter1', 'Alias', dbus.String(os.environ.get('HOSTNAME', 'libreelec')))
+                adapter_interface.Set('org.bluez.Adapter1', 'Alias', dbus.String(os.environ.get('HOSTNAME', 'coreelec')))
                 adapter_interface.Set('org.bluez.Adapter1', 'Powered', dbus.Boolean(state))
                 adapter_interface = None
             self.oe.dbg_log('bluetooth::adapter_powered', 'exit_function', 0)
@@ -570,7 +571,7 @@ class bluetooth:
     def open_pinkey_window(self, runtime=60, title=32343):
         try:
             self.oe.dbg_log('bluetooth::open_pinkey_window', 'enter_function', 0)
-            self.pinkey_window = oeWindows.pinkeyWindow('service-LibreELEC-Settings-getPasskey.xml', self.oe.__cwd__, 'Default')
+            self.pinkey_window = oeWindows.pinkeyWindow('service-CoreELEC-Settings-getPasskey.xml', self.oe.__cwd__, 'Default')
             self.pinkey_window.show()
             self.pinkey_window.set_title(self.oe._(title))
             self.pinkey_timer = pinkeyTimer(self, runtime)
@@ -626,8 +627,8 @@ class bluetooth:
                 self.signal_receivers = []
                 self.NameOwnerWatch = None
                 self.ObexNameOwnerWatch = None
-                self.btAgentPath = '/LibreELEC/bt_agent'
-                self.obAgentPath = '/LibreELEC/ob_agent'
+                self.btAgentPath = '/CoreELEC/bt_agent'
+                self.obAgentPath = '/CoreELEC/ob_agent'
                 self.parent = parent
                 self.oe.dbg_log('bluetooth::monitor::__init__', 'exit_function', 0)
             except Exception, e:

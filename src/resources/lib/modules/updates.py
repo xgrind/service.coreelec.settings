@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
-# Copyright (C) 2018-present Team LibreELEC
+# Copyright (C) 2018 Team LibreELEC
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 import os
 import re
@@ -452,7 +453,7 @@ class updates:
                     version = self.oe.VERSION
                 if self.struct['update']['settings']['Build']['value'] != '':
                     self.update_file = self.update_json[self.struct['update']['settings']['Channel']['value']]['url'] + self.get_available_builds(self.struct['update']['settings']['Build']['value'])
-                    answer = xbmcDialog.yesno('LibreELEC Update', self.oe._(32188).encode('utf-8') + ':  ' + version.encode('utf-8'),
+                    answer = xbmcDialog.yesno('CoreELEC Update', self.oe._(32188).encode('utf-8') + ':  ' + version.encode('utf-8'),
                                           self.oe._(32187).encode('utf-8') + ':  ' + self.struct['update']['settings']['Build']['value'].encode('utf-8'),
                                           self.oe._(32180).encode('utf-8'))
                     xbmcDialog = None

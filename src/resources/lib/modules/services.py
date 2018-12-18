@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 import os
 import glob
@@ -9,7 +10,7 @@ import xbmc
 import xbmcgui
 import xbmcaddon
 
-__scriptid__ = 'service.libreelec.settings'
+__scriptid__ = 'service.coreelec.settings'
 __addon__ = xbmcaddon.Addon(id=__scriptid__)
 xbmcDialog = xbmcgui.Dialog()
 
@@ -621,7 +622,7 @@ class services:
             SSHchange = False
             newpwd = xbmcDialog.input(self.oe._(746))
             if newpwd:
-                if newpwd == "libreelec":
+                if newpwd == "coreelec":
                     self.oe.execute('cp -fp /usr/cache/shadow /storage/.cache/shadow')
                     readout3 = "Retype password"
                 else:

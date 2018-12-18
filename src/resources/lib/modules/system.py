@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 import os
 import re
@@ -23,7 +24,7 @@ class system:
     ENABLED = False
     KERNEL_CMD = None
     XBMC_RESET_FILE = None
-    LIBREELEC_RESET_FILE = None
+    COREELEC_RESET_FILE = None
     KEYBOARD_INFO = None
     UDEV_KEYBOARD_INFO = None
     NOX_KEYBOARD_INFO = None
@@ -496,7 +497,7 @@ class system:
             self.oe.dbg_log('system::reset_oe', 'enter_function', 0)
             if self.ask_sure_reset('Hard') == 1:
                 self.oe.set_busy(1)
-                reset_file = open(self.LIBREELEC_RESET_FILE, 'w')
+                reset_file = open(self.COREELEC_RESET_FILE, 'w')
                 reset_file.write('reset')
                 reset_file.close()
                 self.oe.winOeMain.close()
@@ -560,7 +561,7 @@ class system:
                     pass
 
                 self.backup_dlg = xbmcgui.DialogProgress()
-                self.backup_dlg.create('LibreELEC', self.oe._(32375).encode('utf-8'), ' ', ' ')
+                self.backup_dlg.create('CoreELEC', self.oe._(32375).encode('utf-8'), ' ', ' ')
                 if not os.path.exists(self.BACKUP_DESTINATION):
                     os.makedirs(self.BACKUP_DESTINATION)
                 self.backup_file = self.oe.timestamp() + '.tar'
