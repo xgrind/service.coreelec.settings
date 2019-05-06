@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: @DISTRONAME@ Configuration
-# Addon id: service.libreelec.settings
-# Addon Provider: LibreELEC
+# Addon id: service.coreelec.settings
+# Addon Provider: CoreELEC
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
@@ -46,22 +46,6 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "Архитектура:"
 
-msgctxt "#609"
-msgid ""
-"LibreELEC is created by a global team of Linux and Kodi enthusiasts who "
-"contribute time and effort to manage the project, write code, and provide "
-"support. We have fun making it. We hope you have fun using it!"
-msgstr "LibreELEC е продукт на Linux и Kodi ентусиасти които допринасят за управлението на проекта, писането на код и поддръжката. Забавляват се докато го правят. Дано и Вие се забавлявате докато ползвате LibreELEC!"
-
-msgctxt "#610"
-msgid ""
-"[B]Support[/B] is provided via our "
-"forum:[CR]https://forum.libreelec.tv[CR][CR][B]Documentation[/B] can be read"
-" in our wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] can be found on "
-"GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Donations[/B] towards "
-"project expenses are accepted via PayPal:[CR]donations@libreelec.tv"
-msgstr "[B]Поддръжка[/B] се осигурява чрез форума:[CR]https://forum.libreelec.tv[CR][CR][B]Документация[/B] може да намерите в wiki-то:[CR]https://libreelec.wiki[CR][CR][B]Кода[/B] се съхранява в GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Дарения[/B] за покриване на разходите на проекта можете да правите чрез PayPal:[CR]donations@libreelec.tv"
-
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -84,12 +68,6 @@ msgstr "Настройте системните услуги като Samba, SSH
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "Настройване и сдвояване на Bluetooth устройства"
-
-msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
-msgstr "Полезна информация като номер на версията, подробности за архитектурата, връзки към документацията и информация за дарения."
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -241,7 +219,7 @@ msgctxt "#743"
 msgid ""
 "Set to ON if you have copied private SSH keys to your HTPC and would like to"
 " improve security by disabling SSH username and password authentication."
-msgstr "Включете ако сте копирали частните SSH ключове в LibreELEC системата и желаете да повишите нивото на сигурност, като избегнете ползването на потребителско име и парола."
+msgstr "Включете ако сте копирали частните SSH ключове в CoreELEC системата и желаете да повишите нивото на сигурност, като избегнете ползването на потребителско име и парола."
 
 msgctxt "#744"
 msgid ""
@@ -793,20 +771,6 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "Благодарим Ви"
 
-msgctxt "#32318"
-msgid ""
-"Your @DISTRONAME@ installation is now complete and you are about to enter "
-"Kodi where you can set up your media libraries. For help with this, there is"
-" a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a "
-"dedicated team of developers who work purely in their spare time. Even as a "
-"volunteer project, we still have to pay for our internet bandwidth and "
-"development resources so if you find @DISTRONAME@ useful we will always "
-"appreciate a donation of any amount.[CR][CR]Finally, we hope you enjoy using"
-" @DISTRONAME@ as much as we've enjoyed building it. If you need any more "
-"help, you can find links to our support forum along with latest news at our "
-"website."
-msgstr "Инсталацията на @DISTRONAME@ приключи и сега ще бъдете пренасочени към Kodi, където ще можете да настроите медийните си библиотеки. При необходимост от помощ можете да ползвате ръководството на www.wiki.kodi.tv[CR][CR]@DISTRONAME@ се развива от малък екип разработчици, в свободното им време. Въпреки, че е проект на доброволчески начала се налага да се плаща за интернет трафика и разходи свързани с развойната дейност. Затова ако намирате @DISTRONAME@ за полезна програма ние ще оценим и най-малкото дарение.[CR][CR]Надяваме се, че ще се насладите на @DISTRONAME@, поне толкова колкото ние се наслаждавахме докато го създавахме. Ако Ви е необходима помощ ще я намерите (и новини) на нашия уеб сайт."
-
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
@@ -1002,19 +966,6 @@ msgstr "Добавката за настройките не е в готовно
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
 msgstr "** БЕЗОПАСЕН РЕЖИМ! ** БЕЗОПАСЕН РЕЖИМ! **"
-
-msgctxt "#32394"
-msgid ""
-"@DISTRONAME@ has temporarily started in safe mode due to repeated Kodi "
-"crashes.[CR][CR]You may now investigate the cause of the crashes by enabling"
-" ssh or Samba.[CR][CR]Your original Kodi installation can be accessed via "
-"\"/storage/.kodi.FAILED\" and the Samba \"Kodi-Failed\" "
-"share.[CR][CR]Rebooting will return to your original Kodi "
-"installation.[CR][CR]Go to https://forum.libreelec.tv if you require further"
-" assistance. When posting to the forum include the link to your crash log "
-"which can be viewed by clicking the crash log option in Settings > LibreELEC"
-" > System > Submit Log."
-msgstr "@DISTRONAME@ е стартирал временно в безопасен режим поради повтарящи се сривове на Kodi.[CR][CR]Mожете да проучите причината за сривовете, като включите ssh или Samba.[CR][CR]Инсталацията на Kodi е достъпна от \"/storage/.kodi.FAILED\" и Samba дяла \"Kodi-Failed\".[CR][CR]За да се върнете в стандартния режим на работа рестартиране Kodi.[CR][CR]Посетете https://forum.libreelec.tv, ако имате нужда от допълнителна помощ. Когато публикувате във форума, добавете връзка към журнала за сривове. Връзката можете да намерите в Настройки > LibreELEC > Система > Изпрати журнала."
 
 msgctxt "#32395"
 msgid "Firewall"

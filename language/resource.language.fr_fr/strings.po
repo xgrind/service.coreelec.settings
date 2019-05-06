@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: @DISTRONAME@ Configuration
-# Addon id: service.libreelec.settings
-# Addon Provider: LibreELEC
+# Addon id: service.coreelec.settings
+# Addon Provider: CoreELEC
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
@@ -46,22 +46,6 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "Architecture :"
 
-msgctxt "#609"
-msgid ""
-"LibreELEC is created by a global team of Linux and Kodi enthusiasts who "
-"contribute time and effort to manage the project, write code, and provide "
-"support. We have fun making it. We hope you have fun using it!"
-msgstr "LibreELEC est créé par une équipe mondiale de passionnés de Linux et de Kodi qui consacrent leur temps et leur énergie maintenir le projet, à écrire du code et à fournir de l'assistance technique. Nous le faisons pour le plasir. Nous espérons que vous aurez du plaisir à l'utiliser !"
-
-msgctxt "#610"
-msgid ""
-"[B]Support[/B] is provided via our "
-"forum:[CR]https://forum.libreelec.tv[CR][CR][B]Documentation[/B] can be read"
-" in our wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] can be found on "
-"GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Donations[/B] towards "
-"project expenses are accepted via PayPal:[CR]donations@libreelec.tv"
-msgstr "[B]Le support[/B] est fourni via notre forum :[CR]https://forum.libreelec.tv[CR][CR][B]La documentation[/B] est accessible sur notre wiki :[CR]https://libreelec.wiki[CR][CR][B]Le code source[/B] est disponible sur GitHub :[CR]https://github.com/LibreELEC[CR][CR][B]Les donations[/B] au projet par PayPal sont acceptées :[CR]donations@libreelec.tv"
-
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -84,12 +68,6 @@ msgstr "Configuration des services système tels que Samba, SSH, Cron, Avahi et 
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "Configuration et appairage des dispositifs Bluetooth"
-
-msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
-msgstr "Informations utiles telles que le détail de la version et de l'architecture, les liens vers le support et la documentation et comment faire un don et supporter le projet."
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -793,20 +771,6 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "Merci"
 
-msgctxt "#32318"
-msgid ""
-"Your @DISTRONAME@ installation is now complete and you are about to enter "
-"Kodi where you can set up your media libraries. For help with this, there is"
-" a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a "
-"dedicated team of developers who work purely in their spare time. Even as a "
-"volunteer project, we still have to pay for our internet bandwidth and "
-"development resources so if you find @DISTRONAME@ useful we will always "
-"appreciate a donation of any amount.[CR][CR]Finally, we hope you enjoy using"
-" @DISTRONAME@ as much as we've enjoyed building it. If you need any more "
-"help, you can find links to our support forum along with latest news at our "
-"website."
-msgstr ""
-
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
@@ -1002,19 +966,6 @@ msgstr "Le greffon des paramètres n'est pas encore prêt, veuillez ré-essayer 
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
 msgstr "** MODE SANS ÉCHEC! ** MODE SANS ÉCHEC! ** MODE SANS ÉCHEC! **"
-
-msgctxt "#32394"
-msgid ""
-"@DISTRONAME@ has temporarily started in safe mode due to repeated Kodi "
-"crashes.[CR][CR]You may now investigate the cause of the crashes by enabling"
-" ssh or Samba.[CR][CR]Your original Kodi installation can be accessed via "
-"\"/storage/.kodi.FAILED\" and the Samba \"Kodi-Failed\" "
-"share.[CR][CR]Rebooting will return to your original Kodi "
-"installation.[CR][CR]Go to https://forum.libreelec.tv if you require further"
-" assistance. When posting to the forum include the link to your crash log "
-"which can be viewed by clicking the crash log option in Settings > LibreELEC"
-" > System > Submit Log."
-msgstr "@DISTRONAME@ a démarré temporairement en mode sans échec en raison de plantages répétés de Kodi. [CR] [CR] Vous pouvez investiguer sur la cause des plantages en activant ssh ou Samba. [CR] [CR] Vous pouvez accéder à votre installation originale de Kodi via \"/storage/.kodi.FAILED\" et au partage \"Kodi-Failed\" de Samba. [CR] [CR] Le redémarrage réinitialisera l’installation d’origine de Kodi. [CR] [CR] sur  https://forum.libreelec.tv si vous avez besoin d’aide supplémentaire. Lors de la publication sur le forum, incluez le lien vers votre journal des pannes qui peut être consulté en cliquant sur l'option Journal des pannes dans Paramètres> LibreELEC> Système> Envoyer journal."
 
 msgctxt "#32395"
 msgid "Firewall"

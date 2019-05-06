@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: @DISTRONAME@ Configuration
-# Addon id: service.libreelec.settings
-# Addon Provider: LibreELEC
+# Addon id: service.coreelec.settings
+# Addon Provider: CoreELEC
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
@@ -46,22 +46,6 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "아키텍처 : "
 
-msgctxt "#609"
-msgid ""
-"LibreELEC is created by a global team of Linux and Kodi enthusiasts who "
-"contribute time and effort to manage the project, write code, and provide "
-"support. We have fun making it. We hope you have fun using it!"
-msgstr "LibreELEC은 프로젝트를 관리하고, 코딩하고, 지원하기 위해 시간과 노력을 기부한 리눅스와 Kodi의 열성적인 팬들의 글로벌 팀에 의해 만들어졌습니다. 우리는 만들면서 즐겁습니다. 당신도 쓰면서 즐거우시기 바랍니다!"
-
-msgctxt "#610"
-msgid ""
-"[B]Support[/B] is provided via our "
-"forum:[CR]https://forum.libreelec.tv[CR][CR][B]Documentation[/B] can be read"
-" in our wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] can be found on "
-"GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Donations[/B] towards "
-"project expenses are accepted via PayPal:[CR]donations@libreelec.tv"
-msgstr "[B]지원[/B]은 포럼에서 제공됩니다:[CR]https://forum.libreelec.tv[CR][CR][B]문서[/B]는 위키에서 읽을 수 있습니다:[CR]https://libreelec.wiki[CR][CR][B]코드[/B]는 깃허브에서 찾을 수 있습니다:[CR]https://github.com/LibreELEC[CR][CR][B]기부[/B]는 프로젝트 경비에 쓰이며 페이팔에서 할 수 있습니다:[CR]donations@libreelec.tv"
-
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -84,12 +68,6 @@ msgstr "Samba, SSH, Cron, Avahi, Syslog와 같은 시스템 서비스 설정"
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "블루투스 장치 연결 및 설정"
-
-msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
-msgstr "버전과 상세한 아키텍처 같은 유용한 정보, 지원과 문서 링크, 이 프로젝트에 기부하고 지원하는 방법을 알려 줍니다"
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -793,20 +771,6 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "감사합니다"
 
-msgctxt "#32318"
-msgid ""
-"Your @DISTRONAME@ installation is now complete and you are about to enter "
-"Kodi where you can set up your media libraries. For help with this, there is"
-" a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a "
-"dedicated team of developers who work purely in their spare time. Even as a "
-"volunteer project, we still have to pay for our internet bandwidth and "
-"development resources so if you find @DISTRONAME@ useful we will always "
-"appreciate a donation of any amount.[CR][CR]Finally, we hope you enjoy using"
-" @DISTRONAME@ as much as we've enjoyed building it. If you need any more "
-"help, you can find links to our support forum along with latest news at our "
-"website."
-msgstr "@DISTRONAME@ 설치가 완료되어 미디어 라이브러리 설정을 마친 Kodi로 돌아갑니다. 도움은 wiki.kodi.tv에 안내가 있습니다.[CR][CR]@DISTRONAME@은 여유 시간에만 일하는 열정적인 팀이 개발하였습니다. 자원 봉사 프로젝트라 하더라도 인터넷이나 개발 자원은 지불해야 하므로,  @DISTRONAME@이 유용하다면 금액에 상관없이 기부에 항상 감사합니다.[CR][CR]끝으로, 우리가 만들면서 그랬던 것처럼 @DISTRONAME@을 즐기시기 바랍니다. 웹 사이트의 새로운 소식과 함께, 도움이 더 필요하면 지원 포럼에서 링크를 찾을 수 있습니다."
-
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
@@ -1002,19 +966,6 @@ msgstr "설정 애드온이 준비되지 않았습니다. 다음에 시도하시
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
 msgstr "** 안전 모드! ** 안전 모드! ** 안전 모드! **"
-
-msgctxt "#32394"
-msgid ""
-"@DISTRONAME@ has temporarily started in safe mode due to repeated Kodi "
-"crashes.[CR][CR]You may now investigate the cause of the crashes by enabling"
-" ssh or Samba.[CR][CR]Your original Kodi installation can be accessed via "
-"\"/storage/.kodi.FAILED\" and the Samba \"Kodi-Failed\" "
-"share.[CR][CR]Rebooting will return to your original Kodi "
-"installation.[CR][CR]Go to https://forum.libreelec.tv if you require further"
-" assistance. When posting to the forum include the link to your crash log "
-"which can be viewed by clicking the crash log option in Settings > LibreELEC"
-" > System > Submit Log."
-msgstr "반복된 Kodi 충돌로 임시로 @DISTRONAME@의 안전 모드로 시작했습니다.[CR][CR]SSH나 Samba를 사용해서 충돌의 원인을 찾을 수 있습니다.[CR][CR]기본 Kodi 설치는 \"/storage/.kodi.FAILED\"와 Samba \"Kodi-Failed\" 공유로 접근할 수 있습니다.[CR][CR]리부팅 하면 기본 Kodi 설치로 돌아갑니다.[CR][CR]도움이 필요하면 https://forum.libreelec.tv 을 찾으시기 바랍니다. 포럼에 올릴 때는 설정 > LibreELEC > 시스템 > 로그 제출 옵션의 충돌 로그를 클릭하면 보이는 충돌 로그의 링크를 넣으시기 바랍니다."
 
 msgctxt "#32395"
 msgid "Firewall"

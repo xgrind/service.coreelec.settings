@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: @DISTRONAME@ Configuration
-# Addon id: service.libreelec.settings
-# Addon Provider: LibreELEC
+# Addon id: service.coreelec.settings
+# Addon Provider: CoreELEC
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
@@ -46,22 +46,6 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "Architektur: "
 
-msgctxt "#609"
-msgid ""
-"LibreELEC is created by a global team of Linux and Kodi enthusiasts who "
-"contribute time and effort to manage the project, write code, and provide "
-"support. We have fun making it. We hope you have fun using it!"
-msgstr "LibreELEC wurde von einem globalen Team von Linux- und Kodi-Enthusiasten gegründet, die Zeit und Mühe investiert haben, um das Projekt zu verwalten, Code zu schreiben und Support bereitzustellen. Wir haben Spaß dabei. Wir hoffen, Du hast Spaß beim benutzen!"
-
-msgctxt "#610"
-msgid ""
-"[B]Support[/B] is provided via our "
-"forum:[CR]https://forum.libreelec.tv[CR][CR][B]Documentation[/B] can be read"
-" in our wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] can be found on "
-"GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Donations[/B] towards "
-"project expenses are accepted via PayPal:[CR]donations@libreelec.tv"
-msgstr "[B]Support[/B] gibt es über das Forum:[CR]https://forum.libreelec.tv[CR][CR][B]Dokumentation[/B] findest du im Wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] ist auf GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Spenden[/B] gern über PayPal:[CR]donations@libreelec.tv"
-
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -84,12 +68,6 @@ msgstr "Systemdienste z.B. Samba Dateifreigaben, SSH Fernzugriffe, Cron, Avahi u
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "Bluetoothgeräte verbinden und verwalten"
-
-msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
-msgstr "Nützliche Informationen wie Versions- und Architekturdetails, Links zu Support und Dokumentation sowie Informationen zur Spende und Unterstützung des Projekts."
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -793,20 +771,6 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "Danke"
 
-msgctxt "#32318"
-msgid ""
-"Your @DISTRONAME@ installation is now complete and you are about to enter "
-"Kodi where you can set up your media libraries. For help with this, there is"
-" a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a "
-"dedicated team of developers who work purely in their spare time. Even as a "
-"volunteer project, we still have to pay for our internet bandwidth and "
-"development resources so if you find @DISTRONAME@ useful we will always "
-"appreciate a donation of any amount.[CR][CR]Finally, we hope you enjoy using"
-" @DISTRONAME@ as much as we've enjoyed building it. If you need any more "
-"help, you can find links to our support forum along with latest news at our "
-"website."
-msgstr "Die Installation von @DISTRONAME@ ist nun abgeschlossen und du wirst als nächstes Kodi zu geleitet. wo du deine Medienbibliotheken einrichten kannst. Hilfe hierzu findest du unter wiki.kodi.tv.[CR][CR]@DISTRONAME@ wird von einem engagierten Team von Freiwilligen entwickelt, die ausschließlich in ihrer Freizeit arbeiten. Selbst als ehrenamtliches Projekt müssen wir immer noch unsere Internet Bandbreite und Entwicklungsressourcen bezahlen. Wenn du @DISTRONAME@ für nützlich hältst, freuen wir uns immer über eine Spende in beliebiger Höhe.[CR][CR]Zum Schluss wünschen wir Dir viel Spaß mit @DISTRONAME@. Wenn du weitere Hilfe benötigst, findest du auf unserer Website Links zu unserem Support-Forum sowie zu unseren News."
-
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
@@ -1002,19 +966,6 @@ msgstr "Das Einstellungs-Addon ist nicht bereit. Versuch es später erneut."
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
 msgstr "** Sicherheitsmodus! ** Sicherheitsmodus! ** Sicherheitsmodus! **"
-
-msgctxt "#32394"
-msgid ""
-"@DISTRONAME@ has temporarily started in safe mode due to repeated Kodi "
-"crashes.[CR][CR]You may now investigate the cause of the crashes by enabling"
-" ssh or Samba.[CR][CR]Your original Kodi installation can be accessed via "
-"\"/storage/.kodi.FAILED\" and the Samba \"Kodi-Failed\" "
-"share.[CR][CR]Rebooting will return to your original Kodi "
-"installation.[CR][CR]Go to https://forum.libreelec.tv if you require further"
-" assistance. When posting to the forum include the link to your crash log "
-"which can be viewed by clicking the crash log option in Settings > LibreELEC"
-" > System > Submit Log."
-msgstr "@DISTRONAME@ wurde temporär aufgrund wiederholter Abstürze von Kodi im Sicherheitsmodus gestartet.[CR][CR]Du solltest die Gründe für die Abstürze durch aktivieren von SSH oder Samba untersuchen.[CR][CR]Auf die ursprüngliche Kodi-Installation kann über \"/storage/.kodi.FAILED\" und der Samba-Freigabe \"Kodi-Failed\" zugegriffen werden.[CR][CR]Über einen Neustart gelangst du zurück zu deiner ursprünglichen Kodi-Installation.[CR][CR]Besuche https://forum.libreelec.tv, wenn du weitere Hilfe benötigst. Wenn du im Forum postest, füge bitte deine Absturz-Logs hinzu. Diese Absturz-Logs können unter Einstellungen > LibreELEC > System > Fehlerbericht (Log) übermitteln, angezeigt werden."
 
 msgctxt "#32395"
 msgid "Firewall"

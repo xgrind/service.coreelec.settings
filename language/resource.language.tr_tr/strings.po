@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: @DISTRONAME@ Configuration
-# Addon id: service.libreelec.settings
-# Addon Provider: LibreELEC
+# Addon id: service.coreelec.settings
+# Addon Provider: CoreELEC
 msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
@@ -46,22 +46,6 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "Mimari:"
 
-msgctxt "#609"
-msgid ""
-"LibreELEC is created by a global team of Linux and Kodi enthusiasts who "
-"contribute time and effort to manage the project, write code, and provide "
-"support. We have fun making it. We hope you have fun using it!"
-msgstr "LibreELEC, projeyi yönetmek, kod yazmak ve destek sağlamak için zaman ve çaba harcayan küresel bir Linux ve Kodi meraklıları ekibi tarafından yaratılmıştır. Bunu yaparken eğleniyoruz. Umarız kullanarak eğlenirsiniz!"
-
-msgctxt "#610"
-msgid ""
-"[B]Support[/B] is provided via our "
-"forum:[CR]https://forum.libreelec.tv[CR][CR][B]Documentation[/B] can be read"
-" in our wiki:[CR]https://libreelec.wiki[CR][CR][B]Code[/B] can be found on "
-"GitHub:[CR]https://github.com/LibreELEC[CR][CR][B]Donations[/B] towards "
-"project expenses are accepted via PayPal:[CR]donations@libreelec.tv"
-msgstr ""
-
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -84,12 +68,6 @@ msgstr "Samba, SSH, Cron, Avahi ve Syslog gibi sistem servislerini yapılandır�
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "Bluetooth aygıtlarını yapılandırın ve eşleyin"
-
-msgctxt "#705"
-msgid ""
-"Useful information like version and architecture details, support and "
-"documentation links, and how to donate and support the project."
-msgstr "Versiyon ve mimari detaylar, destek ve dokümantasyon linkleri, projenin bağışlanması ve desteklenmesi gibi faydalı bilgiler."
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -793,20 +771,6 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "Teşekkürler"
 
-msgctxt "#32318"
-msgid ""
-"Your @DISTRONAME@ installation is now complete and you are about to enter "
-"Kodi where you can set up your media libraries. For help with this, there is"
-" a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a "
-"dedicated team of developers who work purely in their spare time. Even as a "
-"volunteer project, we still have to pay for our internet bandwidth and "
-"development resources so if you find @DISTRONAME@ useful we will always "
-"appreciate a donation of any amount.[CR][CR]Finally, we hope you enjoy using"
-" @DISTRONAME@ as much as we've enjoyed building it. If you need any more "
-"help, you can find links to our support forum along with latest news at our "
-"website."
-msgstr ""
-
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
@@ -1002,19 +966,6 @@ msgstr "Ayarlar eklentisi henüz hazır değil, lütfen daha sonra tekrar deneyi
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
 msgstr "** GÜVENLİ MOD! ** GÜVENLİ MOD! ** GÜVENLİ MOD! **"
-
-msgctxt "#32394"
-msgid ""
-"@DISTRONAME@ has temporarily started in safe mode due to repeated Kodi "
-"crashes.[CR][CR]You may now investigate the cause of the crashes by enabling"
-" ssh or Samba.[CR][CR]Your original Kodi installation can be accessed via "
-"\"/storage/.kodi.FAILED\" and the Samba \"Kodi-Failed\" "
-"share.[CR][CR]Rebooting will return to your original Kodi "
-"installation.[CR][CR]Go to https://forum.libreelec.tv if you require further"
-" assistance. When posting to the forum include the link to your crash log "
-"which can be viewed by clicking the crash log option in Settings > LibreELEC"
-" > System > Submit Log."
-msgstr "@DISTRONAME@, tekrarlanan Kodi çökmelerinden dolayı geçici olarak güvenli modda başlatıldı.[CR][CR]Artık çökmelerin nedenini ssh veya Samba'yı etkinleştirerek araştırabilirsiniz.[CR][CR]Orijinal Kodi kurulumunuza şu adresten erişebilirsiniz \"/storage/.kodi.FAILED\" ve Samba \"Kodi-Failed\" hisseleri.[CR][CR]Yeniden başlatma, orijinal Kodi kurulumunuza geri dönecektir.[CR][CR]https://forum.libreelec.tv adresine gidin. Daha fazla yardıma ihtiyacınız olursa, TV. Foruma gönderilirken, Ayarlar > LibreELEC > Sistem > Günlüğü Gönder seçeneğindeki çarpışma günlüğü seçeneğini tıklatarak görüntülenebilecek kilitlenme günlüğünüzün bağlantısını da ekleyin."
 
 msgctxt "#32395"
 msgid "Firewall"
