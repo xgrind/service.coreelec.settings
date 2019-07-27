@@ -92,7 +92,7 @@
                     <font>font24_title</font>
                     <label />
                     <align>left</align>
-                    <textcolor>blue</textcolor>
+                    <textcolor>red</textcolor>
                     <shadowcolor>black</shadowcolor>
                 </control>
                 <control type="textbox" id="1400">
@@ -115,7 +115,7 @@
                         <label />
 
                         <align>left</align>
-                        <textcolor>blue</textcolor>
+                        <textcolor>red</textcolor>
                         <shadowcolor>black</shadowcolor>
                     </control>
                     <control type="radiobutton" id="1406">
@@ -125,7 +125,7 @@
                         <height>75</height>
                         <label />
                         <textoffsetx>45</textoffsetx>
-                        <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                        <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                         <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                     </control>
                     <control type="radiobutton" id="1407">
@@ -135,7 +135,7 @@
                         <height>75</height>
                         <label />
                         <textoffsetx>45</textoffsetx>
-                        <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                        <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                         <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                     </control>
                     <control type="button" id="1401">
@@ -143,7 +143,7 @@
                         <top>440</top>
                         <width>300</width>
                         <height>75</height>
-                        <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                        <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                         <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                         <label />
                         <font>font13_title</font>
@@ -155,7 +155,7 @@
                         <top>440</top>
                         <width>300</width>
                         <height>75</height>
-                        <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                        <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                         <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                         <label />
                         <font>font13_title</font>
@@ -180,7 +180,7 @@
                         <height>20</height>
                         <label />
                         <align>left</align>
-                        <textcolor>blue</textcolor>
+                        <textcolor>red</textcolor>
                         <shadowcolor>black</shadowcolor>
                     </control>
                     <control type="image">
@@ -262,7 +262,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font13_title</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <info>ListItem.Label</info>
                                 <visible>true</visible>
                             </control>
@@ -274,7 +274,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font12</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <visible>String.IsEqual(ListItem.Property(State), online) | String.IsEqual(ListItem.Property(State), ready)</visible>
                                 <label>$ADDON[service.coreelec.settings 602]: [COLOR=white]$INFO[ListItem.Property(Address)][/COLOR]</label>
                             </control>
@@ -286,7 +286,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font12</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <label>$ADDON[service.coreelec.settings 604]: [COLOR=white]$INFO[ListItem.Property(State)][/COLOR]</label>
                             </control>
                             <!-- Signal strength -->
@@ -301,7 +301,7 @@
                                 <lefttexture />
                                 <righttexture />
                                 <overlaytexture />
-                                <midtexture colordiffuse="FF12B2E7">separator-grey.png</midtexture>
+                                <midtexture colordiffuse="button_focus">separator-grey.png</midtexture>
                             </control>
                             <!-- Secure Symbol (bottom right) -->
                             <control type="image">
@@ -330,7 +330,7 @@
                                 <width>974</width>
                                 <height>48</height>
                                 <visible>Control.HasFocus(1200)</visible>
-                                <texture colordiffuse="FF12B2E7">focus.png</texture>
+                                <texture colordiffuse="button_focus">focus.png</texture>
                                 <animation type="Visible" reversible="false">
                                     <effect type="fade" start="0" end="100" time="300" />
                                 </animation>
@@ -373,7 +373,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font13_title</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <info>ListItem.Label</info>
                                 <visible>true</visible>
                             </control>
@@ -385,7 +385,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font12</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <visible>String.IsEqual(ListItem.Property(State), online) | String.IsEqual(ListItem.Property(State), ready)</visible>
                                 <label>$ADDON[service.coreelec.settings 602]: [COLOR=white]$INFO[ListItem.Property(Address)][/COLOR]</label>
                             </control>
@@ -397,7 +397,7 @@
                                 <height>50</height>
                                 <aligny>center</aligny>
                                 <font>font12</font>
-                                <textcolor>blue</textcolor>
+                                <textcolor>red</textcolor>
                                 <label>$ADDON[service.coreelec.settings 604]: [COLOR=white]$INFO[ListItem.Property(State)][/COLOR]</label>
                             </control>
                             <!-- Signal strength -->
@@ -412,7 +412,7 @@
                                 <lefttexture />
                                 <righttexture />
                                 <overlaytexture />
-                                <midtexture colordiffuse="FF12B2E7">separator-grey.png</midtexture>
+                                <midtexture colordiffuse="button_focus">separator-grey.png</midtexture>
                             </control>
                             <!-- Secure Symbol (bottom right) -->
                             <control type="image">
@@ -434,7 +434,7 @@
                 <width>300</width>
                 <height>75</height>
                 <visible>true</visible>
-                <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                 <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                 <label />
                 <font>font13_title</font>
@@ -450,7 +450,7 @@
                 <width>300</width>
                 <height>75</height>
                 <visible>true</visible>
-                <texturefocus border="40" colordiffuse="FF12B2E7">button-fo.png</texturefocus>
+                <texturefocus border="40" colordiffuse="button_focus">button-fo.png</texturefocus>
                 <texturenofocus colordiffuse="71FFFFFF" border="40">button-nofo.png</texturenofocus>
                 <label />
                 <font>font13_title</font>

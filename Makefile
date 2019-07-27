@@ -11,6 +11,7 @@ SHELL=/bin/bash
 BUILDDIR=build
 DATADIR=/usr/share/kodi
 ADDONDIR=$(DATADIR)/addons
+BUTTON_FOCUS_COLOR=FFC40300
 
 ################################################################################
 
@@ -46,10 +47,15 @@ $(BUILDDIR)/$(ADDON_NAME)/resources: $(BUILDDIR)/$(ADDON_NAME)/resources/skins \
 $(BUILDDIR)/$(ADDON_NAME)/resources/skins: $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default/media
 	mkdir -p $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default
 	cp -R skins/Default/* $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default
+	sed -e "s,button_focus,$(BUTTON_FOCUS_COLOR),g" -i $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default/1080i/*
+	mkdir -p $(BUILDDIR)/$(ADDON_NAME)/resources/skins/skin.estuary/xml
+	cp -R skins/Default/1080i/* $(BUILDDIR)/$(ADDON_NAME)/resources/skins/skin.estuary/xml
 
 $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default/media:
 	mkdir -p $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default/media
 	cp textures/$(DISTRONAME)/*.{png,jpg} $(BUILDDIR)/$(ADDON_NAME)/resources/skins/Default/media
+	mkdir -p $(BUILDDIR)/$(ADDON_NAME)/resources/skins/skin.estuary/media
+	cp textures/$(DISTRONAME)/*.{png,jpg} $(BUILDDIR)/$(ADDON_NAME)/resources/skins/skin.estuary/media
 
 $(BUILDDIR)/$(ADDON_NAME)/resources/language:
 	mkdir -p $(BUILDDIR)/$(ADDON_NAME)/resources/language
