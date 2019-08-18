@@ -121,6 +121,10 @@ msgid ""
 "Set to ON and Bluetooth devices will be disabled during power-saving modes"
 msgstr "Active esta función y los dispositivos Bluetooth serán desactivados en el modo de ahorro de energía"
 
+msgctxt "#721"
+msgid "Send CoreELEC debug info without logs to http://ix.io, and display the short URL"
+msgstr ""
+
 msgctxt "#722"
 msgid ""
 "Create a tar archive containing all @DISTRONAME@ and Kodi configuration "
@@ -962,6 +966,10 @@ msgstr "Deshabilitar modo espera"
 msgctxt "#32390"
 msgid "Settings addon is not yet ready, please try again later."
 msgstr "El complemento de configuración no está listo, intente nuevamente más tarde."
+
+msgctxt "#32391"
+msgid "Upload configs and other debug info without logs, and view the short URL"
+msgstr ""
 
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"

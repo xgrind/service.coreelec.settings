@@ -199,6 +199,14 @@ class system:
                             'InfoText': 719,
                             'order': 2,
                             },
+                        'paste_debug': {
+                            'name': 32391,
+                            'value': '0',
+                            'action': 'do_send_debug',
+                            'type': 'button',
+                            'InfoText': 721,
+                            'order': 3,
+                            },
                         },
                     },
                 }
@@ -642,6 +650,14 @@ class system:
             self.oe.dbg_log('system::do_send_crash_logs', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('system::do_do_send_crash_logs', 'ERROR: (' + repr(e) + ')')
+
+    def do_send_debug(self, listItem=None):
+        try:
+            self.oe.dbg_log('system::do_send_debug', 'enter_function', 0)
+            self.do_send_logs('/usr/bin/ce-debug -l | /usr/bin/pastebinit')
+            self.oe.dbg_log('system::do_send_debug', 'exit_function', 0)
+        except Exception, e:
+            self.oe.dbg_log('system::do_do_send_debug', 'ERROR: (' + repr(e) + ')')
 
     def do_send_logs(self, log_cmd):
         try:

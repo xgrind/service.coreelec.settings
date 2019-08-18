@@ -121,6 +121,10 @@ msgid ""
 "Set to ON and Bluetooth devices will be disabled during power-saving modes"
 msgstr "절전 모드에서 블루투스 장치를 사용하지 않으려면 ON으로 설정합니다"
 
+msgctxt "#721"
+msgid "Send CoreELEC debug info without logs to http://ix.io, and display the short URL"
+msgstr ""
+
 msgctxt "#722"
 msgid ""
 "Create a tar archive containing all @DISTRONAME@ and Kodi configuration "
@@ -962,6 +966,10 @@ msgstr "대기 모드 사용안함"
 msgctxt "#32390"
 msgid "Settings addon is not yet ready, please try again later."
 msgstr "설정 애드온이 준비되지 않았습니다. 다음에 시도하시기 바랍니다."
+
+msgctxt "#32391"
+msgid "Upload configs and other debug info without logs, and view the short URL"
+msgstr ""
 
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
