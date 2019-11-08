@@ -29,6 +29,7 @@ class system:
     UDEV_KEYBOARD_INFO = None
     NOX_KEYBOARD_INFO = None
     BACKUP_DIRS = None
+    XBMC_THUMBNAILS = None
     BACKUP_DESTINATION = None
     RESTORE_DIR = None
     SET_CLOCK_CMD = None
@@ -694,6 +695,8 @@ class system:
                         pass
                     return 0
                 itempath = os.path.join(folder, item)
+                if itempath == self.XBMC_THUMBNAILS:
+                    continue
                 if os.path.islink(itempath):
                     tar.add(itempath)
                 elif os.path.ismount(itempath):
@@ -717,6 +720,8 @@ class system:
         for item in os.listdir(folder):
             itempath = os.path.join(folder, item)
             if os.path.islink(itempath):
+                continue
+            elif itempath == self.XBMC_THUMBNAILS:
                 continue
             elif os.path.isfile(itempath):
                 self.total_backup_size += os.path.getsize(itempath)
