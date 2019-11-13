@@ -274,7 +274,7 @@ class updates:
             return self.get_hardware_flags_x86_64()
         elif self.oe.PROJECT == "RPi":
             return self.get_hardware_flags_rpi()
-        elif self.oe.PROJECT in ['Allwinner', 'Amlogic', 'Rockchip']:
+        elif self.oe.PROJECT in ['Allwinner', 'Amlogic', 'Amlogic-ng', 'Rockchip']:
             return self.get_hardware_flags_dtname()
         else:
             self.oe.dbg_log('updates::get_hardware_flags', 'Project is %s, no hardware flag available' % self.oe.PROJECT, 0)
