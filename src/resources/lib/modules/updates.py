@@ -261,7 +261,7 @@ class updates:
 
     def get_hardware_flags_dtname(self):
         if os.path.exists('/usr/bin/dtname'):
-            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00')
+            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
         else:
             dtname = "unknown"
 
