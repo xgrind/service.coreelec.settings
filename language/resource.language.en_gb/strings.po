@@ -284,6 +284,18 @@ msgctxt "#772"
 msgid "Checking for a new version will submit the installed Distribution, Project, CPU Arch and Version to the update server. This data is also used to report basic statistics for the project. To continue checking for updates while opting-out of stats reporting, disable this option."
 msgstr ""
 
+msgctxt "#780"
+msgid "Configure hardware settings"
+msgstr ""
+
+msgctxt "#781"
+msgid "Set fan mode (off/auto/manual)"
+msgstr ""
+
+msgctxt "#782"
+msgid "Set fan speed level"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -294,6 +306,10 @@ msgstr ""
 
 msgctxt "#32003"
 msgid "Interface"
+msgstr ""
+
+msgctxt "#32004"
+msgid "Hardware"
 msgstr ""
 
 msgctxt "#32005"
@@ -1046,4 +1062,16 @@ msgstr ""
 
 msgctxt "#32399"
 msgid "Public"
+msgstr ""
+
+msgctxt "#32400"
+msgid "Fan"
+msgstr ""
+
+msgctxt "#32410"
+msgid "Fan Mode"
+msgstr ""
+
+msgctxt "#32411"
+msgid "Speed Level"
 msgstr ""

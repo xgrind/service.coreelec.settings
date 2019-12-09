@@ -91,6 +91,8 @@ updates = {
 
 about = {'ENABLED': True}
 
+hardware = {'ENABLED': True}
+
 xdbus = {'ENABLED': True}
 
 _services = {
