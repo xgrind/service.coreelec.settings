@@ -354,6 +354,53 @@ def load_file(filename):
     except Exception, e:
         dbg_log('oe::load_file(' + filename + ')', 'ERROR: (' + repr(e) + ')')
 
+def get_config_ini(var, def_no_value=""):
+    found = def_no_value
+    f = open(configini)
+    fl = f.readlines()
+    f.close()
+    for i, line in enumerate(fl):
+      regex = r"^[^#]*\b%s=([^#]*)#*" % (var)
+      match = re.search(regex, line)
+      if match:
+        found = match.group(1).strip()
+    return found
+
+def set_config_ini(var, val="\'\'"):
+    mlist = []
+    f = open(configini)
+    fl = f.readlines()
+    f.close()
+
+    for i, line in enumerate(fl):
+      regex = r"\b%s=" % (var)
+      match = re.search(regex, line)
+      if match:
+        mlist.append(i)
+
+    matches = len(mlist)
+
+    if matches:
+      for i, m in enumerate(mlist):
+        if matches == (i + 1):
+          last = 1
+        else:
+          last = 0
+        if not last:
+          line = re.sub("^(.*)(?=%s)" % regex,"", fl[m])
+          fl[m] = "# %s" % (line)
+        else:
+          fl[m] = "%s=%s\n" % (var, val)
+
+    if not matches:
+      fl.append("\n%s=%s\n" % (var, val))
+
+    ret = subprocess.call("mount -o remount,rw /flash", shell=True)
+    f = open(configini,'w')
+    f.writelines(fl)
+    f.close()
+    ret = subprocess.call("mount -o remount,ro /flash", shell=True)
+
 def url_quote(var):
     return urllib2.quote(var, safe="")
 
@@ -914,6 +961,7 @@ if PROJECT == 'RPi':
 else:
   RPI_CPU_VER = ''
 
+configini = '/flash/config.ini'
 BOOT_STATUS = load_file('/storage/.config/boot.status')
 BOOT_HINT = load_file('/storage/.config/boot.hint')
 
