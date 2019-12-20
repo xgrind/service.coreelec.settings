@@ -22,6 +22,45 @@ class hardware:
         'InfoText': 780,
         }}
 
+    remotes = [
+        {
+            "name": "Hardkernel",
+            "remotewakeup": "0x23dc4db2",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
+            "name": "Minix",
+            "remotewakeup": "0xe718fe01",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
+            "name": "Beelink",
+            "remotewakeup": "0xa659ff00",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
+            "name": "Khadas",
+            "remotewakeup": "0xeb14ff00",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
+            "name": "Khadas VTV",
+            "remotewakeup": "0xff00fe01",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
+            "name": "MCE",
+            "remotewakeup": "0x800f040c",
+            "decode_type": "0x5",
+            "remotewakeupmask": "0xffff7fff"
+        },
+    ]
+
     def __init__(self, oeMain):
         try:
             oeMain.dbg_log('hardware::__init__', 'enter_function', 0)
@@ -55,6 +94,46 @@ class hardware:
                                 },
                             },
 
+                        },
+                    },
+                'power': {
+                    'order': 1,
+                    'name': 32401,
+                    'not_supported': [],
+                    'settings': {
+                        'inject_bl301': {
+                            'order': 1,
+                            'name': 32415,
+                            'InfoText': 785,
+                            'value': '0',
+                            'action': 'set_bl301',
+                            'type': 'button',
+                            },
+                        'remote_power': {
+                            'order': 2,
+                            'name': 32416,
+                            'InfoText': 786,
+                            'value': '',
+                            'action': 'set_remote_power',
+                            'type': 'multivalue',
+                            'values': ['Unkown'],
+                            },
+                        'wol': {
+                            'order': 3,
+                            'name': 32417,
+                            'InfoText': 787,
+                            'value': '0',
+                            'action': 'set_wol',
+                            'type': 'bool',
+                            },
+                        'usbpower': {
+                            'order': 4,
+                            'name': 32418,
+                            'InfoText': 788,
+                            'value': '0',
+                            'action': 'set_usbpower',
+                            'type': 'bool',
+                            },
                         },
                     },
 
@@ -104,6 +183,39 @@ class hardware:
             if not value is None:
                 self.struct['fan']['settings']['fan_level']['value'] = value
 
+            if not os.path.exists('/usr/sbin/inject_bl301'):
+                self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
+                self.struct['power']['settings']['inject_bl301']['value'] = '0'
+
+
+            remotewakeup = self.oe.get_config_ini('remotewakeup')
+
+            remote_names = []
+            remote_is_known = 0
+            for remote in self.remotes:
+              remote_names.append(remote["name"])
+              if remote["remotewakeup"] in remotewakeup:
+                self.struct['power']['settings']['remote_power']['value'] = remote["name"]
+                remote_is_known = 1
+
+            if remotewakeup == '':
+                self.struct['power']['settings']['remote_power']['value'] = ''
+            if remotewakeup != '' and remote_is_known == 0:
+                self.struct['power']['settings']['remote_power']['value'] = 'Custom'
+
+            self.struct['power']['settings']['remote_power']['values'] = remote_names
+
+            wol = self.oe.get_config_ini('wol', '0')
+            if wol == '' or "0" in wol:
+                self.struct['power']['settings']['wol']['value'] = '0'
+            if "1" in wol:
+                self.struct['power']['settings']['wol']['value'] = '1'
+
+            usbpower = self.oe.get_config_ini('usbpower', '0')
+            if usbpower == '' or "0" in usbpower:
+                self.struct['power']['settings']['usbpower']['value'] = '0'
+            if "1" in usbpower:
+                self.struct['power']['settings']['usbpower']['value'] = '1'
 
             self.oe.dbg_log('hardware::load_values', 'exit_function', 0)
         except Exception, e:
@@ -158,6 +270,101 @@ class hardware:
         except Exception, e:
             self.oe.set_busy(0)
             self.oe.dbg_log('hardware::set_fan_level', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_remote_power(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_remote_power', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+            for remote in self.remotes:
+                if self.struct['power']['settings']['remote_power']['value'] == remote["name"]:
+                    self.oe.set_config_ini("remotewakeup", "\'" + remote["remotewakeup"] + "\'")
+                    self.oe.set_config_ini("decode_type", "\'" + remote["decode_type"] + "\'")
+                    self.oe.set_config_ini("remotewakeupmask" , "\'" + remote["remotewakeupmask"] + "\'")
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_remote_power', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_remote_power', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_bl301(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_bl301', 'enter_function', 0)
+            self.oe.set_busy(1)
+
+            xbmcDialog = xbmcgui.Dialog()
+            ynresponse = xbmcDialog.yesno(self.oe._(33415).encode('utf-8'), self.oe._(33416).encode('utf-8'), yeslabel=self.oe._(33411).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
+
+            if ynresponse == 1:
+              IBL = subprocess.Popen(["/usr/sbin/inject_bl301", "-Y"], close_fds=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+              IBL.wait()
+              IBL_Code = IBL.returncode
+              f = open("/storage/inject_bl301.log",'w')
+              f.writelines(IBL.stdout.readlines())
+              f.close()
+
+              if IBL_Code == 0:
+                response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
+              elif IBL_Code == 1:
+                xbmcDialog = xbmcgui.Dialog()
+                response = xbmcDialog.ok(self.oe._(33413).encode('utf-8'), self.oe._(33420).encode('utf-8'))
+              elif IBL_Code == (-2 & 0xff):
+                xbmcDialog = xbmcgui.Dialog()
+                response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33419).encode('utf-8'))
+              else:
+                xbmcDialog = xbmcgui.Dialog()
+                response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33418).encode('utf-8') % IBL_Code)
+
+              if IBL_Code != 0:
+                self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_bl301', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_wol(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_wol', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+                if self.struct['power']['settings']['wol']['value'] == '1':
+                    self.oe.set_config_ini("wol", "1")
+                else:
+                    self.oe.set_config_ini("wol", "0")
+
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_wol', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_wol', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_usbpower(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_usbpower', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+                if self.struct['power']['settings']['usbpower']['value'] == '1':
+                    self.oe.set_config_ini("usbpower", "1")
+                else:
+                    self.oe.set_config_ini("usbpower", "0")
+
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_usbpower', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_usbpower', 'ERROR: (%s)' % repr(e), 4)
+
 
     def load_menu(self, focusItem):
         try:
