@@ -312,6 +312,14 @@ msgctxt "#788"
 msgid "Enable/Disable USB Power when device is off/suspend"
 msgstr ""
 
+msgctxt "#790"
+msgid "Enable/Disable VESA display modes"
+msgstr ""
+
+msgctxt "#791"
+msgid "Fix for wrong screen colour. This may need to be switched on or off for compatability with newer vendor firmware"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1088,6 +1096,10 @@ msgctxt "#32401"
 msgid "Power"
 msgstr ""
 
+msgctxt "#32402"
+msgid "Display"
+msgstr ""
+
 msgctxt "#32410"
 msgid "Fan Mode"
 msgstr ""
@@ -1110,6 +1122,14 @@ msgstr ""
 
 msgctxt "#32418"
 msgid "USB Power"
+msgstr ""
+
+msgctxt "#32420"
+msgid "VESA modes"
+msgstr ""
+
+msgctxt "#32421"
+msgid "use_rgb_to_yuv"
 msgstr ""
 
 msgctxt "#33410"

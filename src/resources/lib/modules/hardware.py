@@ -136,7 +136,29 @@ class hardware:
                             },
                         },
                     },
-
+                'display': {
+                    'order': 3,
+                    'name': 32402,
+                    'not_supported': [],
+                    'settings': {
+                        'vesa_enable': {
+                            'order': 1,
+                            'name': 32420,
+                            'InfoText': 790,
+                            'value': '0',
+                            'action': 'set_vesa_enable',
+                            'type': 'bool',
+                            },
+                        'rgb_to_yuv': {
+                            'order': 2,
+                            'name': 32421,
+                            'InfoText': 791,
+                            'value': '1',
+                            'action': 'set_rgb_to_yuv',
+                            'type': 'bool',
+                            },
+                        },
+                    },
                 }
 
             self.oe.dbg_log('hardware::__init__', 'exit_function', 0)
@@ -216,6 +238,22 @@ class hardware:
                 self.struct['power']['settings']['usbpower']['value'] = '0'
             if "1" in usbpower:
                 self.struct['power']['settings']['usbpower']['value'] = '1'
+
+            rgb_to_yuv = self.oe.get_config_ini('use_rgb_to_yuv')
+            if rgb_to_yuv == '' and os.path.exists('/sys/module/am_vecm/parameters/use_rgb_to_yuv'):
+                rgb_to_yuv = self.oe.load_file('/sys/module/am_vecm/parameters/use_rgb_to_yuv')
+                if rgb_to_yuv == "-1":
+                    self.struct['display']['settings']['rgb_to_yuv']['hidden'] = 'true'
+
+            if rgb_to_yuv == '' or "1" in rgb_to_yuv:
+                self.struct['display']['settings']['rgb_to_yuv']['value'] = '1'
+            if "0" in rgb_to_yuv:
+                self.struct['display']['settings']['rgb_to_yuv']['value'] = '0'
+
+            if os.path.exists('/flash/vesa.enable'):
+                self.struct['display']['settings']['vesa_enable']['value'] = '1'
+            else:
+                self.struct['display']['settings']['vesa_enable']['value'] = '0'
 
             self.oe.dbg_log('hardware::load_values', 'exit_function', 0)
         except Exception, e:
@@ -364,6 +402,48 @@ class hardware:
         except Exception, e:
             self.oe.set_busy(0)
             self.oe.dbg_log('hardware::set_usbpower', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_rgb_to_yuv(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_rgb_to_yuv', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+                if self.struct['display']['settings']['rgb_to_yuv']['value'] == '1':
+                    self.oe.set_config_ini("use_rgb_to_yuv", "1")
+                else:
+                    self.oe.set_config_ini("use_rgb_to_yuv", "0")
+
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_rgb_to_yuv', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_rgb_to_yuv', 'ERROR: (%s)' % repr(e), 4)
+
+    def set_vesa_enable(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_vesa_enable', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+                if self.struct['display']['settings']['vesa_enable']['value'] == '1':
+                  ret = subprocess.call("mount -o remount,rw /flash", shell=True)
+                  ret = subprocess.call("touch /flash/vesa.enable", shell=True)
+                  ret = subprocess.call("mount -o remount,ro /flash", shell=True)
+                else:
+                  if os.path.exists("/flash/vesa.enable"):
+                    ret = subprocess.call("mount -o remount,rw /flash", shell=True)
+                    os.remove("/flash/vesa.enable")
+                    ret = subprocess.call("mount -o remount,ro /flash", shell=True)
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_vesa_enable', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_vesa_enable', 'ERROR: (%s)' % repr(e), 4)
 
 
     def load_menu(self, focusItem):
