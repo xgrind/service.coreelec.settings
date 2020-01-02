@@ -42,6 +42,12 @@ class hardware:
             "remotewakeupmask": "0xffffffff"
         },
         {
+            "name": "Beelink 2",
+            "remotewakeup": "0xae517f80",
+            "decode_type": "0x0",
+            "remotewakeupmask": "0xffffffff"
+        },
+        {
             "name": "Khadas",
             "remotewakeup": "0xeb14ff00",
             "decode_type": "0x0",
