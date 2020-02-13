@@ -122,7 +122,7 @@ class hardware:
                             'value': '',
                             'action': 'set_remote_power',
                             'type': 'multivalue',
-                            'values': ['Unkown'],
+                            'values': ['Unknown'],
                             },
                         'wol': {
                             'order': 3,
@@ -157,6 +157,22 @@ class hardware:
                             },
                         },
                     },
+                'performance': {
+                    'order': 4,
+                    'name': 32403,
+                    'not_supported': [],
+                    'settings': {
+                        'cpu_governor': {
+                            'order': 1,
+                            'name': 32421,
+                            'InfoText': 791,
+                            'value': '',
+                            'action': 'set_cpu_governor',
+                            'type': 'multivalue',
+                            'values': ['ondemand', 'performance'],
+                            },
+                        },
+                    },
                 }
 
             self.oe.dbg_log('hardware::__init__', 'exit_function', 0)
@@ -168,6 +184,7 @@ class hardware:
             self.oe.dbg_log('hardware::start_service', 'enter_function', 0)
             self.load_values()
             self.initialize_fan()
+            self.set_cpu_governor()
             self.oe.dbg_log('hardware::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('hardware::start_service', 'ERROR: (' + repr(e) + ')')
@@ -241,6 +258,22 @@ class hardware:
                 self.struct['display']['settings']['vesa_enable']['value'] = '1'
             else:
                 self.struct['display']['settings']['vesa_enable']['value'] = '0'
+
+            cpu_clusters = ["", "cpu0/"]
+            for cluster in cpu_clusters:
+                sys_device = '/sys/devices/system/cpu/' + cluster + 'cpufreq/'
+                if not os.path.exists(sys_device):
+                    continue
+
+                if os.path.exists(sys_device + 'scaling_available_governors'):
+                    available_gov = self.oe.load_file(sys_device + 'scaling_available_governors')
+                    self.struct['performance']['settings']['cpu_governor']['values'] = available_gov.split()
+
+                value = self.oe.read_setting('hardware', 'cpu_governor')
+                if value is None:
+                    value = self.oe.load_file(sys_device + 'scaling_governor')
+
+                self.struct['performance']['settings']['cpu_governor']['value'] = value
 
             self.oe.dbg_log('hardware::load_values', 'exit_function', 0)
         except Exception, e:
@@ -413,6 +446,28 @@ class hardware:
             self.oe.set_busy(0)
             self.oe.dbg_log('hardware::set_vesa_enable', 'ERROR: (%s)' % repr(e), 4)
 
+    def set_cpu_governor(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_cpu_governor', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+            value = self.struct['performance']['settings']['cpu_governor']['value']
+            if not value is None and not value == '':
+                cpu_clusters = ["", "cpu0/", "cpu4/"]
+                for cluster in cpu_clusters:
+                    sys_device = '/sys/devices/system/cpu/' + cluster + 'cpufreq/scaling_governor'
+                    if os.access(sys_device, os.W_OK):
+                        cpu_governor_ctl = open(sys_device, 'w')
+                        cpu_governor_ctl.write(value)
+                        cpu_governor_ctl.close()
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_cpu_governor', 'exit_function', 0)
+        except Exception, e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('hardware::set_cpu_governor', 'ERROR: (%s)' % repr(e), 4)
 
     def load_menu(self, focusItem):
         try:
