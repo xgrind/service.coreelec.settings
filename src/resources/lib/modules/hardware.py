@@ -246,7 +246,8 @@ class hardware:
         try:
             self.oe.dbg_log('hardware::start_service', 'enter_function', 0)
             self.load_values()
-            self.initialize_fan()
+            if not 'hidden' in self.struct['fan']:
+                self.initialize_fan()
             self.set_cpu_governor()
             self.oe.dbg_log('hardware::start_service', 'exit_function', 0)
         except Exception, e:
@@ -353,12 +354,15 @@ class hardware:
         try:
             self.oe.dbg_log('hardware::load_values', 'enter_function', 0)
 
-            value = self.oe.read_setting('hardware', 'fan_mode')
-            if not value is None:
-                self.struct['fan']['settings']['fan_mode']['value'] = value
-            value = self.oe.read_setting('hardware', 'fan_level')
-            if not value is None:
-                self.struct['fan']['settings']['fan_level']['value'] = value
+            if not os.path.exists('/sys/class/fan'):
+                self.struct['fan']['hidden'] = 'true'
+            else:
+                value = self.oe.read_setting('hardware', 'fan_mode')
+                if not value is None:
+                    self.struct['fan']['settings']['fan_mode']['value'] = value
+                value = self.oe.read_setting('hardware', 'fan_level')
+                if not value is None:
+                    self.struct['fan']['settings']['fan_level']['value'] = value
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
