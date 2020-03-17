@@ -320,6 +320,26 @@ msgctxt "#791"
 msgid "Set CPU governor for all cores"
 msgstr ""
 
+msgctxt "#792"
+msgid "Set the device OSD name displayed on TV when in suspend/powered off mode, max length 14 chars"
+msgstr ""
+
+msgctxt "#793"
+msgid "Enable/Disable CEC Wake-Up"
+msgstr ""
+
+msgctxt "#794"
+msgid "Enable/Disable CEC Wake-Up by user control pressed or on image/text view"
+msgstr ""
+
+msgctxt "#795"
+msgid "Enable/Disable CEC Wake-Up by streaming path or routing change"
+msgstr ""
+
+msgctxt "#796"
+msgid "Enable/Disable CEC Wake-Up by the device become active route"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1104,6 +1124,10 @@ msgctxt "#32403"
 msgid "Performance"
 msgstr ""
 
+msgctxt "#32404"
+msgid "CEC"
+msgstr ""
+
 msgctxt "#32410"
 msgid "Fan Mode"
 msgstr ""
@@ -1134,6 +1158,26 @@ msgstr ""
 
 msgctxt "#32421"
 msgid "CPU governor"
+msgstr ""
+
+msgctxt "#32430"
+msgid "Device OSD Name"
+msgstr ""
+
+msgctxt "#32431"
+msgid "CEC Wake-Up"
+msgstr ""
+
+msgctxt "#32432"
+msgid "Auto power on"
+msgstr ""
+
+msgctxt "#32433"
+msgid "Streaming path/Routing change"
+msgstr ""
+
+msgctxt "#32434"
+msgid "Active route"
 msgstr ""
 
 msgctxt "#33410"
@@ -1178,4 +1222,12 @@ msgstr ""
 
 msgctxt "#33420"
 msgid "Update of BL301 on eMMC is not needed."
+msgstr ""
+
+msgctxt "#33421"
+msgid "[B][COLOR red]Note: This will remove the bl301 injection on your device.[/COLOR][CR]The injected BL301 bootloader blob will be removed by the backup done automatically before injection.[/B]"
+msgstr ""
+
+msgctxt "#33422"
+msgid "Finished remove of the BL301 on internal eMMC.[CR]A reboot is now required!"
 msgstr ""
