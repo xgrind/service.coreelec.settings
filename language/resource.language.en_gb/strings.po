@@ -312,6 +312,10 @@ msgctxt "#788"
 msgid "Enable/Disable USB Power when device is off/suspend"
 msgstr ""
 
+msgctxt "#789"
+msgid "Enable/Disable device heartbeat LED"
+msgstr ""
+
 msgctxt "#790"
 msgid "Enable/Disable VESA display modes"
 msgstr ""
@@ -1150,6 +1154,10 @@ msgstr ""
 
 msgctxt "#32418"
 msgid "USB Power"
+msgstr ""
+
+msgctxt "#32419"
+msgid "Heartbeat LED"
 msgstr ""
 
 msgctxt "#32420"
