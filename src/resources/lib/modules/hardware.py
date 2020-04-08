@@ -31,6 +31,7 @@ class hardware:
 
     power_compatible_devices = [
         'odroid_n2',
+        'odroid_c4',
     ]
 
     remotes = [
