@@ -337,17 +337,6 @@ class hardware:
         finally:
             return IBL.returncode
 
-    def check_bl301(self):
-        try:
-            self.oe.dbg_log('hardware::check_bl301', 'enter_function', 0)
-            IBL = subprocess.Popen(["/usr/lib/coreelec/check-bl301"], close_fds=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            IBL.wait()
-            self.oe.dbg_log('hardware::check_bl301', 'exit_function', 0)
-        except Exception, e:
-            self.oe.dbg_log('hardware::check_bl301', 'ERROR: (' + repr(e) + ')')
-        finally:
-            return str(IBL.returncode)
-
     def inject_check_compatibility(self):
         try:
             self.oe.dbg_log('hardware::inject_check_compatibility', 'enter_function', 0)
@@ -393,7 +382,10 @@ class hardware:
             else:
                 if 'hidden' in self.struct['power']['settings']['inject_bl301']:
                     del self.struct['power']['settings']['inject_bl301']['hidden']
-                self.struct['power']['settings']['inject_bl301']['value'] = self.check_bl301()
+                if os.path.exists('/tmp/bl301_injected'):
+                    self.struct['power']['settings']['inject_bl301']['value'] = '1'
+                else:
+                    self.struct['power']['settings']['inject_bl301']['value'] = '0'
 
             power_setting_visible = bool(int(self.struct['power']['settings']['inject_bl301']['value'])) or self.check_compatibility()
 
@@ -574,6 +566,7 @@ class hardware:
 
                   if IBL_Code == 0:
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
+                    subprocess.call("touch /tmp/bl301_injected", shell=True)
                     self.load_values()
                     response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
                   elif IBL_Code == 1:
@@ -603,6 +596,8 @@ class hardware:
                                 with open('/dev/bootloader', 'wb') as fw:
                                     fw.write(fr.read())
                             self.struct['power']['settings']['inject_bl301']['value'] = '0'
+                            subprocess.call("rm -rf /tmp/bl301_injected", shell=True)
+                            self.load_values()
                             response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33422).encode('utf-8'))
 
             self.oe.dbg_log('hardware::set_bl301', 'exit_function', 0)
