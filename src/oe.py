@@ -356,21 +356,25 @@ def load_file(filename):
 
 def get_config_ini(var, def_no_value=""):
     found = def_no_value
-    f = open(configini)
-    fl = f.readlines()
-    f.close()
-    for i, line in enumerate(fl):
-      regex = r"^[^#]*\b%s=([^#]*)#*" % (var)
-      match = re.search(regex, line)
-      if match:
-        found = match.group(1).strip()
+    if os.path.isfile(configini):
+      f = open(configini)
+      fl = f.readlines()
+      f.close()
+      for i, line in enumerate(fl):
+        regex = r"^[^#]*\b%s=([^#]*)#*" % (var)
+        match = re.search(regex, line)
+        if match:
+          found = match.group(1).strip()
     return found
 
 def set_config_ini(var, val="\'\'"):
     mlist = []
-    f = open(configini)
-    fl = f.readlines()
-    f.close()
+    if os.path.isfile(configini):
+      f = open(configini)
+      fl = f.readlines()
+      f.close()
+    else:
+      fl = []
 
     for i, line in enumerate(fl):
       regex = r"\b%s=" % (var)
