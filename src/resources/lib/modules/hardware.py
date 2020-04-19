@@ -11,8 +11,6 @@ import threading
 import subprocess
 import shutil
 
-from updates import updates
-
 # CEC Wake Up flags from u-boot(bl301)
 CEC_FUNC_MASK = 0
 AUTO_POWER_ON_MASK = 3
@@ -312,8 +310,7 @@ class hardware:
         try:
             self.oe.dbg_log('hardware::check_compatibility', 'enter_function', 0)
             ret = False
-            obj = updates(self.oe)
-            dtname = obj.get_hardware_flags_dtname()
+            dtname = self.oe.get_dtname()
             ret = any(substring in dtname for substring in self.struct['power']['compatible_model'])
             self.oe.dbg_log('hardware::check_compatibility', 'exit_function, ret: %s' % ret, 0)
         except Exception, e:

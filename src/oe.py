@@ -354,6 +354,18 @@ def load_file(filename):
     except Exception, e:
         dbg_log('oe::load_file(' + filename + ')', 'ERROR: (' + repr(e) + ')')
 
+def get_dtname():
+    try:
+        dtname = 'unknown'
+        if os.path.isfile("/proc/device-tree/le-dt-id"):
+            dtname = load_file("/proc/device-tree/le-dt-id")
+        if os.path.isfile("/proc/device-tree/coreelec-dt-id"):
+            dtname = load_file("/proc/device-tree/coreelec-dt-id")
+
+        return dtname.rstrip('\x00\n')
+    except Exception, e:
+        dbg_log('oe::get_dtname', 'ERROR: (' + repr(e) + ')')
+
 def get_config_ini(var, def_no_value=""):
     found = def_no_value
     if os.path.isfile(configini):
