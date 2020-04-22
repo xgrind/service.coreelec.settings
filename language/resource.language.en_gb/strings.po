@@ -317,7 +317,7 @@ msgid "Enable/Disable USB Power when device is off/suspend"
 msgstr ""
 
 msgctxt "#789"
-msgid "Enable/Disable device heartbeat LED"
+msgid "Change device LED behavior"
 msgstr ""
 
 msgctxt "#790"
@@ -358,6 +358,13 @@ msgstr ""
 
 msgctxt "#799"
 msgid "Time in minutes/hours until the HDD should enter suspend mode"
+
+msgctxt "#900"
+msgid "Configure eMMC speed mode"
+msgstr ""
+
+msgctxt "#901"
+msgid "Configure WiFi SoC SDIO speed"
 msgstr ""
 
 msgctxt "#32001"
@@ -1164,6 +1171,10 @@ msgctxt "#32505"
 msgid "HDD"
 msgstr ""
 
+msgctxt "#32506"
+msgid "Device Tree"
+msgstr ""
+
 msgctxt "#32510"
 msgid "Fan Mode"
 msgstr ""
@@ -1189,7 +1200,7 @@ msgid "USB Power"
 msgstr ""
 
 msgctxt "#32519"
-msgid "Heartbeat LED"
+msgid "System LED"
 msgstr ""
 
 msgctxt "#32520"
@@ -1210,6 +1221,17 @@ msgstr ""
 
 msgctxt "#32524"
 msgid "Idle Time"
+
+msgctxt "#32525"
+msgid "eMMC Speed Mode"
+msgstr ""
+
+msgctxt "#32526"
+msgid "WiFi SoC SDIO Speed"
+msgstr ""
+
+msgctxt "#32527"
+msgid "Red LED"
 msgstr ""
 
 msgctxt "#32530"
@@ -1282,4 +1304,12 @@ msgstr ""
 
 msgctxt "#33522"
 msgid "Finished remove of the BL301 on internal eMMC.[CR]A reboot is now required!"
+msgstr ""
+
+msgctxt "#33523"
+msgid "Finished update of /flash/dtb.img.[CR]A reboot is now required!"
+msgstr ""
+
+msgctxt "#33524"
+msgid "[COLOR red]Are you sure to change this value?[/COLOR][CR]Please enter confirmation code '%s'"
 msgstr ""

@@ -11,6 +11,7 @@ import threading
 import subprocess
 import shutil
 import platform
+import random
 
 # CEC Wake Up flags from u-boot(bl301)
 CEC_FUNC_MASK = 0
@@ -21,6 +22,7 @@ ACTIVE_SOURCE_MASK = 6
 class hardware:
     ENABLED = False
     need_inject = False
+    check_for_reboot = False
     menu = {'8': {
         'name': 32004,
         'menuLoader': 'load_menu',
@@ -162,16 +164,8 @@ class hardware:
                             'action': 'set_bl301',
                             'type': 'bool',
                             },
-                        'heartbeat': {
-                            'order': 2,
-                            'name': 32519,
-                            'InfoText': 789,
-                            'value': '0',
-                            'action': 'set_heartbeat',
-                            'type': 'bool',
-                            },
                         'remote_power': {
-                            'order': 3,
+                            'order': 2,
                             'name': 32516,
                             'InfoText': 786,
                             'value': '',
@@ -180,7 +174,7 @@ class hardware:
                             'values': ['Unknown'],
                             },
                         'wol': {
-                            'order': 4,
+                            'order': 3,
                             'name': 32517,
                             'InfoText': 787,
                             'value': '0',
@@ -188,7 +182,7 @@ class hardware:
                             'type': 'bool',
                             },
                         'usbpower': {
-                            'order': 5,
+                            'order': 4,
                             'name': 32518,
                             'InfoText': 788,
                             'value': '0',
@@ -197,8 +191,52 @@ class hardware:
                             },
                         },
                     },
-                'cec': {
+                'dtb_settings': {
                     'order': 3,
+                    'name': 32506,
+                    'not_supported': [],
+                    'settings': {
+                        'sys_led': {
+                            'order': 1,
+                            'name': 32519,
+                            'InfoText': 789,
+                            'value': '',
+                            'xml_node': 'sys_led',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
+                        'red_led': {
+                            'order': 2,
+                            'name': 32527,
+                            'InfoText': 789,
+                            'value': '',
+                            'xml_node': 'red_led',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
+                        'emmc': {
+                            'order': 3,
+                            'name': 32525,
+                            'InfoText': 900,
+                            'value': '',
+                            'xml_node': 'emmc',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            'dangerous': True,
+                            },
+                        'slowsdio': {
+                            'order': 4,
+                            'name': 32526,
+                            'InfoText': 901,
+                            'value': '',
+                            'xml_node': 'slowsdio',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
+                        },
+                    },
+                'cec': {
+                    'order': 4,
                     'name': 32504,
                     'not_supported': [],
                     'settings': {
@@ -249,7 +287,7 @@ class hardware:
                         },
                     },
                 'display': {
-                    'order': 4,
+                    'order': 5,
                     'name': 32502,
                     'not_supported': [],
                     'settings': {
@@ -264,7 +302,7 @@ class hardware:
                         },
                     },
                 'performance': {
-                    'order': 5,
+                    'order': 6,
                     'name': 32503,
                     'not_supported': [],
                     'settings': {
@@ -280,7 +318,7 @@ class hardware:
                         },
                     },
                 'hdd': {
-                    'order': 6,
+                    'order': 7,
                     'name': 32505,
                     'not_supported': [],
                     'settings': {
@@ -347,18 +385,20 @@ class hardware:
 
     def exit(self):
         self.oe.dbg_log('hardware::exit', 'enter_function', 0)
+        self.oe.set_busy(1)
+        suppress_dialog = False
+        xbmcDialog = xbmcgui.Dialog()
         if self.struct['power']['settings']['inject_bl301']['value'] == '1':
-            self.oe.set_busy(1)
-            xbmcDialog = xbmcgui.Dialog()
-
             if hardware.need_inject:
                 IBL_Code = self.run_inject_bl301('-Y')
 
                 if IBL_Code == 0:
                     self.load_values()
                     response = xbmcDialog.ok(self.oe._(33512), self.oe._(33517))
+                    suppress_dialog = True
                 elif IBL_Code == 1:
                     response = xbmcDialog.ok(self.oe._(33513), self.oe._(33520))
+                    suppress_dialog = True
                 elif IBL_Code == (-2 & 0xff):
                     response = xbmcDialog.ok(self.oe._(33514), self.oe._(33519))
                 else:
@@ -367,9 +407,14 @@ class hardware:
                 if IBL_Code != 0:
                     self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
 
-                hardware.need_inject = False
+        if hardware.check_for_reboot:
+            ret = subprocess.call("/usr/lib/coreelec/dtb-xml", shell=True)
+            if ret == 1 and not suppress_dialog:
+                response = xbmcDialog.ok(self.oe._(33512), self.oe._(33523))
 
-            self.oe.set_busy(0)
+        hardware.need_inject = False
+        hardware.check_for_reboot = False
+        self.oe.set_busy(0)
         self.oe.dbg_log('hardware::exit', 'exit_function', 0)
         pass
 
@@ -444,18 +489,10 @@ class hardware:
                 if not value is None:
                     self.struct['fan']['settings']['fan_level']['value'] = value
 
-            if not os.path.exists('/sys/firmware/devicetree/base/leds/blueled'):
-                self.struct['power']['settings']['heartbeat']['hidden'] = 'true'
-            else:
-                hide_power_section = False
-                if 'hidden' in self.struct['power']['settings']['heartbeat']:
-                    del self.struct['power']['settings']['heartbeat']['hidden']
-                heartbeat = self.oe.get_config_ini('heartbeat', '1')
-                if heartbeat == '' or "1" in heartbeat:
-                    self.struct['power']['settings']['heartbeat']['value'] = '1'
-                if "0" in heartbeat:
-                    self.struct['power']['settings']['heartbeat']['value'] = '0'
-
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['sys_led'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['red_led'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['emmc'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['slowsdio'])
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
@@ -756,24 +793,6 @@ class hardware:
         finally:
             self.oe.set_busy(0)
 
-    def set_heartbeat(self, listItem=None):
-        try:
-            self.oe.dbg_log('hardware::set_heartbeat', 'enter_function', 0)
-            self.oe.set_busy(1)
-            if not listItem == None:
-                self.set_value(listItem)
-
-                if self.struct['power']['settings']['heartbeat']['value'] == '1':
-                    self.oe.set_config_ini("heartbeat", "1")
-                else:
-                    self.oe.set_config_ini("heartbeat", "0")
-
-            self.oe.dbg_log('hardware::set_heartbeat', 'exit_function', 0)
-        except Exception as e:
-            self.oe.dbg_log('hardware::set_heartbeat', 'ERROR: (%s)' % repr(e), 4)
-        finally:
-            self.oe.set_busy(0)
-
     def set_wol(self, listItem=None):
         try:
             self.oe.dbg_log('hardware::set_wol', 'enter_function', 0)
@@ -905,6 +924,48 @@ class hardware:
             self.oe.dbg_log('hardware::load_menu', 'exit_function', 0)
         except Exception as e:
             self.oe.dbg_log('hardware::load_menu', 'ERROR: (' + repr(e) + ')')
+
+    def set_value_xml(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_value_xml', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                num = random.randint(1000, 9999)
+                response = str(num)
+                if 'dangerous' in self.struct[listItem.getProperty('category')]['settings'][listItem.getProperty('entry')]:
+                    xbmcDialog = xbmcgui.Dialog()
+                    response = xbmcDialog.input(self.oe._(33524) % str(num), type=xbmcgui.INPUT_NUMERIC)
+                if str(num) == response:
+                    self.set_value(listItem)
+                    self.oe.set_dtbxml_value(listItem.getProperty('entry'), listItem.getProperty('value'))
+                    hardware.check_for_reboot = True
+            self.oe.dbg_log('hardware::set_value_xml', 'exit_function', 0)
+        except Exception as e:
+            self.oe.dbg_log('hardware::set_value_xml', 'ERROR: (%s)' % repr(e), 4)
+        finally:
+            self.oe.set_busy(0)
+
+    def fill_values_by_xml(self, var):
+        try:
+            self.oe.dbg_log('hardware::fill_values_by_xml', 'enter_function', 0)
+            self.oe.set_busy(1)
+            values = self.oe.get_dtbxml_multivalues(var['xml_node'])
+            value = self.oe.get_dtbxml_value(var['xml_node'])
+            if not values is None and not value is None:
+                if not value == 'migrated':
+                    if 'hidden' in var:
+                        del var['hidden']
+                    var['values'] = values
+                    var['value'] = value
+                else:
+                    var['hidden'] = 'true'
+            else:
+                self.oe.dbg_log('hardware::fill_values_by_xml', '"%s" could not be read from dtb.xml' % var['xml_node'], 0)
+            self.oe.dbg_log('hardware::fill_values_by_xml', 'exit_function', 0)
+        except Exception as e:
+            self.oe.dbg_log('hardware::fill_values_by_xml', 'ERROR: (%s)' % repr(e), 4)
+        finally:
+            self.oe.set_busy(0)
 
     def set_value(self, listItem):
         try:

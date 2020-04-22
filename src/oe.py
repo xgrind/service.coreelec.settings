@@ -29,6 +29,7 @@ from xml.dom import minidom
 import imp
 
 from xbmc import LOGDEBUG, LOGINFO, LOGWARNING, LOGERROR
+import xml.etree.ElementTree as ET
 
 __author__ = 'CoreELEC'
 __scriptid__ = 'service.coreelec.settings'
@@ -526,6 +527,102 @@ def set_config_ini(var, val="\'\'"):
     f.writelines(fl)
     f.close()
     ret = subprocess.call("mount -o remount,ro /flash", shell=True)
+
+def set_dtbxml_default(node=''):
+    if node == '':
+        subprocess.call("/usr/lib/coreelec/dtb-xml -m", shell=True)
+        return 0
+    else:
+        tree, root = open_dtbxml_xml(dtbxml_default)
+        if tree == None or root == None:
+            return -1
+        node = root.findall("./%s" % node)
+        if len(node) == 0:
+            return -1
+        tree, root = open_dtbxml_xml(dtbxml)
+        if tree == None or root == None:
+            return -1
+        root.append(node[0])
+        subprocess.call("mount -o remount,rw /flash", shell=True)
+        tree.write(dtbxml, encoding='utf-8', xml_declaration=True)
+        global dtb_tree, dtb_root
+        dtb_tree = None
+        dtb_root = None
+        subprocess.call("mount -o remount,ro /flash", shell=True)
+        return 0
+
+def open_dtbxml_xml(xml, retry='yes'):
+    try:
+        global dtb_tree, dtb_root
+        if not dtb_tree == None and not dtb_root == None:
+            return dtb_tree, dtb_root
+        if os.path.isfile(xml):
+            dtb_tree = ET.parse(xml)
+        else:
+            subprocess.call("/usr/lib/coreelec/dtb-xml -m", shell=True)
+            dtb_tree = ET.parse(xml)
+        if dtb_tree == None:
+            if set_dtbxml_default() == 0 and retry == 'yes':
+                return open_dtbxml_xml(xml, 'no')
+            else:
+                return None
+        dtb_root = dtb_tree.getroot()
+        if dtb_root == None or dtb_root.tag != 'dtb-settings':
+            if set_dtbxml_default() == 0 and retry == 'yes':
+                return open_dtbxml_xml(xml, 'no')
+            else:
+                return None
+    except Exception as e:
+        print('oe::open_dtbxml_xml', 'ERROR: (' + repr(e) + ')')
+    return dtb_tree, dtb_root
+
+def get_dtbxml_multivalues(var, retry='yes'):
+    multivalue = []
+    tree, root = open_dtbxml_xml(dtbxml)
+    if tree == None or root == None:
+        return multivalue
+    node = root.findall("./%s" % var)
+    if len(node) == 0:
+        if set_dtbxml_default(var) == 0 and retry == 'yes':
+            return get_dtbxml_multivalues(var, 'no')
+        else:
+            return None
+    for sub_node in node[0].getchildren():
+        multivalue.append(sub_node.get('name'))
+    return multivalue
+
+def get_dtbxml_value(var, retry='yes'):
+    tree, root = open_dtbxml_xml(dtbxml)
+    if tree == None or root == None:
+        return None
+    node = root.findall("./%s" % var)
+    if len(node) == 0:
+        if set_dtbxml_default(var) == 0 and retry == 'yes':
+            return get_dtbxml_value(var, 'no')
+        else:
+            return None
+    status = node[0].get('status')
+    if len(status) == 0 and retry == 'yes':
+        return get_dtbxml_value(var, 'no')
+    return status
+
+def set_dtbxml_value(var, value, retry='yes'):
+    tree, root = open_dtbxml_xml(dtbxml)
+    if tree == None or root == None:
+        return
+    node = root.findall("./%s" % var)
+    if len(node) == 0:
+        if set_dtbxml_default(var) == 0 and retry == 'yes':
+            return set_dtbxml_value(var, value, 'no')
+        else:
+            return None
+    node[0].set('status', value)
+    subprocess.call("mount -o remount,rw /flash", shell=True)
+    tree.write(dtbxml, encoding='utf-8', xml_declaration=True)
+    global dtb_tree, dtb_root
+    dtb_tree = None
+    dtb_root = None
+    subprocess.call("mount -o remount,ro /flash", shell=True)
 
 def url_quote(var):
     return urllib.parse.quote(var, safe="")
@@ -1077,6 +1174,10 @@ else:
   RPI_CPU_VER = ''
 
 configini = '/flash/config.ini'
+dtbxml = '/flash/dtb.xml'
+dtbxml_default = '/usr/share/bootloader/dtb.xml'
+dtb_tree = None
+dtb_root = None
 BOOT_STATUS = load_file('/storage/.config/boot.status')
 BOOT_HINT = load_file('/storage/.config/boot.hint')
 
