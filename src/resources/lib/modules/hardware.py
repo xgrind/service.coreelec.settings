@@ -288,13 +288,10 @@ class hardware:
                     self.load_values()
                     response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
                 elif IBL_Code == 1:
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33413).encode('utf-8'), self.oe._(33420).encode('utf-8'))
                 elif IBL_Code == (-2 & 0xff):
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33419).encode('utf-8'))
                 else:
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33418).encode('utf-8') % IBL_Code)
 
                 if IBL_Code != 0:
@@ -567,13 +564,10 @@ class hardware:
                     self.load_values()
                     response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
                   elif IBL_Code == 1:
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33413).encode('utf-8'), self.oe._(33420).encode('utf-8'))
                   elif IBL_Code == (-2 & 0xff):
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33419).encode('utf-8'))
                   else:
-                    xbmcDialog = xbmcgui.Dialog()
                     response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33418).encode('utf-8') % IBL_Code)
 
                   if IBL_Code != 0:
