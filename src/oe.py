@@ -377,6 +377,9 @@ def get_config_ini(var, def_no_value=""):
         match = re.search(regex, line)
         if match:
           found = match.group(1).strip()
+          regex = r"^[\'\"].*[\'\"]$"
+          if re.search(regex, found):
+            found = found[1:-1]
     return found
 
 def set_config_ini(var, val="\'\'"):
