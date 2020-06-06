@@ -1016,6 +1016,10 @@ msgctxt "#32373"
 msgid "Restore Backup"
 msgstr ""
 
+msgctxt "#32374"
+msgid "Restore file cannot be accessed by the system, it must be located on the local filesystem"
+msgstr ""
+
 msgctxt "#32375"
 msgid "Backup Progress"
 msgstr ""

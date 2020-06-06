@@ -599,7 +599,20 @@ class system:
                                               False,
                                               self.BACKUP_DESTINATION )
 
+            if restore_file_path == self.BACKUP_DESTINATION:
+                self.oe.dbg_log('system::do_restore', 'User cancelled', 0)
+                return
+            if not os.path.isfile(restore_file_path):
+                txt = self.oe.split_dialog_text(self.oe._(32374).encode('utf-8'))
+                xbmcDialog = xbmcgui.Dialog()
+                answer = xbmcDialog.ok('Restore', txt[0], txt[1], txt[2])
+                return
             restore_file_name = restore_file_path.split('/')[-1]
+            match = re.match('.*(?P<time_stamp>\d{14}).*\.tar', restore_file_path)
+            if match != None:
+                restore_file_name = match.group('time_stamp') + '.tar'
+            else:
+                restore_file_name = self.oe.timestamp() + '.tar'
 
             if not os.path.exists(self.RESTORE_DIR):
                 os.makedirs(self.RESTORE_DIR)
