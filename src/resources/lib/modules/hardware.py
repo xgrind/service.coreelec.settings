@@ -325,9 +325,11 @@ class hardware:
             self.oe.dbg_log('hardware::run_inject_bl301', 'enter_function, parameter: %s' % parameter, 0)
             IBL = subprocess.Popen(["/usr/sbin/inject_bl301", parameter], close_fds=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             IBL.wait()
-            f = open("/storage/inject_bl301.log",'w')
-            f.writelines(IBL.stdout.readlines())
-            f.close()
+            lines = IBL.stdout.readlines()
+            if len(lines) > 0:
+                f = open("/storage/inject_bl301.log",'w')
+                f.writelines(lines)
+                f.close()
             self.oe.dbg_log('hardware::run_inject_bl301', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('hardware::run_inject_bl301', 'ERROR: (' + repr(e) + ')')
