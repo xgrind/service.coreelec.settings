@@ -569,10 +569,11 @@ class updates:
                         self.do_autoupdate(None, True)
                     else:
                         if self.oe.BUILD == 'official':
-                            ceUpdate = xbmcgui.Dialog().yesno('CoreELEC', 'An update is available, would you like to download it now?')
-                            if(ceUpdate):
-                                self.update_in_progress = True
-                                self.do_autoupdate(None, True)
+                            if self.struct['update']['settings']['UpdateNotify']['value'] == '1':
+                                ceUpdate = xbmcgui.Dialog().yesno('CoreELEC', 'An update is available, would you like to download it now?')
+                                if(ceUpdate):
+                                    self.update_in_progress = True
+                                    self.do_autoupdate(None, True)
             self.oe.dbg_log('updates::check_updates_v2', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('updates::check_updates_v2', 'ERROR: (' + repr(e) + ')')
