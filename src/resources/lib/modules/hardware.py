@@ -376,7 +376,7 @@ class hardware:
             else:
                 if 'hidden' in self.struct['power']['settings']['inject_bl301']:
                     del self.struct['power']['settings']['inject_bl301']['hidden']
-                if os.path.exists('/tmp/bl301_injected'):
+                if os.path.exists('/run/bl301_injected'):
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
                 else:
                     self.struct['power']['settings']['inject_bl301']['value'] = '0'
@@ -560,7 +560,7 @@ class hardware:
 
                   if IBL_Code == 0:
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
-                    subprocess.call("touch /tmp/bl301_injected", shell=True)
+                    subprocess.call("touch /run/bl301_injected", shell=True)
                     self.load_values()
                     response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
                   elif IBL_Code == 1:
@@ -586,7 +586,7 @@ class hardware:
                                 with open('/dev/bootloader', 'wb') as fw:
                                     fw.write(fr.read())
                             self.struct['power']['settings']['inject_bl301']['value'] = '0'
-                            subprocess.call("rm -rf /tmp/bl301_injected", shell=True)
+                            subprocess.call("rm -rf /run/bl301_injected", shell=True)
                             self.load_values()
                             response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33422).encode('utf-8'))
 
@@ -663,7 +663,7 @@ class hardware:
                 else:
                     self.oe.set_config_ini("wol", "0")
 
-                hardware.need_inject = not hardware.need_inject
+                hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_wol', 'exit_function', 0)
         except Exception, e:
@@ -683,7 +683,7 @@ class hardware:
                 else:
                     self.oe.set_config_ini("usbpower", "0")
 
-                hardware.need_inject = not hardware.need_inject
+                hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_usbpower', 'exit_function', 0)
         except Exception, e:
