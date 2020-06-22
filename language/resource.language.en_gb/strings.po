@@ -367,6 +367,10 @@ msgctxt "#901"
 msgid "Configure WiFi SoC SDIO speed"
 msgstr ""
 
+msgctxt "#902"
+msgid "Enable/Disable SPI interface"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1232,6 +1236,10 @@ msgstr ""
 
 msgctxt "#32527"
 msgid "Red LED"
+msgstr ""
+
+msgctxt "#32528"
+msgid "SPI Interface"
 msgstr ""
 
 msgctxt "#32530"
