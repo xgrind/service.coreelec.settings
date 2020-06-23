@@ -582,11 +582,10 @@ class hardware:
                 ynresponse = xbmcDialog.yesno(self.oe._(33415).encode('utf-8'), self.oe._(33421).encode('utf-8'), yeslabel=self.oe._(33411).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
 
                 if ynresponse == 1:
-                    IBL = subprocess.Popen(["cat", "/proc/cpuinfo"], close_fds=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    IBL.wait()
-                    serial = next((s for s in IBL.stdout if "Serial" in s), None)
-                    if serial != '':
-                        filename = '/flash/{0}_bl301.bin'.format([x.strip() for x in serial.split(':')][1])
+
+                    cpu_serial = [line for line in open("/proc/cpuinfo", 'r') if 'Serial' in line]
+                    if cpu_serial != '':
+                        filename = '/flash/{0}_bl301.bin'.format([x.strip() for x in cpu_serial[0].split(':')][1])
                         if os.path.exists(filename) and os.path.exists('/dev/bootloader'):
                             self.oe.dbg_log('hardware::set_bl301', 'write %s to /dev/bootloader' % filename, 0)
                             with open(filename, 'rb') as fr:

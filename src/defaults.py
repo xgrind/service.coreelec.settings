@@ -91,7 +91,9 @@ updates = {
 
 about = {'ENABLED': True}
 
-hardware = {'ENABLED': True}
+cpu_serial = [line for line in open("/proc/cpuinfo", 'r') if 'Serial' in line]
+cpu_id = [x.strip() for x in cpu_serial[0].split(':')][1]
+hardware = {'ENABLED': int(cpu_id[:2], 16) >= 0x28}
 
 xdbus = {'ENABLED': True}
 
