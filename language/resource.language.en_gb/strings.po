@@ -375,6 +375,10 @@ msgctxt "#903"
 msgid "Choose IR protocol type for meson-remote"
 msgstr ""
 
+msgctxt "#904"
+msgid "Configure DVB GPIO support"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1268,6 +1272,10 @@ msgstr ""
 
 msgctxt "#32534"
 msgid "Active route"
+msgstr ""
+
+msgctxt "#32535"
+msgid "DVB GPIO Support"
 msgstr ""
 
 msgctxt "#33510"
