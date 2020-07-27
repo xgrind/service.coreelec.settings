@@ -77,6 +77,41 @@ class hardware:
         },
     ]
 
+    disk_idle_times = [
+        {
+            "name": "Disabled",
+            "value": "0"
+        },
+        {
+            "name": "5 Minutes",
+            "value": "300"
+        },
+        {
+            "name": "10 Minutes",
+            "value": "600"
+        },
+        {
+            "name": "20 Minutes",
+            "value": "1200"
+        },
+        {
+            "name": "30 Minutes",
+            "value": "1800"
+        },
+        {
+            "name": "1 Hour",
+            "value": "3600"
+        },
+        {
+            "name": "2 Hours",
+            "value": "7200"
+        },
+        {
+            "name": "5 Hours",
+            "value": "18000"
+        },
+    ]
+
     def __init__(self, oeMain):
         try:
             oeMain.dbg_log('hardware::__init__', 'enter_function', 0)
@@ -243,6 +278,38 @@ class hardware:
                             },
                         },
                     },
+                'hdd': {
+                    'order': 6,
+                    'name': 32405,
+                    'not_supported': [],
+                    'settings': {
+                        'disk_park': {
+                            'order': 1,
+                            'name': 32422,
+                            'InfoText': 797,
+                            'value': '0',
+                            'action': 'set_disk_park',
+                            'type': 'bool',
+                            },
+                        'disk_park_time': {
+                            'order': 2,
+                            'name': 32423,
+                            'InfoText': 798,
+                            'value': '10',
+                            'action': 'set_disk_park',
+                            'type': 'text',
+                            },
+                        'disk_idle': {
+                            'order': 3,
+                            'name': 32424,
+                            'InfoText': 799,
+                            'value': '',
+                            'action': 'set_disk_idle',
+                            'type': 'multivalue',
+                            'values': ['Disabled'],
+                            },
+                        },
+                    },
                 }
 
             self.oe.dbg_log('hardware::__init__', 'exit_function', 0)
@@ -256,6 +323,8 @@ class hardware:
             if not 'hidden' in self.struct['fan']:
                 self.initialize_fan()
             self.set_cpu_governor()
+            self.set_disk_park()
+            self.set_disk_idle()
             self.oe.dbg_log('hardware::start_service', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('hardware::start_service', 'ERROR: (' + repr(e) + ')')
@@ -469,6 +538,29 @@ class hardware:
                     value = self.oe.load_file(sys_device + 'scaling_governor')
 
                 self.struct['performance']['settings']['cpu_governor']['value'] = value
+
+            value = self.oe.read_setting('hardware', 'disk_park')
+            if not value is None:
+                self.struct['hdd']['settings']['disk_park']['value'] = value
+
+            value = self.oe.read_setting('hardware', 'disk_park_time')
+            if not value is None:
+                self.struct['hdd']['settings']['disk_park_time']['value'] = value
+            else:
+                self.struct['hdd']['settings']['disk_park_time']['value'] = '10'
+
+            value = self.oe.read_setting('hardware', 'disk_idle')
+            if value is None or value == '':
+                value = 'Disabled'
+
+            disk_idle_times_names = []
+            self.struct['hdd']['settings']['disk_idle']['value'] = 'Disabled'
+            for disk_idle_time in self.disk_idle_times:
+              disk_idle_times_names.append(disk_idle_time["name"])
+              if disk_idle_time["name"] in value:
+                self.struct['hdd']['settings']['disk_idle']['value'] = disk_idle_time["name"]
+
+            self.struct['hdd']['settings']['disk_idle']['values'] = disk_idle_times_names
 
             self.oe.dbg_log('hardware::load_values', 'exit_function', 0)
         except Exception, e:
@@ -734,6 +826,44 @@ class hardware:
             self.oe.dbg_log('hardware::set_cpu_governor', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('hardware::set_cpu_governor', 'ERROR: (%s)' % repr(e), 4)
+        finally:
+            self.oe.set_busy(0)
+
+    def set_disk_park(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_disk_park', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+            if self.struct['hdd']['settings']['disk_park']['value'] == '1':
+                value = self.struct['hdd']['settings']['disk_park_time']['value']
+                subprocess.call(("echo -e 'PARK_HDD=\"yes\"\nPARK_WAIT=\"%s\"' > /run/disk-park.dat") % value, shell=True)
+            else:
+                subprocess.call("rm -rf /run/disk-park.dat", shell=True)
+
+            self.oe.dbg_log('hardware::set_disk_park', 'exit_function', 0)
+        except Exception, e:
+            self.oe.dbg_log('hardware::set_disk_park', 'ERROR: (%s)' % repr(e), 4)
+        finally:
+            self.oe.set_busy(0)
+
+    def set_disk_idle(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_disk_idle', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+            subprocess.call("killall hd-idle", shell=True)
+            if not self.struct['hdd']['settings']['disk_idle']['value'] == 'Disabled':
+                for disk_idle_time in self.disk_idle_times:
+                    if self.struct['hdd']['settings']['disk_idle']['value'] == disk_idle_time["name"]:
+                        subprocess.call(("hd-idle -i %s") % disk_idle_time["value"], shell=True)
+
+            self.oe.dbg_log('hardware::set_disk_idle', 'exit_function', 0)
+        except Exception, e:
+            self.oe.dbg_log('hardware::set_disk_idle', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
 
