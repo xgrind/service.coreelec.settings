@@ -501,10 +501,16 @@ class hardware:
                 self.struct['power']['settings']['remote_power']['values'] = remote_names
 
             wol = self.oe.get_config_ini('wol', '0')
-            if wol == '' or "0" in wol:
-                self.struct['power']['settings']['wol']['value'] = '0'
-            if "1" in wol:
-                self.struct['power']['settings']['wol']['value'] = '1'
+            if any("stmmac" in s for s in os.listdir('/sys/bus/mdio_bus/drivers/RTL8211F Gigabit Ethernet')):
+                if wol == '' or "0" in wol:
+                    self.struct['power']['settings']['wol']['value'] = '0'
+                if "1" in wol:
+                    self.struct['power']['settings']['wol']['value'] = '1'
+            else:
+                self.struct['power']['settings']['wol']['hidden'] = 'true'
+                if "1" in wol:
+                    self.oe.set_config_ini("wol", "0")
+
 
             if not power_setting_visible:
                 self.struct['power']['settings']['usbpower']['hidden'] = 'true'
