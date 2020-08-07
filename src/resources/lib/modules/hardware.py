@@ -534,8 +534,7 @@ class hardware:
                     self.oe.set_config_ini("wol", "0")
 
 
-            dtname = self.oe.get_dtname()
-            if not power_setting_visible or not self.check_SoC_id(0x28) or 'odroid_n2' in dtname:
+            if not power_setting_visible or not self.check_SoC_id(0x28):
                 self.struct['power']['settings']['usbpower']['hidden'] = 'true'
             else:
                 hide_power_section = False
