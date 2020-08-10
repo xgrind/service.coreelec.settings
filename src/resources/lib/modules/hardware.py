@@ -385,14 +385,13 @@ class hardware:
         finally:
             return ret
 
-    def check_SoC_id(self, id=''):
+    def get_SoC_id(self):
         try:
             self.oe.dbg_log('hardware::check_SoC', 'enter_function', 0)
-            ret = False
+            ret = 0xFF
             cpu_serial = [line for line in open("/proc/cpuinfo", 'r') if 'Serial' in line]
             cpu_id = [x.strip() for x in cpu_serial[0].split(':')][1]
-            if int(cpu_id[:2], 16) >= id:
-                ret = True
+            ret = int(cpu_id[:2], 16)
             self.oe.dbg_log('hardware::check_SoC', 'exit_function, ret: %s' % ret, 0)
         except Exception, e:
             self.oe.dbg_log('hardware::check_SoC', 'ERROR: (' + repr(e) + ')')
@@ -462,10 +461,13 @@ class hardware:
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
                 self.struct['power']['settings']['inject_bl301']['value'] = '0'
             else:
-                hide_power_section = False
-                if 'hidden' in self.struct['power']['settings']['inject_bl301']:
-                    del self.struct['power']['settings']['inject_bl301']['hidden']
+                if self.get_SoC_id() == 0x21:
+                    self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
+
                 if os.path.exists('/run/bl301_injected'):
+                    hide_power_section = False
+                    if 'hidden' in self.struct['power']['settings']['inject_bl301']:
+                        del self.struct['power']['settings']['inject_bl301']['hidden']
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
                 else:
                     self.struct['power']['settings']['inject_bl301']['value'] = '0'
@@ -534,7 +536,7 @@ class hardware:
                     self.oe.set_config_ini("wol", "0")
 
 
-            if not power_setting_visible or not self.check_SoC_id(0x28):
+            if not power_setting_visible or self.get_SoC_id() < 0x28:
                 self.struct['power']['settings']['usbpower']['hidden'] = 'true'
             else:
                 hide_power_section = False
