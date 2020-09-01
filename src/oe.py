@@ -909,7 +909,7 @@ def parse_os_release():
 
 
 def get_os_release():
-    distribution = version = architecture = build = project = device = builder_name = builder_version = ''
+    distribution = version = architecture = build = project = device = builder_name = builder_version = last_stable = ''
     os_release_info = parse_os_release()
     if os_release_info is not None:
         if 'NAME' in os_release_info:
@@ -930,6 +930,8 @@ def get_os_release():
             builder_name = os_release_info['BUILDER_NAME']
         if 'BUILDER_VERSION' in os_release_info:
             builder_version = os_release_info['BUILDER_VERSION']
+        if 'LAST_STABLE' in os_release_info:
+            last_stable = os_release_info['LAST_STABLE']
         return (
             distribution,
             version,
@@ -938,7 +940,8 @@ def get_os_release():
             project,
             device,
             builder_name,
-            builder_version
+            builder_version,
+            last_stable
             )
 
 def hash_password(password):
@@ -974,6 +977,7 @@ PROJECT = os_release_data[4]
 DEVICE = os_release_data[5]
 BUILDER_NAME = os_release_data[6]
 BUILDER_VERSION = os_release_data[7]
+LAST_STABLE = os_release_data[8]
 DOWNLOAD_DIR = '/storage/downloads'
 XBMC_USER_HOME = os.environ.get('XBMC_USER_HOME', '/storage/.kodi')
 CONFIG_CACHE = os.environ.get('CONFIG_CACHE', '/storage/.cache')

@@ -142,6 +142,18 @@ class updates:
                             'InfoText': 770,
                             'order': 9,
                             },
+                        'Update2NextStable': {
+                            'name': 32030,
+                            'value': '0',
+                            'action': 'set_value',
+                            'type': 'bool',
+                            'parent': {
+                                'entry': 'AutoUpdate',
+                                'value': ['auto'],
+                                },
+                            'InfoText': 716,
+                            'order': 10,
+                            },
                         },
                     },
                 'rpieeprom': {
@@ -301,6 +313,9 @@ class updates:
                 self.struct['update']['settings']['UpdateNotify']['value'] = value
             if os.path.isfile('%s/SYSTEM' % self.LOCAL_UPDATE_DIR):
                 self.update_in_progress = True
+            value = self.oe.read_setting('updates', 'Update2NextStable')
+            if not value is None:
+                self.struct['update']['settings']['Update2NextStable']['value'] = value
 
             # Manual Update
 
@@ -531,31 +546,50 @@ class updates:
         except Exception, e:
             self.oe.dbg_log('updates::get_available_builds', 'ERROR: (' + repr(e) + ')')
 
+    def fetch_update_json(self):
+        try:
+            self.oe.dbg_log('updates::fetch_update_json', 'enter_function', 0)
+
+            versions = []
+            if self.struct['update']['settings']['Update2NextStable']['value'] == '1':
+                if self.oe.LAST_STABLE:
+                    versions.append(self.oe.LAST_STABLE)
+
+            if self.oe.BUILDER_VERSION:
+                versions.append(self.oe.BUILDER_VERSION)
+            else:
+                versions.append(self.oe.VERSION)
+
+            for ver in versions:
+                url = '%s?i=%s&d=%s&pa=%s&v=%s&f=%s' % (
+                    self.UPDATE_REQUEST_URL,
+                    self.oe.url_quote(self.oe.SYSTEMID),
+                    self.oe.url_quote(self.oe.DISTRIBUTION),
+                    self.oe.url_quote(self.oe.ARCHITECTURE),
+                    self.oe.url_quote(ver),
+                    self.oe.url_quote(self.hardware_flags),
+                    )
+                if self.oe.BUILDER_NAME:
+                   url += '&b=%s' % self.oe.url_quote(self.oe.BUILDER_NAME)
+                if self.struct['update']['settings']['SubmitStats']['value'] == '0':
+                   url += '&nostats'
+
+                self.oe.dbg_log('updates::fetch_update_json', 'URL: %s' % url, 0)
+                update_json = self.oe.load_url(url)
+                if update_json != '':
+                    break
+            return update_json
+
+        except Exception, e:
+            self.oe.dbg_log('updates::fetch_update_json', 'ERROR: (' + repr(e) + ')')
+
     def check_updates_v2(self, force=False):
         try:
             self.oe.dbg_log('updates::check_updates_v2', 'enter_function', 0)
             if hasattr(self, 'update_in_progress'):
                 self.oe.dbg_log('updates::check_updates_v2', 'Update in progress (exit)', 0)
                 return
-            if self.oe.BUILDER_VERSION:
-                version = self.oe.BUILDER_VERSION
-            else:
-                version = self.oe.VERSION
-            url = '%s?i=%s&d=%s&pa=%s&v=%s&f=%s' % (
-                self.UPDATE_REQUEST_URL,
-                self.oe.url_quote(self.oe.SYSTEMID),
-                self.oe.url_quote(self.oe.DISTRIBUTION),
-                self.oe.url_quote(self.oe.ARCHITECTURE),
-                self.oe.url_quote(version),
-                self.oe.url_quote(self.hardware_flags),
-                )
-            if self.oe.BUILDER_NAME:
-               url += '&b=%s' % self.oe.url_quote(self.oe.BUILDER_NAME)
-            if self.struct['update']['settings']['SubmitStats']['value'] == '0':
-               url += '&nostats'
-
-            self.oe.dbg_log('updates::check_updates_v2', 'URL: %s' % url, 0)
-            update_json = self.oe.load_url(url)
+            update_json = self.fetch_update_json()
             self.oe.dbg_log('updates::check_updates_v2', 'RESULT: %s' % repr(update_json), 0)
             if update_json != '':
                 update_json = json.loads(update_json)
