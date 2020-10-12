@@ -113,7 +113,7 @@ msgid "Send boot config files from /flash, kodi_crash.log, kernel log and Samba 
 msgstr ""
 
 msgctxt "#720"
-msgid "Set to ON and Bluetooth devices will be disabled during power-saving modes"
+msgid "Set to ON to enable the Bluetooth service"
 msgstr ""
 
 msgctxt "#721"
@@ -284,6 +284,8 @@ msgctxt "#772"
 msgid "Checking for a new version will submit the installed Distribution, Project, CPU Arch and Version to the update server. This data is also used to report basic statistics for the project. To continue checking for updates while opting-out of stats reporting, disable this option."
 msgstr ""
 
+msgctxt "#773"
+msgid "Set the idle timeout (in minutes) before devices will be disconnected (defaults to 0 for no timeout). Applies to devices where \"Enable Standby\" has been activated in the LibreELEC device connection context menu."
 msgctxt "#780"
 msgid "Configure hardware settings"
 msgstr ""
@@ -389,7 +391,7 @@ msgid "Select Action"
 msgstr ""
 
 msgctxt "#32013"
-msgid "Updates"
+msgid "OS Updates"
 msgstr ""
 
 msgctxt "#32014"
@@ -425,7 +427,7 @@ msgid "Submit Statistics"
 msgstr ""
 
 msgctxt "#32022"
-msgid "Raspberry Pi Flashing"
+msgid "Firmware Updates"
 msgstr ""
 
 msgctxt "#32023"
@@ -801,7 +803,7 @@ msgid "@DISTRONAME@ Settings PIN lock set."
 msgstr ""
 
 msgctxt "#32231"
-msgid "Your @DISTRONAME@ Settings PIN lock was set to:"
+msgid "Your @DISTRONAME@ Settings PIN lock has been set to:"
 msgstr ""
 
 msgctxt "#32232"
@@ -809,7 +811,7 @@ msgid "Error - PIN code not 4 digits!"
 msgstr ""
 
 msgctxt "#32233"
-msgid "@DISTRONAME@ Settings Locked - Enter PIN"
+msgid "@DISTRONAME@ Settings Locked[CR]Enter 4 digit PIN"
 msgstr ""
 
 msgctxt "#32234"
@@ -829,7 +831,11 @@ msgid "@DISTRONAME@ Settings Locked!"
 msgstr ""
 
 msgctxt "#32238"
-msgid " minutes remain before PIN can be entered.[CR][CR]Too many previous failed attempts."
+msgid "Time remaining before PIN can be entered: %02d:%02d[CR][CR]Too many previous failed attempts."
+msgstr ""
+
+msgctxt "#32240"
+msgid "Wireless Regulatory Domain"
 msgstr ""
 
 msgctxt "#32240"
@@ -1129,145 +1135,149 @@ msgid "Public"
 msgstr ""
 
 msgctxt "#32400"
+msgid "Idle Timeout"
+msgstr ""
+
+msgctxt "#32500"
 msgid "Fan"
 msgstr ""
 
-msgctxt "#32401"
+msgctxt "#32501"
 msgid "Power"
 msgstr ""
 
-msgctxt "#32402"
+msgctxt "#32502"
 msgid "Display"
 msgstr ""
 
-msgctxt "#32403"
+msgctxt "#32503"
 msgid "Performance"
 msgstr ""
 
-msgctxt "#32404"
+msgctxt "#32504"
 msgid "CEC"
 msgstr ""
 
-msgctxt "#32405"
+msgctxt "#32505"
 msgid "HDD"
 msgstr ""
 
-msgctxt "#32410"
+msgctxt "#32510"
 msgid "Fan Mode"
 msgstr ""
 
-msgctxt "#32411"
+msgctxt "#32511"
 msgid "Speed Level"
 msgstr ""
 
-msgctxt "#32415"
+msgctxt "#32515"
 msgid "Inject BL301 Blob"
 msgstr ""
 
-msgctxt "#32416"
+msgctxt "#32516"
 msgid "IR Remote Power Code"
 msgstr ""
 
-msgctxt "#32417"
+msgctxt "#32517"
 msgid "Wake-on-LAN"
 msgstr ""
 
-msgctxt "#32418"
+msgctxt "#32518"
 msgid "USB Power"
 msgstr ""
 
-msgctxt "#32419"
+msgctxt "#32519"
 msgid "Heartbeat LED"
 msgstr ""
 
-msgctxt "#32420"
+msgctxt "#32520"
 msgid "VESA modes"
 msgstr ""
 
-msgctxt "#32421"
+msgctxt "#32521"
 msgid "CPU governor"
 msgstr ""
 
-msgctxt "#32422"
+msgctxt "#32522"
 msgid "Parking"
 msgstr ""
 
-msgctxt "#32423"
+msgctxt "#32523"
 msgid "Parking Time"
 msgstr ""
 
-msgctxt "#32424"
+msgctxt "#32524"
 msgid "Idle Time"
 msgstr ""
 
-msgctxt "#32430"
+msgctxt "#32530"
 msgid "Device OSD Name"
 msgstr ""
 
-msgctxt "#32431"
+msgctxt "#32531"
 msgid "CEC Wake-Up"
 msgstr ""
 
-msgctxt "#32432"
+msgctxt "#32532"
 msgid "Auto power on"
 msgstr ""
 
-msgctxt "#32433"
+msgctxt "#32533"
 msgid "Streaming path/Routing change"
 msgstr ""
 
-msgctxt "#32434"
+msgctxt "#32534"
 msgid "Active route"
 msgstr ""
 
-msgctxt "#33410"
+msgctxt "#33510"
 msgid "Warning!"
 msgstr ""
 
-msgctxt "#33411"
+msgctxt "#33511"
 msgid "Continue"
 msgstr ""
 
-msgctxt "#33412"
+msgctxt "#33512"
 msgid "Finished!"
 msgstr ""
 
-msgctxt "#33413"
+msgctxt "#33513"
 msgid "Notice!"
 msgstr ""
 
-msgctxt "#33414"
+msgctxt "#33514"
 msgid "Error!"
 msgstr ""
 
-msgctxt "#33415"
+msgctxt "#33515"
 msgid "Inject Bootloader BL301 Blob..."
 msgstr ""
 
-msgctxt "#33416"
+msgctxt "#33516"
 msgid "[B][COLOR red]Note: This will modify the firmware on your device.[/COLOR][/B][CR]The BL301 bootloader blob has been customized by the CoreELEC Team to support all features used to wake a device from a suspend or power off state!"
 msgstr ""
 
-msgctxt "#33417"
+msgctxt "#33517"
 msgid "Finished update of the BL301 on internal eMMC.[CR]A reboot is now required!"
 msgstr ""
 
-msgctxt "#33418"
+msgctxt "#33518"
 msgid "Error [%d] has occurred while using the 'inject_bl301' tool![CR]See '/storage/inject_bl301.log' for details."
 msgstr ""
 
-msgctxt "#33419"
+msgctxt "#33519"
 msgid "System is not supported by BL301 injection![CR]See '/storage/inject_bl301.log' for details."
 msgstr ""
 
-msgctxt "#33420"
+msgctxt "#33520"
 msgid "Update of BL301 on eMMC is not needed."
 msgstr ""
 
-msgctxt "#33421"
+msgctxt "#33521"
 msgid "[B][COLOR red]Note: This will remove the bl301 injection on your device.[/COLOR][CR]The injected BL301 bootloader blob will be removed by the backup done automatically before injection.[/B]"
 msgstr ""
 
-msgctxt "#33422"
+msgctxt "#33522"
 msgid "Finished remove of the BL301 on internal eMMC.[CR]A reboot is now required!"
 msgstr ""

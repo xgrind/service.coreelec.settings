@@ -120,12 +120,12 @@ class hardware:
             self.struct = {
                 'fan': {
                     'order': 1,
-                    'name': 32400,
+                    'name': 32500,
                     'not_supported': [],
                     'settings': {
                         'fan_mode': {
                             'order': 1,
-                            'name': 32410,
+                            'name': 32510,
                             'InfoText': 781,
                             'value': 'off',
                             'action': 'initialize_fan',
@@ -134,7 +134,7 @@ class hardware:
                             },
                         'fan_level': {
                             'order': 2,
-                            'name': 32411,
+                            'name': 32511,
                             'InfoText': 782,
                             'value': '0',
                             'action': 'set_fan_level',
@@ -150,13 +150,13 @@ class hardware:
                     },
                 'power': {
                     'order': 2,
-                    'name': 32401,
+                    'name': 32501,
                     'not_supported': [],
                     'compatible_model': self.power_compatible_devices,
                     'settings': {
                         'inject_bl301': {
                             'order': 1,
-                            'name': 32415,
+                            'name': 32515,
                             'InfoText': 785,
                             'value': '0',
                             'action': 'set_bl301',
@@ -164,7 +164,7 @@ class hardware:
                             },
                         'heartbeat': {
                             'order': 2,
-                            'name': 32419,
+                            'name': 32519,
                             'InfoText': 789,
                             'value': '0',
                             'action': 'set_heartbeat',
@@ -172,7 +172,7 @@ class hardware:
                             },
                         'remote_power': {
                             'order': 3,
-                            'name': 32416,
+                            'name': 32516,
                             'InfoText': 786,
                             'value': '',
                             'action': 'set_remote_power',
@@ -181,7 +181,7 @@ class hardware:
                             },
                         'wol': {
                             'order': 4,
-                            'name': 32417,
+                            'name': 32517,
                             'InfoText': 787,
                             'value': '0',
                             'action': 'set_wol',
@@ -189,7 +189,7 @@ class hardware:
                             },
                         'usbpower': {
                             'order': 5,
-                            'name': 32418,
+                            'name': 32518,
                             'InfoText': 788,
                             'value': '0',
                             'action': 'set_usbpower',
@@ -199,12 +199,12 @@ class hardware:
                     },
                 'cec': {
                     'order': 3,
-                    'name': 32404,
+                    'name': 32504,
                     'not_supported': [],
                     'settings': {
                         'cec_name': {
                             'order': 1,
-                            'name': 32430,
+                            'name': 32530,
                             'InfoText': 792,
                             'value': 'CoreELEC',
                             'action': 'set_cec',
@@ -212,7 +212,7 @@ class hardware:
                             },
                         'cec_all': {
                             'order': 2,
-                            'name': 32431,
+                            'name': 32531,
                             'InfoText': 793,
                             'value': '0',
                             'bit': CEC_FUNC_MASK,
@@ -221,7 +221,7 @@ class hardware:
                             },
                         'cec_auto_power': {
                             'order': 3,
-                            'name': 32432,
+                            'name': 32532,
                             'InfoText': 794,
                             'value': '0',
                             'bit': AUTO_POWER_ON_MASK,
@@ -230,7 +230,7 @@ class hardware:
                             },
                         'cec_streaming': {
                             'order': 4,
-                            'name': 32433,
+                            'name': 32533,
                             'InfoText': 795,
                             'value': '0',
                             'bit': STREAMPATH_POWER_ON_MASK,
@@ -239,7 +239,7 @@ class hardware:
                             },
                         'cec_active_route': {
                             'order': 5,
-                            'name': 32434,
+                            'name': 32534,
                             'InfoText': 796,
                             'value': '0',
                             'bit': ACTIVE_SOURCE_MASK,
@@ -250,12 +250,12 @@ class hardware:
                     },
                 'display': {
                     'order': 4,
-                    'name': 32402,
+                    'name': 32502,
                     'not_supported': [],
                     'settings': {
                         'vesa_enable': {
                             'order': 1,
-                            'name': 32420,
+                            'name': 32520,
                             'InfoText': 790,
                             'value': '0',
                             'action': 'set_vesa_enable',
@@ -265,12 +265,12 @@ class hardware:
                     },
                 'performance': {
                     'order': 5,
-                    'name': 32403,
+                    'name': 32503,
                     'not_supported': [],
                     'settings': {
                         'cpu_governor': {
                             'order': 1,
-                            'name': 32421,
+                            'name': 32521,
                             'InfoText': 791,
                             'value': '',
                             'action': 'set_cpu_governor',
@@ -281,12 +281,12 @@ class hardware:
                     },
                 'hdd': {
                     'order': 6,
-                    'name': 32405,
+                    'name': 32505,
                     'not_supported': [],
                     'settings': {
                         'disk_park': {
                             'order': 1,
-                            'name': 32422,
+                            'name': 32522,
                             'InfoText': 797,
                             'value': '0',
                             'action': 'set_disk_park',
@@ -294,7 +294,7 @@ class hardware:
                             },
                         'disk_park_time': {
                             'order': 2,
-                            'name': 32423,
+                            'name': 32523,
                             'InfoText': 798,
                             'value': '10',
                             'action': 'set_disk_park',
@@ -302,7 +302,7 @@ class hardware:
                             },
                         'disk_idle': {
                             'order': 3,
-                            'name': 32424,
+                            'name': 32524,
                             'InfoText': 799,
                             'value': '',
                             'action': 'set_disk_idle',
@@ -356,13 +356,13 @@ class hardware:
 
                 if IBL_Code == 0:
                     self.load_values()
-                    response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33517).encode('utf-8'))
                 elif IBL_Code == 1:
-                    response = xbmcDialog.ok(self.oe._(33413).encode('utf-8'), self.oe._(33420).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33513).encode('utf-8'), self.oe._(33520).encode('utf-8'))
                 elif IBL_Code == (-2 & 0xff):
-                    response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33419).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33519).encode('utf-8'))
                 else:
-                    response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33418).encode('utf-8') % IBL_Code)
+                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33518).encode('utf-8') % IBL_Code)
 
                 if IBL_Code != 0:
                     self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
@@ -679,7 +679,7 @@ class hardware:
             xbmcDialog = xbmcgui.Dialog()
 
             if listItem.getProperty('value') == '1':
-                ynresponse = xbmcDialog.yesno(self.oe._(33415).encode('utf-8'), self.oe._(33416).encode('utf-8'), yeslabel=self.oe._(33411).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
+                ynresponse = xbmcDialog.yesno(self.oe._(33515).encode('utf-8'), self.oe._(33516).encode('utf-8'), yeslabel=self.oe._(33511).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
 
                 if ynresponse == 1:
                   IBL_Code = self.run_inject_bl301('-Y')
@@ -688,18 +688,18 @@ class hardware:
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
                     subprocess.call("touch /run/bl301_injected", shell=True)
                     self.load_values()
-                    response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33417).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33517).encode('utf-8'))
                   elif IBL_Code == 1:
-                    response = xbmcDialog.ok(self.oe._(33413).encode('utf-8'), self.oe._(33420).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33513).encode('utf-8'), self.oe._(33520).encode('utf-8'))
                   elif IBL_Code == (-2 & 0xff):
-                    response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33419).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33519).encode('utf-8'))
                   else:
-                    response = xbmcDialog.ok(self.oe._(33414).encode('utf-8'), self.oe._(33418).encode('utf-8') % IBL_Code)
+                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33518).encode('utf-8') % IBL_Code)
 
                   if IBL_Code != 0:
                     self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
             else:
-                ynresponse = xbmcDialog.yesno(self.oe._(33415).encode('utf-8'), self.oe._(33421).encode('utf-8'), yeslabel=self.oe._(33411).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
+                ynresponse = xbmcDialog.yesno(self.oe._(33515).encode('utf-8'), self.oe._(33521).encode('utf-8'), yeslabel=self.oe._(33511).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
 
                 if ynresponse == 1:
 
@@ -714,7 +714,7 @@ class hardware:
                             self.struct['power']['settings']['inject_bl301']['value'] = '0'
                             subprocess.call("rm -rf /run/bl301_injected", shell=True)
                             self.load_values()
-                            response = xbmcDialog.ok(self.oe._(33412).encode('utf-8'), self.oe._(33422).encode('utf-8'))
+                            response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33522).encode('utf-8'))
 
             self.oe.dbg_log('hardware::set_bl301', 'exit_function', 0)
         except Exception, e:

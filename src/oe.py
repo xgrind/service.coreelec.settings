@@ -1,18 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
-# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
+# Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2020-present Team CoreELEC (https://coreelec.org)
 
 ################################# variables ##################################
 
 import xbmc
 import xbmcaddon
 import xbmcgui
+import xbmcvfs
 import os
 import re
 import locale
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import time
 import tarfile
 import traceback
@@ -24,6 +26,9 @@ import shutil
 import hashlib, binascii
 
 from xml.dom import minidom
+import imp
+
+from xbmc import LOGDEBUG, LOGINFO, LOGWARNING, LOGERROR
 
 __author__ = 'CoreELEC'
 __scriptid__ = 'service.coreelec.settings'
@@ -32,6 +37,8 @@ __cwd__ = __addon__.getAddonInfo('path')
 __oe__ = sys.modules[globals()['__name__']]
 __media__ = '%s/resources/skins/Default/media' % __cwd__
 xbmcDialog = xbmcgui.Dialog()
+
+xbmcm = xbmc.Monitor()
 
 is_service = False
 conf_lock = False
@@ -69,25 +76,125 @@ dbusSystemBus = dbus.SystemBus()
 ########################## initialize module ##################################
 ## append resource subfolders to path
 
-sys.path.append(xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')))
-sys.path.append(xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib', 'modules')))
+sys.path.append(xbmcvfs.translatePath(os.path.join(__cwd__, 'resources', 'lib')))
+sys.path.append(xbmcvfs.translatePath(os.path.join(__cwd__, 'resources', 'lib', 'modules')))
 
 ## set default encoding
 
 encoding = locale.getpreferredencoding(do_setlocale=True)
-reload(sys)
-sys.setdefaultencoding(encoding)
+imp.reload(sys)
+# sys.setdefaultencoding(encoding)
 
 ## load oeSettings modules
 
 import oeWindows
-xbmc.log('## CoreELEC Addon ## ' + unicode(__addon__.getAddonInfo('version')))
+xbmc.log('## CoreELEC Addon ## ' + str(__addon__.getAddonInfo('version')))
+
+class PINStorage:
+    def __init__(self, module='system', prefix='pinlock', maxAttempts=4, delay=300):
+        self.module = module
+        self.prefix = prefix
+        self.maxAttempts = maxAttempts
+        self.delay = delay
+
+        self.now = 0.0
+
+        self.enabled = self.read('enable')
+        self.salthash = self.read('pin')
+        self.numFail = self.read('numFail')
+        self.timeFail = self.read('timeFail')
+
+        self.enabled = '0' if (self.enabled is None or self.enabled != '1') else '1'
+        self.salthash = None if (self.salthash is None or self.salthash == '') else self.salthash
+        self.numFail = 0 if (self.numFail is None or int(self.numFail) < 0) else int(self.numFail)
+        self.timeFail = 0.0 if (self.timeFail is None or float(self.timeFail) <= 0.0) else float(self.timeFail)
+
+        # Remove impossible configurations - if enabled we must have a valid hash, and vice versa.
+        if self.isEnabled() != self.isSet():
+            self.disable()
+
+    def read(self, item):
+        value = read_setting(self.module, '%s_%s' % (self.prefix, item))
+        return None if value == '' else value
+
+    def write(self, item, value):
+        return write_setting(self.module, '%s_%s' % (self.prefix, item), str(value) if value else '')
+
+    def isEnabled(self):
+        return self.enabled == '1'
+
+    def isSet(self):
+        return self.salthash is not None
+
+    def enable(self):
+        if not self.isEnabled():
+            self.enabled = '1'
+            self.write('enable', self.enabled)
+
+    def disable(self):
+        if self.isEnabled():
+            self.enabled = '0'
+            self.write('enable', self.enabled)
+        self.set(None)
+
+    def set(self, value):
+        oldSaltHash = self.salthash
+
+        if value:
+            salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+            newhash = hashlib.pbkdf2_hmac('sha512', value.encode('utf-8'), salt, 100000)
+            newhash = binascii.hexlify(newhash)
+            self.salthash = (salt + newhash).decode('ascii')
+        else:
+            self.salthash = None
+
+        if self.salthash != oldSaltHash:
+            self.write('pin', self.salthash)
+
+    def verify(self, value):
+        salt = self.salthash[:64].encode('ascii')
+        oldhash = self.salthash[64:]
+        newhash = hashlib.pbkdf2_hmac('sha512', value.encode('utf-8'), salt, 100000)
+        newhash = binascii.hexlify(newhash).decode('ascii')
+        return oldhash == newhash
+
+    def fail(self):
+        self.numFail += 1
+        self.timeFail = time.time()
+        self.write('numFail', self.numFail)
+        self.write('timeFail', self.timeFail)
+
+    def success(self):
+        if self.numFail != 0 or self.timeFail != 0.0:
+            self.numFail = 0
+            self.timeFail = 0.0
+            self.write('numFail', self.numFail)
+            self.write('timeFail', self.timeFail)
+
+    def isDelayed(self):
+        self.now = time.time()
+
+        if self.attemptsRemaining() > 0:
+            return False
+
+        if self.delayRemaining() > 0.0:
+            return True
+
+        self.success()
+        return False
+
+    def delayRemaining(self):
+        elapsed = self.now - self.timeFail
+        return (self.delay - elapsed) if elapsed < self.delay else 0.0
+
+    def attemptsRemaining(self):
+        return (self.maxAttempts - self.numFail)
 
 class ProgressDialog:
     def __init__(self, label1=32181, label2=32182, label3=32183, minSampleInterval=1.0, maxUpdatesPerSecond=5):
-        self.label1 = _(label1).encode('utf-8')
-        self.label2 = _(label2).encode('utf-8')
-        self.label3 = _(label3).encode('utf-8')
+        self.label1 = _(label1)
+        self.label2 = _(label2)
+        self.label3 = _(label3)
         self.minSampleInterval = minSampleInterval
         self.maxUpdatesPerSecond = 1 / maxUpdatesPerSecond
 
@@ -126,15 +233,15 @@ class ProgressDialog:
 
     def open(self, heading='CoreELEC', line1='', line2='', line3=''):
         self.dialog = xbmcgui.DialogProgress()
-        self.dialog.create(heading, line1, line2, line3)
+        self.dialog.create(heading, '%s\n%s\n%s' % (line1, line2, line3))
         self.reset()
 
     def update(self, chunk):
         if self.dialog and self.needsUpdate(chunk):
             line1 = '%s: %s' % (self.label1, self.source.rsplit('/', 1)[1])
-            line2 = '%s: %s KB/s' % (self.label2, '{:,}'.format(self.speed))
+            line2 = '%s: %s KB/s' % (self.label2, f'{self.speed:,}')
             line3 = '%s: %d m %d s' % (self.label3, self.minutes, self.seconds)
-            self.dialog.update(self.percent, line1, line2, line3)
+            self.dialog.update(self.percent, '%s\n%s\n%s' % (line1, line2, line3))
             self.last_update = time.time()
 
     def close(self):
@@ -181,8 +288,8 @@ def _(code):
         curLang = read_setting("system", "language")
         if curLang is not None:
             lang_file = os.path.join(__cwd__, 'resources', 'language', str(curLang), 'strings.po')
-            with open(lang_file) as fp:
-                contents = fp.read().decode('utf-8').split('\n\n')
+            with open(lang_file, encoding='utf-8') as fp:
+                contents = fp.read().split('\n\n')
                 for strings in contents:
                     if str(code) in strings:
                         subString = strings.split('msgstr ')[1]
@@ -202,12 +309,12 @@ def dbg_log(source, text, level=3):
     xbmc.log('## CoreELEC Addon ## ' + source + ' ## ' + text, level)
     if level == 4:
         tracedata = traceback.format_exc()
-        if tracedata != "None\n":
+        if tracedata != "NoneType: None\n":
             xbmc.log(tracedata, level)
 
 def notify(title, message, icon='icon'):
     try:
-        dbg_log('oe::notify', 'enter_function', 0)
+        dbg_log('oe::notify', 'enter_function', LOGDEBUG)
         msg = 'Notification("%s", "%s", 5000, "%s/%s.png")' % (
             title,
             message[0:64],
@@ -215,15 +322,15 @@ def notify(title, message, icon='icon'):
             icon,
             )
         xbmc.executebuiltin(msg)
-        dbg_log('oe::notify', 'exit_function', 0)
-    except Exception, e:
+        dbg_log('oe::notify', 'exit_function', LOGDEBUG)
+    except Exception as e:
         dbg_log('oe::notify', 'ERROR: (' + repr(e) + ')')
 
 
 def execute(command_line, get_result=0):
     try:
-        dbg_log('oe::execute', 'enter_function', 0)
-        dbg_log('oe::execute::command', command_line, 0)
+        dbg_log('oe::execute', 'enter_function', LOGDEBUG)
+        dbg_log('oe::execute::command', command_line, LOGDEBUG)
         if get_result == 0:
             process = subprocess.Popen(command_line, shell=True, close_fds=True)
             process.wait()
@@ -232,10 +339,10 @@ def execute(command_line, get_result=0):
             process = subprocess.Popen(command_line, shell=True, close_fds=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             process.wait()
             for line in process.stdout.readlines():
-                result = result + line
+                result = result + line.decode('utf-8')
             return result
-        dbg_log('oe::execute', 'exit_function', 0)
-    except Exception, e:
+        dbg_log('oe::execute', 'exit_function', LOGDEBUG)
+    except Exception as e:
         dbg_log('oe::execute', 'ERROR: (' + repr(e) + ')')
 
 
@@ -246,7 +353,7 @@ def enable_service(service):
         if os.path.exists('%s/services/%s.disabled' % (CONFIG_CACHE, service)):
             pass
         service_file = '%s/services/%s' % (CONFIG_CACHE, service)
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::enable_service', 'ERROR: (' + repr(e) + ')')
 
 
@@ -266,7 +373,7 @@ def set_service_option(service, option, value):
             lines.append('%s=%s' % (option, value))
         with open(conf_file_name, 'w') as conf_file:
             conf_file.write('\n'.join(lines) + '\n')
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::set_service_option', 'ERROR: (' + repr(e) + ')')
 
 
@@ -285,7 +392,7 @@ def get_service_option(service, option, default=None):
                         if '=' in line:
                             default = line.strip().split('=')[-1]
         return default
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::get_service_option', 'ERROR: (' + repr(e) + ')')
 
 
@@ -295,16 +402,16 @@ def get_service_state(service):
             return '1'
         else:
             return '0'
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::get_service_state', 'ERROR: (' + repr(e) + ')')
 
 
 def set_service(service, options, state):
     try:
-        dbg_log('oe::set_service', 'enter_function', 0)
-        dbg_log('oe::set_service::service', repr(service), 0)
-        dbg_log('oe::set_service::options', repr(options), 0)
-        dbg_log('oe::set_service::state', repr(state), 0)
+        dbg_log('oe::set_service', 'enter_function', LOGDEBUG)
+        dbg_log('oe::set_service::service', repr(service), LOGDEBUG)
+        dbg_log('oe::set_service::options', repr(options), LOGDEBUG)
+        dbg_log('oe::set_service::state', repr(state), LOGDEBUG)
         config = {}
         changed = False
 
@@ -337,8 +444,8 @@ def set_service(service, options, state):
             if service in defaults._services:
                 for svc in defaults._services[service]:
                     execute('systemctl restart %s' % svc)
-        dbg_log('oe::set_service', 'exit_function', 0)
-    except Exception, e:
+        dbg_log('oe::set_service', 'exit_function', LOGDEBUG)
+    except Exception as e:
         dbg_log('oe::set_service', 'ERROR: (' + repr(e) + ')')
 
 
@@ -351,7 +458,7 @@ def load_file(filename):
         else:
             content = ''
         return content.strip()
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::load_file(' + filename + ')', 'ERROR: (' + repr(e) + ')')
 
 def get_dtname():
@@ -421,15 +528,15 @@ def set_config_ini(var, val="\'\'"):
     ret = subprocess.call("mount -o remount,ro /flash", shell=True)
 
 def url_quote(var):
-    return urllib2.quote(var, safe="")
+    return urllib.parse.quote(var, safe="")
 
 def load_url(url):
     try:
-        request = urllib2.Request(url)
-        response = urllib2.urlopen(request)
+        request = urllib.request.Request(url)
+        response = urllib.request.urlopen(request)
         content = response.read()
-        return content.strip()
-    except Exception, e:
+        return content.decode('utf-8').strip()
+    except Exception as e:
         dbg_log('oe::load_url(' + url + ')', 'ERROR: (' + repr(e) + ')')
 
 
@@ -437,18 +544,18 @@ def download_file(source, destination, silent=False):
     try:
         local_file = open(destination, 'wb')
 
-        response = urllib2.urlopen(urllib2.quote(source, safe=':/'))
+        response = urllib.request.urlopen(urllib.parse.quote(source, safe=':/'))
 
         progress = ProgressDialog()
         if not silent:
             progress.open()
 
         progress.setSource(source)
-        progress.setSize(int(response.info().getheader('Content-Length').strip()))
+        progress.setSize(int(response.getheader('Content-Length').strip()))
 
         last_percent = 0
 
-        while not (xbmc.abortRequested or progress.iscanceled()):
+        while not (progress.iscanceled() or xbmcm.abortRequested()):
             part = response.read(32768)
 
             progress.sample(part)
@@ -469,13 +576,13 @@ def download_file(source, destination, silent=False):
         local_file.close()
         response.close()
 
-        if progress.iscanceled() or xbmc.abortRequested:
+        if progress.iscanceled() or xbmcm.abortRequested():
             os.remove(destination)
             return None
 
         return destination
 
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::download_file(' + source + ', ' + destination + ')', 'ERROR: (' + repr(e) + ')')
 
 
@@ -495,7 +602,7 @@ def copy_file(source, destination, silent=False):
 
         last_percent = 0
 
-        while not (xbmc.abortRequested or progress.iscanceled()):
+        while not (progress.iscanceled() or xbmcm.abortRequested()):
             part = source_file.read(32768)
 
             progress.sample(part)
@@ -516,7 +623,7 @@ def copy_file(source, destination, silent=False):
         source_file.close()
         destination_file.close()
 
-        if progress.iscanceled() or xbmc.abortRequested:
+        if progress.iscanceled() or xbmcm.abortRequested():
             os.remove(destination)
             return None
 
@@ -539,21 +646,21 @@ def set_busy(state):
                 __busy__ = __busy__ + 1
             else:
                 __busy__ = __busy__ - 1
-            dbg_log('oe::set_busy', '__busy__ = ' + unicode(__busy__), 0)
-    except Exception, e:
-        dbg_log('oe::set_busy', 'ERROR: (' + repr(e) + ')', 4)
+            dbg_log('oe::set_busy', '__busy__ = ' + str(__busy__), LOGDEBUG)
+    except Exception as e:
+        dbg_log('oe::set_busy', 'ERROR: (' + repr(e) + ')', LOGERROR)
 
 
 def start_service():
     global dictModules, __oe__
     try:
         __oe__.is_service = True
-        for strModule in sorted(dictModules, key=lambda x: dictModules[x].menu.keys()):
+        for strModule in sorted(dictModules, key=lambda x: list(dictModules[x].menu.keys())):
             module = dictModules[strModule]
             if hasattr(module, 'start_service') and module.ENABLED:
                 module.start_service()
         __oe__.is_service = False
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::start_service', 'ERROR: (' + repr(e) + ')')
 
 
@@ -565,7 +672,7 @@ def stop_service():
             if hasattr(module, 'stop_service') and module.ENABLED:
                 module.stop_service()
         xbmc.log('## CoreELEC Addon ## STOP SERVICE DONE !')
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::stop_service', 'ERROR: (' + repr(e) + ')')
 
 
@@ -575,7 +682,7 @@ def openWizard():
         winOeMain = oeWindows.wizard('service-CoreELEC-Settings-wizard.xml', __cwd__, 'Default', oeMain=__oe__)
         winOeMain.doModal()
         winOeMain = oeWindows.mainWindow('service-CoreELEC-Settings-mainWindow.xml', __cwd__, 'Default', oeMain=__oe__)  # None
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::openWizard', 'ERROR: (' + repr(e) + ')')
 
 def openReleaseNotes():
@@ -598,51 +705,48 @@ def openReleaseNotes():
 
 
 def openConfigurationWindow():
-    global winOeMain, __cwd__, __oe__, dictModules
+    global winOeMain, __cwd__, __oe__, dictModules, PIN
     try:
-        PINmatch = False
-        PINnext = 1000
-        PINenable = read_setting('system', 'pinlock_enable')
-        if PINenable == "0" or PINenable == None:
-            PINmatch = True
-        if PINenable == "1":
-            PINfail = read_setting('system', 'pinlock_timeFail')
-            if PINfail:
-                nowTime = time.time()
-                PINnext = (nowTime - float(PINfail))
-            if PINnext >= 300:
-                PINtry = 4
-                while PINmatch == False:
-                    if PINtry > 0:
-                        PINlock = xbmcDialog.input(_(32233), type=xbmcgui.INPUT_NUMERIC)
-                        if PINlock == '':
-                            break
-                        else:
-                            storedPIN = read_setting('system', 'pinlock_pin')
-                            PINmatch = verify_password(storedPIN, PINlock)
-                            if PINmatch == False:
-                                PINtry -= 1
-                                if PINtry > 0:
-                                    xbmcDialog.ok(_(32234), str(PINtry) + _(32235))
-                    else:
-                        timeFail = time.time()
-                        write_setting('system', 'pinlock_timeFail', str(timeFail))
-                        xbmcDialog.ok(_(32234), _(32236))
-                        break
-            else:
-                timeLeft = "{0:.2f}".format((300 - PINnext)/60)
-                xbmcDialog.ok(_(32237), timeLeft + _(32238))
-        if PINmatch == True:
+        match = True
+
+        if PIN.isEnabled():
+            match = False
+
+            if PIN.isDelayed():
+                timeleft = PIN.delayRemaining()
+                timeleft_mins, timeleft_secs = divmod(timeleft, 60)
+                timeleft_hours, timeleft_mins = divmod(timeleft_mins, 60)
+                xbmcDialog.ok(_(32237), _(32238) % (timeleft_mins, timeleft_secs))
+                return
+
+            while PIN.attemptsRemaining() > 0:
+                lockcode = xbmcDialog.numeric(0, _(32233), bHiddenInput=True)
+                if lockcode == '':
+                    break
+
+                if PIN.verify(lockcode):
+                    match = True
+                    PIN.success()
+                    break
+
+                PIN.fail()
+
+                if PIN.attemptsRemaining() > 0:
+                    xbmcDialog.ok(_(32234), '%d %s' % (PIN.attemptsRemaining(), _(32235)))
+
+            if not match and PIN.attemptsRemaining() <= 0:
+              xbmcDialog.ok(_(32234), _(32236))
+              return
+
+        if match == True:
             winOeMain = oeWindows.mainWindow('service-CoreELEC-Settings-mainWindow.xml', __cwd__, 'Default', oeMain=__oe__)
             winOeMain.doModal()
             for strModule in dictModules:
                 dictModules[strModule].exit()
             winOeMain = None
             del winOeMain
-        else:
-            pass
 
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::openConfigurationWindow', 'ERROR: (' + repr(e) + ')')
 
 def standby_devices():
@@ -650,7 +754,7 @@ def standby_devices():
     try:
         if 'bluetooth' in dictModules:
             dictModules['bluetooth'].standby_devices()
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::standby_devices', 'ERROR: (' + repr(e) + ')')
 
 def load_config():
@@ -678,7 +782,7 @@ def load_config():
             xml_conf = minidom.parseString(config_text)
         conf_lock = False
         return xml_conf
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::load_config', 'ERROR: (' + repr(e) + ')')
 
 
@@ -692,7 +796,7 @@ def save_config(xml_conf):
         config_file.write(xml_conf.toprettyxml())
         config_file.close()
         conf_lock = False
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::save_config', 'ERROR: (' + repr(e) + ')')
 
 
@@ -703,7 +807,7 @@ def read_module(module):
         for xml_setting in xml_settings:
             for xml_modul in xml_setting.getElementsByTagName(module):
                 return xml_modul
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::read_module', 'ERROR: (' + repr(e) + ')')
 
 
@@ -724,7 +828,7 @@ def read_node(node_name):
                     else:
                         value[xml_main_node.nodeName][xml_sub_node.nodeName][xml_value.nodeName] = ''
         return value
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::read_node', 'ERROR: (' + repr(e) + ')')
 
 
@@ -735,7 +839,7 @@ def remove_node(node_name):
         for xml_main_node in xml_node:
             xml_main_node.parentNode.removeChild(xml_main_node)
         save_config(xml_conf)
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::remove_node', 'ERROR: (' + repr(e) + ')')
 
 
@@ -750,7 +854,7 @@ def read_setting(module, setting, default=None):
                     if hasattr(xml_modul_setting.firstChild, 'nodeValue'):
                         value = xml_modul_setting.firstChild.nodeValue
         return value
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::read_setting', 'ERROR: (' + repr(e) + ')')
 
 
@@ -785,7 +889,7 @@ def write_setting(module, setting, value, main_node='settings'):
             xml_value = xml_conf.createTextNode(value)
             xml_setting.appendChild(xml_value)
         save_config(xml_conf)
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::write_setting', 'ERROR: (' + repr(e) + ')')
 
 
@@ -800,7 +904,7 @@ def load_modules():
         dict_names = {}
         dictModules = {}
         for file_name in sorted(os.listdir(__cwd__ + '/resources/lib/modules')):
-            if not file_name.startswith('__') and (file_name.endswith('.py') or file_name.endswith('.pyo')):
+            if not file_name.startswith('__') and (file_name.endswith('.py') or file_name.endswith('.pyc')):
                 (name, ext) = file_name.split('.')
                 dict_names[name] = None
         for module_name in dict_names:
@@ -810,9 +914,9 @@ def load_modules():
                     if hasattr(defaults, module_name):
                         for key in getattr(defaults, module_name):
                             setattr(dictModules[module_name], key, getattr(defaults, module_name)[key])
-            except Exception, e:
+            except Exception as e:
                 dbg_log('oe::MAIN(loadingModules)(strModule)', 'ERROR: (' + repr(e) + ')')
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::MAIN(loadingModules)', 'ERROR: (' + repr(e) + ')')
 
 
@@ -833,18 +937,18 @@ def split_dialog_text(text):
 
 def reboot_counter(seconds=10, title=' '):
     reboot_dlg = xbmcgui.DialogProgress()
-    reboot_dlg.create('CoreELEC %s' % title, ' ', ' ', ' ')
+    reboot_dlg.create('CoreELEC %s' % title, ' ')
     reboot_dlg.update(0)
     wait_time = seconds
-    while seconds >= 0 and not reboot_dlg.iscanceled():
+    while seconds >= 0 and not (reboot_dlg.iscanceled() or xbmcm.abortRequested()):
         progress = round(1.0 * seconds / wait_time * 100)
         reboot_dlg.update(int(progress), _(32329) % seconds)
-        time.sleep(1)
+        xbmcm.waitForAbort(1)
         seconds = seconds - 1
-    if not reboot_dlg.iscanceled():
-        return 1
-    else:
+    if reboot_dlg.iscanceled() or xbmcm.abortRequested():
         return 0
+    else:
+        return 1
 
 
 def exit():
@@ -866,7 +970,7 @@ def exit():
 def fixed_writexml(self, writer, indent='', addindent='', newl=''):
     writer.write(indent + '<' + self.tagName)
     attrs = self._get_attributes()
-    a_names = attrs.keys()
+    a_names = list(attrs.keys())
     a_names.sort()
     for a_name in a_names:
         writer.write(' %s="' % a_name)
@@ -941,24 +1045,6 @@ def get_os_release():
             builder_version
             )
 
-def hash_password(password):
-    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
-                                salt, 100000)
-    pwdhash = binascii.hexlify(pwdhash)
-    return (salt + pwdhash).decode('ascii')
-
-def verify_password(stored_password, provided_password):
-    salt = stored_password[:64]
-    stored_password = stored_password[64:]
-    pwdhash = hashlib.pbkdf2_hmac('sha512',
-                                  provided_password.encode('utf-8'),
-                                  salt.encode('ascii'),
-                                  100000)
-    pwdhash = binascii.hexlify(pwdhash).decode('ascii')
-    return pwdhash == stored_password
-
-
 minidom.Element.writexml = fixed_writexml
 
 ############################################################################################
@@ -1020,3 +1106,5 @@ try:
         os.makedirs('%s/services' % CONFIG_CACHE)
 except:
     pass
+
+PIN = PINStorage()
