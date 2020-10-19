@@ -461,9 +461,6 @@ class hardware:
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
                 self.struct['power']['settings']['inject_bl301']['value'] = '0'
             else:
-                if self.get_SoC_id() == 0x21:
-                    self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
-
                 if os.path.exists('/run/bl301_injected'):
                     hide_power_section = False
                     if 'hidden' in self.struct['power']['settings']['inject_bl301']:
