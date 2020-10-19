@@ -516,7 +516,7 @@ class system:
         try:
             self.oe.dbg_log('system::ask_sure_reset', 'enter_function', self.oe.LOGDEBUG)
             xbmcDialog = xbmcgui.Dialog()
-            answer = xbmcDialog.yesno(part + ' Reset', '%s\n\n%s' % (self.oe._(32326), self.oe._(32328)))
+            answer = xbmcDialog.yesno(part + ' Reset', self.oe._(32326), self.oe._(32328))
             if answer == 1:
                 if self.oe.reboot_counter(30, self.oe._(32323)) == 1:
                     return 1
@@ -564,7 +564,7 @@ class system:
                     pass
 
                 self.backup_dlg = xbmcgui.DialogProgress()
-                self.backup_dlg.create('CoreELEC', self.oe._(32375).encode('utf-8'), ' ', ' ')
+                self.backup_dlg.create('CoreELEC', self.oe._(32375))
                 if not os.path.exists(self.BACKUP_DESTINATION):
                     os.makedirs(self.BACKUP_DESTINATION)
                 self.backup_file = self.oe.timestamp() + '.tar'
@@ -601,7 +601,7 @@ class system:
                 self.oe.dbg_log('system::do_restore', 'User cancelled', 0)
                 return
             if not os.path.isfile(restore_file_path):
-                txt = self.oe.split_dialog_text(self.oe._(32374).encode('utf-8'))
+                txt = self.oe.split_dialog_text(self.oe._(32374))
                 xbmcDialog = xbmcgui.Dialog()
                 answer = xbmcDialog.ok('Restore', txt[0], txt[1], txt[2])
                 return
@@ -666,7 +666,7 @@ class system:
             self.oe.dbg_log('system::do_send_debug', 'enter_function', 0)
             self.do_send_logs('/usr/bin/ce-debug -l | /usr/bin/pastebinit')
             self.oe.dbg_log('system::do_send_debug', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('system::do_do_send_debug', 'ERROR: (' + repr(e) + ')')
 
     def do_send_logs(self, log_cmd):

@@ -470,7 +470,7 @@ def get_dtname():
             dtname = load_file("/proc/device-tree/coreelec-dt-id")
 
         return dtname.rstrip('\x00\n')
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::get_dtname', 'ERROR: (' + repr(e) + ')')
 
 def get_config_ini(var, def_no_value=""):
@@ -700,7 +700,7 @@ def openReleaseNotes():
 
         CLdialog = xbmcgui.Dialog()
         CLdialog.textviewer(RNOTES_TITLE, RNOTES, 1)
-    except Exception, e:
+    except Exception as e:
         dbg_log('oe::openChangeLog', 'ERROR: (' + repr(e) + ')')
 
 

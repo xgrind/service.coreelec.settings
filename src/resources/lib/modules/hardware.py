@@ -314,7 +314,7 @@ class hardware:
                 }
 
             self.oe.dbg_log('hardware::__init__', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::__init__', 'ERROR: (' + repr(e) + ')')
 
     def start_service(self):
@@ -327,14 +327,14 @@ class hardware:
             self.set_disk_park()
             self.set_disk_idle()
             self.oe.dbg_log('hardware::start_service', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::start_service', 'ERROR: (' + repr(e) + ')')
 
     def stop_service(self):
         try:
             self.oe.dbg_log('hardware::stop_service', 'enter_function', 0)
             self.oe.dbg_log('hardware::stop_service', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::stop_service', 'ERROR: (' + repr(e) + ')')
 
     def do_init(self):
@@ -342,7 +342,7 @@ class hardware:
             self.oe.dbg_log('hardware::do_init', 'enter_function', 0)
             self.load_values()
             self.oe.dbg_log('hardware::do_init', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::do_init', 'ERROR: (' + repr(e) + ')')
 
     def exit(self):
@@ -356,13 +356,13 @@ class hardware:
 
                 if IBL_Code == 0:
                     self.load_values()
-                    response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33517).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33512), self.oe._(33517))
                 elif IBL_Code == 1:
-                    response = xbmcDialog.ok(self.oe._(33513).encode('utf-8'), self.oe._(33520).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33513), self.oe._(33520))
                 elif IBL_Code == (-2 & 0xff):
-                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33519).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33514), self.oe._(33519))
                 else:
-                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33518).encode('utf-8') % IBL_Code)
+                    response = xbmcDialog.ok(self.oe._(33514), self.oe._(33518) % IBL_Code)
 
                 if IBL_Code != 0:
                     self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
@@ -380,7 +380,7 @@ class hardware:
             dtname = self.oe.get_dtname()
             ret = any(substring in dtname for substring in self.struct['power']['compatible_model'])
             self.oe.dbg_log('hardware::check_compatibility', 'exit_function, ret: %s' % ret, 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::check_compatibility', 'ERROR: (' + repr(e) + ')')
         finally:
             return ret
@@ -393,7 +393,7 @@ class hardware:
             cpu_id = [x.strip() for x in cpu_serial[0].split(':')][1]
             ret = int(cpu_id[:2], 16)
             self.oe.dbg_log('hardware::check_SoC', 'exit_function, ret: %s' % ret, 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::check_SoC', 'ERROR: (' + repr(e) + ')')
         finally:
             return ret
@@ -406,10 +406,10 @@ class hardware:
             lines = IBL.stdout.readlines()
             if len(lines) > 0:
                 f = open("/storage/inject_bl301.log",'w')
-                f.writelines(lines)
+                f.writelines([line.decode('utf-8') for line in lines])
                 f.close()
             self.oe.dbg_log('hardware::run_inject_bl301', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::run_inject_bl301', 'ERROR: (' + repr(e) + ')')
         finally:
             return IBL.returncode
@@ -424,7 +424,7 @@ class hardware:
                 if self.run_inject_bl301('-c') == 0:
                     ret = True
             self.oe.dbg_log('hardware::inject_check_compatibility', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::inject_check_compatibility', 'ERROR: (' + repr(e) + ')')
         finally:
             return ret
@@ -594,7 +594,7 @@ class hardware:
                 self.struct['power']['hidden'] = 'true'
 
             self.oe.dbg_log('hardware::load_values', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::load_values', 'ERROR: (' + repr(e) + ')')
 
 
@@ -626,7 +626,7 @@ class hardware:
                     fan_mode_ctl.close()
             self.oe.set_busy(0)
             self.oe.dbg_log('hardware::initialize_fan', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.set_busy(0)
             self.oe.dbg_log('hardware::initialize_fan', 'ERROR: (%s)' % repr(e), 4)
 
@@ -642,7 +642,7 @@ class hardware:
                     fan_level_ctl.write(self.struct['fan']['settings']['fan_level']['value'])
                     fan_level_ctl.close()
             self.oe.dbg_log('hardware::set_fan_level', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_fan_level', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -663,7 +663,7 @@ class hardware:
                     hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_remote_power', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_remote_power', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -676,7 +676,7 @@ class hardware:
             xbmcDialog = xbmcgui.Dialog()
 
             if listItem.getProperty('value') == '1':
-                ynresponse = xbmcDialog.yesno(self.oe._(33515).encode('utf-8'), self.oe._(33516).encode('utf-8'), yeslabel=self.oe._(33511).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
+                ynresponse = xbmcDialog.yesno(self.oe._(33515), self.oe._(33516), yeslabel=self.oe._(33511), nolabel=self.oe._(32212))
 
                 if ynresponse == 1:
                   IBL_Code = self.run_inject_bl301('-Y')
@@ -685,18 +685,18 @@ class hardware:
                     self.struct['power']['settings']['inject_bl301']['value'] = '1'
                     subprocess.call("touch /run/bl301_injected", shell=True)
                     self.load_values()
-                    response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33517).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33512), self.oe._(33517))
                   elif IBL_Code == 1:
-                    response = xbmcDialog.ok(self.oe._(33513).encode('utf-8'), self.oe._(33520).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33513), self.oe._(33520))
                   elif IBL_Code == (-2 & 0xff):
-                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33519).encode('utf-8'))
+                    response = xbmcDialog.ok(self.oe._(33514), self.oe._(33519))
                   else:
-                    response = xbmcDialog.ok(self.oe._(33514).encode('utf-8'), self.oe._(33518).encode('utf-8') % IBL_Code)
+                    response = xbmcDialog.ok(self.oe._(33514), self.oe._(33518) % IBL_Code)
 
                   if IBL_Code != 0:
                     self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%d)' % IBL_Code, 4)
             else:
-                ynresponse = xbmcDialog.yesno(self.oe._(33515).encode('utf-8'), self.oe._(33521).encode('utf-8'), yeslabel=self.oe._(33511).encode('utf-8'), nolabel=self.oe._(32212).encode('utf-8'))
+                ynresponse = xbmcDialog.yesno(self.oe._(33515), self.oe._(33521), yeslabel=self.oe._(33511), nolabel=self.oe._(32212))
 
                 if ynresponse == 1:
 
@@ -711,10 +711,10 @@ class hardware:
                             self.struct['power']['settings']['inject_bl301']['value'] = '0'
                             subprocess.call("rm -rf /run/bl301_injected", shell=True)
                             self.load_values()
-                            response = xbmcDialog.ok(self.oe._(33512).encode('utf-8'), self.oe._(33522).encode('utf-8'))
+                            response = xbmcDialog.ok(self.oe._(33512), self.oe._(33522))
 
             self.oe.dbg_log('hardware::set_bl301', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -751,7 +751,7 @@ class hardware:
                         hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_cec', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_cec', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -769,7 +769,7 @@ class hardware:
                     self.oe.set_config_ini("heartbeat", "0")
 
             self.oe.dbg_log('hardware::set_heartbeat', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_heartbeat', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -789,7 +789,7 @@ class hardware:
                 hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_wol', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_wol', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -809,7 +809,7 @@ class hardware:
                 hardware.need_inject = True
 
             self.oe.dbg_log('hardware::set_usbpower', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_usbpower', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -832,7 +832,7 @@ class hardware:
                     ret = subprocess.call("mount -o remount,ro /flash", shell=True)
 
             self.oe.dbg_log('hardware::set_vesa_enable', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_vesa_enable', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -855,7 +855,7 @@ class hardware:
                         cpu_governor_ctl.close()
 
             self.oe.dbg_log('hardware::set_cpu_governor', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_cpu_governor', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -874,7 +874,7 @@ class hardware:
                 subprocess.call("rm -rf /run/disk-park.dat", shell=True)
 
             self.oe.dbg_log('hardware::set_disk_park', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_disk_park', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -893,7 +893,7 @@ class hardware:
                         subprocess.call(("hd-idle -i %s") % disk_idle_time["value"], shell=True)
 
             self.oe.dbg_log('hardware::set_disk_idle', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_disk_idle', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
@@ -903,14 +903,14 @@ class hardware:
             self.oe.dbg_log('hardware::load_menu', 'enter_function', 0)
             self.oe.winOeMain.build_menu(self.struct)
             self.oe.dbg_log('hardware::load_menu', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::load_menu', 'ERROR: (' + repr(e) + ')')
 
     def set_value(self, listItem):
         try:
             self.oe.dbg_log('hardware::set_value', 'enter_function', 0)
             self.struct[listItem.getProperty('category')]['settings'][listItem.getProperty('entry')]['value'] = listItem.getProperty('value')
-            self.oe.write_setting('hardware', listItem.getProperty('entry'), unicode(listItem.getProperty('value')))
+            self.oe.write_setting('hardware', listItem.getProperty('entry'), str(listItem.getProperty('value')))
             self.oe.dbg_log('hardware::set_value', 'exit_function', 0)
-        except Exception, e:
+        except Exception as e:
             self.oe.dbg_log('hardware::set_value', 'ERROR: (' + repr(e) + ')')
