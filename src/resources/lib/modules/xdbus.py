@@ -2,12 +2,14 @@
 # Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2013 Lutz Fiebach (lufie@openelec.tv)
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2020-present Team CoreELEC (https://coreelec.org)
 
 import dbus
-import gobject
 import threading
-import dbus.service
-import dbus.mainloop.glib
+import pgi
+pgi.install_as_gi()
+from gi.repository import GLib
+from dbus.mainloop.glib import DBusGMainLoop
 
 
 class xdbus:
@@ -64,9 +66,9 @@ class dbusMonitor(threading.Thread):
             self.monitors = []
             self.oe = oeMain
             self.dbusSystemBus = oeMain.dbusSystemBus
-            self.mainLoop = gobject.MainLoop()
-            gobject.threads_init()
             dbus.mainloop.glib.threads_init()
+            DBusGMainLoop(set_as_default=True)
+            self.mainLoop = GLib.MainLoop()
             threading.Thread.__init__(self)
             self.oe.dbg_log('xdbus::dbusMonitor::__init__', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
