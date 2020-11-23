@@ -951,7 +951,7 @@ class hardware:
             if not listItem == None:
                 self.set_value(listItem)
 
-            subprocess.call("killall hd-idle", shell=True)
+            subprocess.call("killall hd-idle &> /dev/null", shell=True)
             if not self.struct['hdd']['settings']['disk_idle']['value'] == 'Disabled':
                 for disk_idle_time in self.disk_idle_times:
                     if self.struct['hdd']['settings']['disk_idle']['value'] == disk_idle_time["name"]:
