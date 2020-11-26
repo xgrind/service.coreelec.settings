@@ -732,17 +732,25 @@ class hardware:
                     cec_func_config = int(self.oe.get_config_ini('cec_func_config', '7f'), 16)
 
                     if bit == CEC_FUNC_MASK:
-                        for item in self.struct['cec']['settings']:
-                            if listItem.getProperty('value') == '0':
-                                self.struct['cec']['settings'][item]['value'] = '0'
-                            else:
-                                self.struct['cec']['settings'][item]['value'] = '1'
-                    else:
-                        self.struct[listItem.getProperty('category')]['settings'][listItem.getProperty('entry')]['value'] = listItem.getProperty('value')
                         if listItem.getProperty('value') == '0':
-                            cec_func_config &= ~(1 << bit)
+                            cec_func_config &= ~(1 << self.struct['cec']['settings']['cec_all']['bit'])
+                            for item in self.struct['cec']['settings']:
+                                if 'bit' in self.struct['cec']['settings'][item]:
+                                    self.struct['cec']['settings'][item]['value'] = '0'
                         else:
-                            cec_func_config |= 1 << bit
+                            cec_func_config |= 1 << self.struct['cec']['settings']['cec_all']['bit']
+                            self.struct['cec']['settings']['cec_all']['value'] = '1'
+                            for item in self.struct['cec']['settings']:
+                                if 'bit' in self.struct['cec']['settings'][item]:
+                                    bit = self.struct['cec']['settings'][item]['bit']
+                                    self.struct['cec']['settings'][item]['value'] = str((cec_func_config & (1 << bit)) >> bit)
+                    else:
+                        if self.struct['cec']['settings']['cec_all']['value'] == '1':
+                            self.struct[listItem.getProperty('category')]['settings'][listItem.getProperty('entry')]['value'] = listItem.getProperty('value')
+                            if listItem.getProperty('value') == '0':
+                                cec_func_config &= ~(1 << bit)
+                            else:
+                                cec_func_config |= 1 << bit
 
                     self.oe.set_config_ini("cec_func_config", hex(cec_func_config)[2:])
                 else:
