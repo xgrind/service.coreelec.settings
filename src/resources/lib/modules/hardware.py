@@ -458,7 +458,7 @@ class hardware:
         try:
             self.oe.dbg_log('hardware::check_compatibility', 'enter_function', 0)
             ret = False
-            dtname = self.oe.get_dtname()
+            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
             ret = any(substring in dtname for substring in self.struct['power']['compatible_model'])
             self.oe.dbg_log('hardware::check_compatibility', 'exit_function, ret: %s' % ret, 0)
         except Exception as e:

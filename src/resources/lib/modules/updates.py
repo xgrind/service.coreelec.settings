@@ -279,7 +279,7 @@ class updates:
         if self.oe.PROJECT == "Generic":
             return self.get_hardware_flags_x86_64()
         elif self.oe.PROJECT == "Amlogic-ce":
-            return self.oe.get_dtname()
+            return self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
         elif self.oe.PROJECT in ['Allwinner', 'Amlogic', 'NXP', 'Qualcomm', 'Rockchip', 'RPi', 'Samsung' ]:
             return self.get_hardware_flags_dtflag()
         else:
