@@ -5,6 +5,7 @@
 # Copyright (C) 2020-present Team CoreELEC (https://coreelec.org)
 
 import dbus
+import dbus.service
 import threading
 import pgi
 pgi.install_as_gi()
@@ -77,6 +78,11 @@ class dbusMonitor(threading.Thread):
     def run(self):
         try:
             self.oe.dbg_log('xdbus::dbusMonitor::run', 'enter_function', self.oe.LOGDEBUG)
+
+            self.dbusSystemBus.request_name("com.service.coreelec.settings.xdbus.stoploop")
+            busName = dbus.service.BusName("com.service.coreelec.settings.xdbus.stoploop", bus=self.dbusSystemBus)
+            dbus.service.Object(busName, "/com/service/coreelec/settings/xdbus/stoploop")
+
             for strModule in sorted(self.oe.dictModules, key=lambda x: list(self.oe.dictModules[x].menu.keys())):
                 module = self.oe.dictModules[strModule]
                 if hasattr(module, 'monitor') and module.ENABLED:
