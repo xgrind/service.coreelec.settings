@@ -554,13 +554,14 @@ class updates:
                 versions.append(self.oe.VERSION)
 
             for ver in versions:
-                url = '%s?i=%s&d=%s&pa=%s&v=%s&f=%s' % (
+                url = '%s?i=%s&d=%s&pa=%s&v=%s&f=%s&os=%s' % (
                     self.UPDATE_REQUEST_URL,
                     self.oe.url_quote(self.oe.SYSTEMID),
                     self.oe.url_quote(self.oe.DISTRIBUTION),
                     self.oe.url_quote(self.oe.ARCHITECTURE),
                     self.oe.url_quote(ver),
                     self.oe.url_quote(self.hardware_flags),
+                    self.oe.url_quote(self.oe.VERSION_ID),
                     )
                 if self.oe.BUILDER_NAME:
                    url += '&b=%s' % self.oe.url_quote(self.oe.BUILDER_NAME)

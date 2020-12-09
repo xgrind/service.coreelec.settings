@@ -1098,13 +1098,13 @@ def parse_os_release():
 
 
 def get_os_release():
-    distribution = version = architecture = build = project = device = builder_name = builder_version = last_stable = ''
+    distribution = version_id = version = architecture = build = project = device = builder_name = builder_version = last_stable = ''
     os_release_info = parse_os_release()
     if os_release_info is not None:
         if 'NAME' in os_release_info:
             distribution = os_release_info['NAME']
         if 'VERSION_ID' in os_release_info:
-            version = os_release_info['VERSION_ID']
+            version_id = os_release_info['VERSION_ID']
         if 'VERSION' in os_release_info:
             version = os_release_info['VERSION']
         if 'COREELEC_ARCH' in os_release_info:
@@ -1123,6 +1123,7 @@ def get_os_release():
             last_stable = os_release_info['LAST_STABLE']
         return (
             distribution,
+            version_id,
             version,
             architecture,
             build,
@@ -1141,14 +1142,15 @@ minidom.Element.writexml = fixed_writexml
 
 os_release_data = get_os_release()
 DISTRIBUTION = os_release_data[0]
-VERSION = os_release_data[1]
-ARCHITECTURE = os_release_data[2]
-BUILD = os_release_data[3]
-PROJECT = os_release_data[4]
-DEVICE = os_release_data[5]
-BUILDER_NAME = os_release_data[6]
-BUILDER_VERSION = os_release_data[7]
-LAST_STABLE = os_release_data[8]
+VERSION_ID = os_release_data[1]
+VERSION = os_release_data[2]
+ARCHITECTURE = os_release_data[3]
+BUILD = os_release_data[4]
+PROJECT = os_release_data[5]
+DEVICE = os_release_data[6]
+BUILDER_NAME = os_release_data[7]
+BUILDER_VERSION = os_release_data[8]
+LAST_STABLE = os_release_data[9]
 DOWNLOAD_DIR = '/storage/downloads'
 XBMC_USER_HOME = os.environ.get('XBMC_USER_HOME', '/storage/.kodi')
 CONFIG_CACHE = os.environ.get('CONFIG_CACHE', '/storage/.cache')
