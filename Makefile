@@ -4,8 +4,6 @@
 # Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 ADDON_NAME=service.coreelec.settings
-ADDON_VERSION=9.8.0
-DISTRONAME:=CoreELEC
 
 SHELL=/bin/bash
 BUILDDIR=build
