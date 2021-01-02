@@ -779,7 +779,8 @@ class updateThread(threading.Thread):
                 if not hasattr(self.oe.dictModules['updates'], 'update_in_progress'):
                     self.wait_evt.wait(21600)
                 else:
-                    self.oe.notify(self.oe._(32363), self.oe._(32364))
+                    if not xbmc.Player().isPlaying():
+                        self.oe.notify(self.oe._(32363), self.oe._(32364))
                     self.wait_evt.wait(3600)
                 self.wait_evt.clear()
             self.oe.dbg_log('updates::updateThread', 'Stopped', self.oe.LOGINFO)
