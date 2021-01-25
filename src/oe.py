@@ -22,6 +22,7 @@ import dbus.mainloop.glib
 import defaults
 import shutil
 import hashlib, binascii
+import json
 
 from xml.dom import minidom
 
@@ -419,6 +420,17 @@ def set_config_ini(var, val="\'\'"):
     f.writelines(fl)
     f.close()
     ret = subprocess.call("mount -o remount,ro /flash", shell=True)
+
+def jsonrpc(query):
+    querystring = {"jsonrpc": "2.0", "id": 1}
+    querystring.update(query)
+    try:
+        response = json.loads(xbmc.executeJSONRPC(json.dumps(querystring)))
+        if 'result' in response:
+            return response['result']
+    except TypeError as e:
+        dbg_log('oe::jsonrpc', 'ERROR: (' + repr(e) + ')')
+    return None
 
 def url_quote(var):
     return urllib2.quote(var, safe="")

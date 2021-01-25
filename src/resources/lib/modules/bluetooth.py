@@ -49,6 +49,19 @@ class bluetooth:
     def start_service(self):
         try:
             self.oe.dbg_log('bluetooth::start_service', 'enter_function', 0)
+
+            default_audio_device = self.oe.read_setting('bluetooth', 'default_audio_device')
+
+            if default_audio_device:
+                self.oe.write_setting('bluetooth', 'default_audio_device', '')
+                query = {"method": "Settings.SetSettingValue",
+                         "params": {"setting": "audiooutput.audiodevice", "value": default_audio_device}}
+                if self.oe.jsonrpc(query):
+                    self.oe.dbg_log('bluetooth::start_service', 'Changed audio device to default %s'
+                        % default_audio_device, 0)
+                else:
+                    self.oe.dbg_log('bluetooth::start_service', 'Failed to change audio device to %s' % default_audio_device, 0)
+
             if 'org.bluez' in self.oe.dbusSystemBus.list_names():
                 self.init_adapter()
             self.oe.dbg_log('bluetooth::start_service', 'exit_function', 0)
@@ -808,6 +821,24 @@ class bluetooth:
                             self.oe.notify('Bluetooth', 'Connected to %s' % self.devices[Address]['Name'], 'bt')
                             self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Connected to %s (%s)'
                                 % (self.devices[Address]['Name'], Address), 0)
+
+                            switch_audio_device = self.oe.get_service_option('bluez', 'SWITCH_AUDIO_DEVICE', '1')
+                            if switch_audio_device == '1' and Class & (1 << 21):
+                                query = {"method": "Settings.GetSettingValue",
+                                         "params": {"setting": "audiooutput.audiodevice"}}
+                                response = self.oe.jsonrpc(query)
+
+                                if not 'PULSE' in response['value']:
+                                    self.oe.write_setting('bluetooth', 'default_audio_device', response['value'])
+
+                                    query = {"method": "Settings.SetSettingValue",
+                                             "params": {"setting": "audiooutput.audiodevice", "value": "PULSE:Default"}}
+                                    if self.oe.jsonrpc(query):
+                                        self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Changed audio device from %s to PULSE:Default'
+                                            % self.oe.read_setting('bluetooth', 'default_audio_device'), 0)
+                                    else:
+                                        self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Failed to change audio device to PULSE:Default', 0)
+
                         self.devices[Address]['path'].append(path)
                         break
 
@@ -830,6 +861,23 @@ class bluetooth:
                         self.oe.notify('Bluetooth', 'Disconnected from %s' % self.devices[Address]['Name'], 'bt')
                         self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Device disconnect: %s'
                             % self.devices[Address]['Name'], 0)
+
+                        if self.devices[Address]['Class'] & (1 << 21):
+                            query = {"method": "Settings.GetSettingValue",
+                                     "params": {"setting": "audiooutput.audiodevice"}}
+                            response = self.oe.jsonrpc(query)
+                            default_audio_device = self.oe.read_setting('bluetooth', 'default_audio_device')
+
+                            if 'PULSE' in response['value'] and default_audio_device:
+                                self.oe.write_setting('bluetooth', 'default_audio_device', '')
+                                query = {"method": "Settings.SetSettingValue",
+                                         "params": {"setting": "audiooutput.audiodevice", "value": default_audio_device}}
+                                if self.oe.jsonrpc(query):
+                                    self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Changed audio device from PULSE:Default to %s'
+                                        % default_audio_device, 0)
+                                else:
+                                    self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Failed to change audio device to %s' % default_audio_device, 0)
+
                         del self.devices[Address]
                         break
 
