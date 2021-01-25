@@ -16,7 +16,7 @@ import oeWindows
 
 class bluetooth:
 
-    menu = {'6': {
+    menu = {'7': {
         'name': 32331,
         'menuLoader': 'menu_connections',
         'listTyp': 'btlist',
