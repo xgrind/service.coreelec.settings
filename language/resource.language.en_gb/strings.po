@@ -296,6 +296,10 @@ msgctxt "#774"
 msgid "Automatic reconnect previously paired device after booting"
 msgstr ""
 
+msgctxt "#775"
+msgid "Automatic change audio output to PULSE when a audio device get connected"
+msgstr ""
+
 msgctxt "#780"
 msgid "Configure hardware settings"
 msgstr ""
@@ -1173,6 +1177,10 @@ msgstr ""
 
 msgctxt "#32401"
 msgid "Connect paired devices"
+msgstr ""
+
+msgctxt "#32402"
+msgid "Switch audio device on connection"
 msgstr ""
 
 msgctxt "#32500"
