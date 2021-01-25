@@ -65,6 +65,12 @@ class bluetooth:
                     del self.discovery_thread
                 except AttributeError:
                     pass
+            if hasattr(self, 'connection_thread'):
+                try:
+                    self.connection_thread.stop()
+                    del self.connection_thread
+                except AttributeError:
+                    pass
             if hasattr(self, 'dbusBluezAdapter'):
                 self.dbusBluezAdapter = None
             self.oe.dbg_log('bluetooth::stop_service', 'exit_function', self.oe.LOGDEBUG)
@@ -78,6 +84,12 @@ class bluetooth:
                 try:
                     self.discovery_thread.stop()
                     del self.discovery_thread
+                except AttributeError:
+                    pass
+            if hasattr(self, 'connection_thread'):
+                try:
+                    self.connection_thread.stop()
+                    del self.connection_thread
                 except AttributeError:
                     pass
             self.clear_list()
@@ -121,6 +133,10 @@ class bluetooth:
                 adapter_interface.Set('org.bluez.Adapter1', 'Alias', dbus.String(os.environ.get('HOSTNAME', 'coreelec')))
                 adapter_interface.Set('org.bluez.Adapter1', 'Powered', dbus.Boolean(state))
                 adapter_interface = None
+            connect_paired = self.oe.get_service_option('bluez', 'CONNECT_PAIRED', '1')
+            if connect_paired == '1' and not hasattr(self, 'connection_thread'):
+                self.connection_thread = connectionThread(self)
+                self.connection_thread.start()
             self.oe.dbg_log('bluetooth::adapter_powered', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
             self.oe.dbg_log('bluetooth::adapter_powered', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
@@ -1183,3 +1199,62 @@ class pinkeyTimer(threading.Thread):
             self.oe.dbg_log('bluetooth::pinkeyTimer::run', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
             self.oe.dbg_log('bluetooth::pinkeyTimer::run', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+
+class connectionThread(threading.Thread):
+
+    def __init__(self, parent):
+        try:
+            parent.oe.dbg_log('bluetooth::connectionThread::__init__', 'enter_function', parent.oe.LOGDEBUG)
+            self.parent = parent
+            self.oe = parent.oe
+            self.last_run = 0
+            self.stopped = False
+            threading.Thread.__init__(self)
+            self.oe.dbg_log('bluetooth::connectionThread::__init__', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.dbg_log('bluetooth::connectionThread::__init__', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+
+    def connect_reply_handler(self):
+        try:
+            self.oe.dbg_log('bluetooth::connectionThread::connect_reply_handler', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('bluetooth::connectionThread::connect_reply_handler', 'Connected to %s (%s)'
+                % (self.bt_device_name, self.bt_device_mac), self.oe.LOGDEBUG)
+            if hasattr(self, 'connection_attempt_running'):
+                del self.connection_attempt_running
+            self.oe.dbg_log('bluetooth::connectionThread::connect_reply_handler', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.dbg_log('bluetooth::connectionThread::connect_reply_handler', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+
+    def connect_error_handler(self, error):
+        try:
+            self.oe.dbg_log('bluetooth::connectionThread::connect_error_handler', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('bluetooth::connectionThread::connect_error_handler', 'Failed to connect to %s (%s): (%s)'
+                % (self.bt_device_name, self.bt_device_mac, repr(error)), self.oe.LOGDEBUG)
+            if hasattr(self, 'connection_attempt_running'):
+                del self.connection_attempt_running
+            self.oe.dbg_log('bluetooth::connectionThread::connect_error_handler', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.dbg_log('bluetooth::connectionThread::connect_error_handler', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+
+    def stop(self):
+        self.stopped = True
+
+    def run(self):
+        try:
+            self.oe.dbg_log('bluetooth::connectionThread::run', 'enter_function', self.oe.LOGDEBUG)
+            self.dbusDevices = self.parent.get_devices()
+            for dbusDevice in self.dbusDevices:
+                if 'Connected' in self.dbusDevices[dbusDevice] and 'Paired' in self.dbusDevices[dbusDevice]:
+                    if self.dbusDevices[dbusDevice]['Connected'] == 0 and self.dbusDevices[dbusDevice]['Paired'] == 1:
+                        self.bt_device_mac = self.dbusDevices[dbusDevice]['Address']
+                        self.bt_device_name = self.dbusDevices[dbusDevice]['Name']
+                        self.oe.dbg_log('bluetooth::connectionThread::run', 'paired device %s (%s) not connected, try to connect now...'
+                            % (self.bt_device_name, self.bt_device_mac), self.oe.LOGDEBUG)
+                        device = dbus.Interface(self.oe.dbusSystemBus.get_object('org.bluez', dbusDevice), 'org.bluez.Device1')
+                        self.connection_attempt_running = True
+                        device.Connect(reply_handler=self.connect_reply_handler, error_handler=self.connect_error_handler)
+                        while not self.stopped and hasattr(self, 'connection_attempt_running') and not self.oe.xbmcm.waitForAbort(1):
+                            pass
+            self.oe.dbg_log('bluetooth::connectionThread::run', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.dbg_log('bluetooth::connectionThread::run', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)

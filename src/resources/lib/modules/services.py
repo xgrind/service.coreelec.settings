@@ -276,6 +276,18 @@ class services:
                                 },
                             'InfoText': 773,
                             },
+                        'connect_paired': {
+                            'order': 5,
+                            'name': 32401,
+                            'value': None,
+                            'action': 'connect_paired',
+                            'type': 'bool',
+                            'parent': {
+                                'entry': 'enabled',
+                                'value': ['1'],
+                                },
+                            'InfoText': 774,
+                            },
                         },
                     },
                 }
@@ -403,6 +415,11 @@ class services:
                     if not value:
                         value = '0'
                     self.struct['bluez']['settings']['idle_timeout']['value'] = self.oe.read_setting('bluetooth', 'idle_timeout')
+
+                    value = self.oe.read_setting('bluetooth', 'connect_paired')
+                    if not value:
+                        value = '1'
+                    self.struct['bluez']['settings']['connect_paired']['value'] = value
                 else:
                     self.struct['bluez']['hidden'] = 'true'
 
@@ -516,6 +533,7 @@ class services:
                 self.set_value(kwargs['listItem'])
             state = 1
             options = {}
+            options['CONNECT_PAIRED'] = '%s' % self.struct['bluez']['settings']['connect_paired']['value']
             if self.struct['bluez']['settings']['enabled']['value'] != '1':
                 state = 0
                 self.struct['bluez']['settings']['obex_enabled']['hidden'] = True
@@ -563,6 +581,19 @@ class services:
         except Exception as e:
             self.oe.set_busy(0)
             self.oe.dbg_log('services::idle_timeout', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+
+    def connect_paired(self, **kwargs):
+        try:
+            self.oe.dbg_log('services::connect_paired', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            self.oe.write_setting('bluetooth', 'connect_paired', self.struct['bluez']['settings']['connect_paired']['value'])
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::connect_paired', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::connect_paired', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
 
     def exit(self):
         try:

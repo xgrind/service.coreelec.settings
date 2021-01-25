@@ -292,6 +292,10 @@ msgctxt "#773"
 msgid "Set the idle timeout (in minutes) before devices will be disconnected (defaults to 0 for no timeout). Applies to devices where \"Enable Standby\" has been activated in the @DISTRONAME@ device connection context menu."
 msgstr ""
 
+msgctxt "#774"
+msgid "Automatic reconnect previously paired device after booting"
+msgstr ""
+
 msgctxt "#780"
 msgid "Configure hardware settings"
 msgstr ""
@@ -1165,6 +1169,10 @@ msgstr ""
 
 msgctxt "#32400"
 msgid "Idle Timeout"
+msgstr ""
+
+msgctxt "#32401"
+msgid "Connect paired devices"
 msgstr ""
 
 msgctxt "#32500"
