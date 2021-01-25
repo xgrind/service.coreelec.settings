@@ -667,6 +667,7 @@ class bluetooth:
             try:
                 oeMain.dbg_log('bluetooth::monitor::__init__', 'enter_function', oeMain.LOGDEBUG)
                 self.oe = oeMain
+                self.devices = {}
                 self.signal_receivers = []
                 self.NameOwnerWatch = None
                 self.ObexNameOwnerWatch = None
@@ -819,6 +820,30 @@ class bluetooth:
                         self.parent.close_pinkey_window()
                 if self.parent.visible:
                     self.parent.menu_connections()
+
+                for interface in interfaces:
+                    if 'org.bluez.' in interface:
+                        device = self.oe.dbusSystemBus.get_object('org.bluez', path)
+                        device_iface = dbus.Interface(device, dbus.PROPERTIES_IFACE)
+                        device_path = device_iface.Get(interface, 'Device')
+
+                        device_path = self.oe.dbusSystemBus.get_object('org.bluez', device_path)
+                        device = dbus.Interface(device_path, dbus.PROPERTIES_IFACE)
+
+                        Address = str(device.Get('org.bluez.Device1', 'Address'))
+                        Class = int(device.Get('org.bluez.Device1', 'Class'))
+
+                        if not Address in self.devices:
+                            self.devices[Address] = {}
+                            self.devices[Address]['Name'] = str(device.Get('org.bluez.Device1', 'Name'))
+                            self.devices[Address]['Class'] = Class
+                            self.devices[Address]['path'] = []
+                            self.oe.notify('Bluetooth', 'Connected to %s' % self.devices[Address]['Name'], 'bt')
+                            self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Connected to %s (%s)'
+                                % (self.devices[Address]['Name'], Address), self.oe.LOGDEBUG)
+                        self.devices[Address]['path'].append(path)
+                        break
+
                 self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'exit_function', self.oe.LOGDEBUG)
             except Exception as e:
                 self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
@@ -832,6 +857,15 @@ class bluetooth:
                     self.parent.dbusBluezAdapter = None
                 if self.parent.visible and not hasattr(self.parent, 'discovery_thread'):
                     self.parent.menu_connections()
+
+                for Address in self.devices:
+                    if path in self.devices[Address]['path']:
+                        self.oe.notify('Bluetooth', 'Disconnected from %s' % self.devices[Address]['Name'], 'bt')
+                        self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Device disconnect: %s'
+                            % self.devices[Address]['Name'], self.oe.LOGDEBUG)
+                        del self.devices[Address]
+                        break
+
                 self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'exit_function', self.oe.LOGDEBUG)
             except Exception as e:
                 self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
