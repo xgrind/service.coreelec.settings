@@ -63,6 +63,19 @@ class bluetooth:
                 else:
                     self.oe.dbg_log('bluetooth::start_service', 'Failed to change audio device to %s' % default_audio_device, self.oe.LOGDEBUG)
 
+            passthrough = self.oe.read_setting('bluetooth', 'passthrough')
+
+            if passthrough:
+                self.oe.write_setting('bluetooth', 'passthrough', '')
+                query = {"method": "Settings.SetSettingValue",
+                         "params": {"setting": "audiooutput.passthrough", "value": True}}
+                time.sleep(1)
+                if self.oe.jsonrpc(query):
+                    self.oe.dbg_log('bluetooth::start_service', 'Changed passthrough to %s'
+                        % passthrough, self.oe.LOGDEBUG)
+                else:
+                    self.oe.dbg_log('bluetooth::start_service', 'Failed to change passthrough to %s' % passthrough, self.oe.LOGDEBUG)
+
             if 'org.bluez' in self.oe.dbusSystemBus.list_names():
                 self.init_adapter()
             self.oe.dbg_log('bluetooth::start_service', 'exit_function', self.oe.LOGDEBUG)
@@ -864,6 +877,10 @@ class bluetooth:
                                 if not 'PULSE' in response['value']:
                                     self.oe.write_setting('bluetooth', 'default_audio_device', response['value'])
 
+                                    query = {"method": "Settings.GetSettingValue",
+                                             "params": {"setting": "audiooutput.passthrough"}}
+                                    response_passthrough = self.oe.jsonrpc(query)
+
                                     query = {"method": "Settings.SetSettingValue",
                                              "params": {"setting": "audiooutput.audiodevice", "value": "PULSE:Default"}}
                                     if self.oe.jsonrpc(query):
@@ -871,6 +888,17 @@ class bluetooth:
                                             % self.oe.read_setting('bluetooth', 'default_audio_device'), self.oe.LOGDEBUG)
                                     else:
                                         self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Failed to change audio device to PULSE:Default', self.oe.LOGDEBUG)
+
+                                    if response_passthrough['value'] == True:
+                                        self.oe.write_setting('bluetooth', 'passthrough', 'true')
+
+                                        query = {"method": "Settings.SetSettingValue",
+                                                 "params": {"setting": "audiooutput.passthrough", "value": False}}
+                                        time.sleep(1)
+                                        if self.oe.jsonrpc(query):
+                                            self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'passthrough is turned on, turn it off', self.oe.LOGDEBUG)
+                                        else:
+                                            self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Failed to turn off passthrough', self.oe.LOGDEBUG)
 
                         self.devices[Address]['path'].append(path)
                         break
@@ -910,6 +938,19 @@ class bluetooth:
                                         % default_audio_device, self.oe.LOGDEBUG)
                                 else:
                                     self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Failed to change audio device to %s' % default_audio_device, self.oe.LOGDEBUG)
+
+                                passthrough = self.oe.read_setting('bluetooth', 'passthrough')
+
+                                if passthrough:
+                                    self.oe.write_setting('bluetooth', 'passthrough', '')
+                                    query = {"method": "Settings.SetSettingValue",
+                                             "params": {"setting": "audiooutput.passthrough", "value": True}}
+                                    time.sleep(1)
+                                    if self.oe.jsonrpc(query):
+                                        self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Changed passthrough to %s'
+                                            % passthrough, self.oe.LOGDEBUG)
+                                    else:
+                                        self.oe.dbg_log('bluetooth::monitor::InterfacesRemoved', 'Failed to change passthrough to %s' % passthrough, self.oe.LOGDEBUG)
 
                         del self.devices[Address]
                         break
