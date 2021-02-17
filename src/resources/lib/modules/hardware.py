@@ -13,12 +13,6 @@ import shutil
 import platform
 import random
 
-# CEC Wake Up flags from u-boot(bl301)
-CEC_FUNC_MASK = 0
-AUTO_POWER_ON_MASK = 3
-STREAMPATH_POWER_ON_MASK = 4
-ACTIVE_SOURCE_MASK = 6
-
 class hardware:
     ENABLED = False
     need_inject = False
@@ -271,57 +265,6 @@ class hardware:
                             },
                         },
                     },
-                'cec': {
-                    'order': 4,
-                    'name': 32504,
-                    'not_supported': [],
-                    'settings': {
-                        'cec_name': {
-                            'order': 1,
-                            'name': 32530,
-                            'InfoText': 792,
-                            'value': 'CoreELEC',
-                            'action': 'set_cec',
-                            'type': 'text',
-                            },
-                        'cec_all': {
-                            'order': 2,
-                            'name': 32531,
-                            'InfoText': 793,
-                            'value': '0',
-                            'bit': CEC_FUNC_MASK,
-                            'action': 'set_cec',
-                            'type': 'bool',
-                            },
-                        'cec_auto_power': {
-                            'order': 3,
-                            'name': 32532,
-                            'InfoText': 794,
-                            'value': '0',
-                            'bit': AUTO_POWER_ON_MASK,
-                            'action': 'set_cec',
-                            'type': 'bool',
-                            },
-                        'cec_streaming': {
-                            'order': 4,
-                            'name': 32533,
-                            'InfoText': 795,
-                            'value': '0',
-                            'bit': STREAMPATH_POWER_ON_MASK,
-                            'action': 'set_cec',
-                            'type': 'bool',
-                            },
-                        'cec_active_route': {
-                            'order': 5,
-                            'name': 32534,
-                            'InfoText': 796,
-                            'value': '0',
-                            'bit': ACTIVE_SOURCE_MASK,
-                            'action': 'set_cec',
-                            'type': 'bool',
-                            },
-                        },
-                    },
                 'display': {
                     'order': 5,
                     'name': 32502,
@@ -361,7 +304,7 @@ class hardware:
                         'disk_park': {
                             'order': 1,
                             'name': 32522,
-                            'InfoText': 797,
+                            'InfoText': 792,
                             'value': '0',
                             'action': 'set_disk_park',
                             'type': 'bool',
@@ -369,7 +312,7 @@ class hardware:
                         'disk_park_time': {
                             'order': 2,
                             'name': 32523,
-                            'InfoText': 798,
+                            'InfoText': 793,
                             'value': '10',
                             'action': 'set_disk_park',
                             'type': 'text',
@@ -377,7 +320,7 @@ class hardware:
                         'disk_idle': {
                             'order': 3,
                             'name': 32524,
-                            'InfoText': 799,
+                            'InfoText': 794,
                             'value': '',
                             'action': 'set_disk_idle',
                             'type': 'multivalue',
@@ -553,31 +496,6 @@ class hardware:
                     self.struct['power']['settings']['inject_bl301']['value'] = '0'
 
             power_setting_visible = bool(int(self.struct['power']['settings']['inject_bl301']['value'])) or self.check_compatibility()
-
-            if not power_setting_visible:
-                self.struct['cec']['hidden'] = 'true'
-            else:
-                if 'hidden' in self.struct['cec']:
-                    del self.struct['cec']['hidden']
-
-                if not self.struct['power']['settings']['inject_bl301']['value'] == '1':
-                    self.struct['cec']['settings']['cec_name']['hidden'] = 'true'
-                else:
-                    if 'hidden' in self.struct['cec']['settings']['cec_name']:
-                        del self.struct['cec']['settings']['cec_name']['hidden']
-                    self.struct['cec']['settings']['cec_name']['value'] = self.oe.get_config_ini('cec_osd_name', 'CoreELEC')
-
-                cec_func_config = int(self.oe.get_config_ini('cec_func_config', '7f'), 16)
-                bit = self.struct['cec']['settings']['cec_all']['bit']
-                self.struct['cec']['settings']['cec_all']['value'] = str((cec_func_config & (1 << bit)) >> bit)
-
-                if self.struct['cec']['settings']['cec_all']['value'] == '1':
-                    bit = self.struct['cec']['settings']['cec_auto_power']['bit']
-                    self.struct['cec']['settings']['cec_auto_power']['value'] = str((cec_func_config & (1 << bit)) >> bit)
-                    bit = self.struct['cec']['settings']['cec_streaming']['bit']
-                    self.struct['cec']['settings']['cec_streaming']['value'] = str((cec_func_config & (1 << bit)) >> bit)
-                    bit = self.struct['cec']['settings']['cec_active_route']['bit']
-                    self.struct['cec']['settings']['cec_active_route']['value'] = str((cec_func_config & (1 << bit)) >> bit)
 
             if not power_setting_visible:
                 self.struct['power']['settings']['remote_power']['hidden'] = 'true'
@@ -799,51 +717,6 @@ class hardware:
             self.oe.dbg_log('hardware::set_bl301', 'exit_function', 0)
         except Exception as e:
             self.oe.dbg_log('hardware::set_bl301', 'ERROR: (%s)' % repr(e), 4)
-        finally:
-            self.oe.set_busy(0)
-
-    def set_cec(self, listItem=None):
-        try:
-            self.oe.dbg_log('hardware::set_cec', 'enter_function', 0)
-            self.oe.set_busy(1)
-            if not listItem == None:
-                if not listItem.getProperty('entry') == 'cec_name':
-                    bit = self.struct['cec']['settings'][listItem.getProperty('entry')]['bit']
-                    cec_func_config = int(self.oe.get_config_ini('cec_func_config', '7f'), 16)
-
-                    if bit == CEC_FUNC_MASK:
-                        if listItem.getProperty('value') == '0':
-                            cec_func_config &= ~(1 << self.struct['cec']['settings']['cec_all']['bit'])
-                            for item in self.struct['cec']['settings']:
-                                if 'bit' in self.struct['cec']['settings'][item]:
-                                    self.struct['cec']['settings'][item]['value'] = '0'
-                        else:
-                            cec_func_config |= 1 << self.struct['cec']['settings']['cec_all']['bit']
-                            self.struct['cec']['settings']['cec_all']['value'] = '1'
-                            for item in self.struct['cec']['settings']:
-                                if 'bit' in self.struct['cec']['settings'][item]:
-                                    bit = self.struct['cec']['settings'][item]['bit']
-                                    self.struct['cec']['settings'][item]['value'] = str((cec_func_config & (1 << bit)) >> bit)
-                    else:
-                        if self.struct['cec']['settings']['cec_all']['value'] == '1':
-                            self.struct[listItem.getProperty('category')]['settings'][listItem.getProperty('entry')]['value'] = listItem.getProperty('value')
-                            if listItem.getProperty('value') == '0':
-                                cec_func_config &= ~(1 << bit)
-                            else:
-                                cec_func_config |= 1 << bit
-
-                    self.oe.set_config_ini("cec_func_config", hex(cec_func_config)[2:])
-                else:
-                    old_name = self.struct['cec']['settings'][listItem.getProperty('entry')]['value']
-                    if not old_name == listItem.getProperty('value')[:14]:
-                        self.struct['cec']['settings'][listItem.getProperty('entry')]['value'] = listItem.getProperty('value')[:14]
-                        self.oe.set_config_ini("cec_osd_name", self.struct['cec']['settings'][listItem.getProperty('entry')]['value'])
-
-                        hardware.need_inject = True
-
-            self.oe.dbg_log('hardware::set_cec', 'exit_function', 0)
-        except Exception as e:
-            self.oe.dbg_log('hardware::set_cec', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
 

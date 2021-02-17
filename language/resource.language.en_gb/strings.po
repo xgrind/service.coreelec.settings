@@ -341,35 +341,16 @@ msgid "Set CPU governor for all cores"
 msgstr ""
 
 msgctxt "#792"
-msgid "Set the device OSD name displayed on TV when in suspend/powered off mode, max length 14 chars"
-msgstr ""
-
-msgctxt "#793"
-msgid "Enable/Disable CEC Wake-Up"
-msgstr ""
-
-msgctxt "#794"
-msgid "Enable/Disable CEC Wake-Up by user control pressed or on image/text view"
-msgstr ""
-
-msgctxt "#795"
-msgid "Enable/Disable CEC Wake-Up by streaming path or routing change"
-msgstr ""
-
-msgctxt "#796"
-msgid "Enable/Disable CEC Wake-Up by the device become active route"
-msgstr ""
-
-msgctxt "#797"
 msgid "Enable/Disable HDD parking on power off/suspend"
 msgstr ""
 
-msgctxt "#798"
+msgctxt "#793"
 msgid "Time in seconds to wait for the HDD to spin down when parking"
 msgstr ""
 
-msgctxt "#799"
+msgctxt "#794"
 msgid "Time in minutes/hours until the HDD should enter suspend mode"
+msgstr ""
 
 msgctxt "#900"
 msgid "Configure eMMC speed mode"
