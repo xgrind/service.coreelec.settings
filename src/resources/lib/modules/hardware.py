@@ -508,6 +508,28 @@ class hardware:
 
                 remote_names = []
                 remote_is_known = 0
+                for remote_file in sorted(os.listdir('/storage/.config')):
+                    if remote_file.endswith('.remotewakeup'):
+                        f = open('/storage/.config/%s' % remote_file)
+                        fl = f.readlines()
+                        f.close()
+                        custom_remote = {}
+                        if not any(s for s in self.remotes if os.path.splitext(remote_file)[0] in s['name']):
+                            custom_remote['name'] = os.path.splitext(remote_file)[0]
+                            keys = ['remotewakeup', 'decode_type', 'remotewakeupmask']
+                            for key in keys:
+                                for i, line in enumerate(fl):
+                                    regex = r"^[^#]*\b%s=([^#]*)#*" % (key)
+                                    match = re.search(regex, line)
+                                    if match:
+                                        val = match.group(1).strip()
+                                        regex = r"^[\'\"].*[\'\"]$"
+                                        if re.search(regex, val):
+                                            val = val[1:-1]
+                                        custom_remote[key] = val
+                                        break
+                            self.remotes.append(custom_remote)
+
                 for remote in self.remotes:
                   remote_names.append(remote["name"])
                   if remote["remotewakeup"] in remotewakeup:
