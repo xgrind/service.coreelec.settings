@@ -628,10 +628,6 @@ class updates:
                     ceReboot = xbmcgui.Dialog().yesno('CoreELEC', 'An update has been downloaded, would you like to reboot now to apply it?')
                     if(ceReboot):
                         xbmc.restart()
-                    if silent == False:
-                        self.oe.winOeMain.close()
-                        time.sleep(1)
-                        xbmc.executebuiltin('Reboot')
                 else:
                     delattr(self, 'update_in_progress')
 
