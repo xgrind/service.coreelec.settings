@@ -279,7 +279,11 @@ class updates:
         if self.oe.PROJECT == "Generic":
             return self.get_hardware_flags_x86_64()
         elif self.oe.PROJECT == "Amlogic-ce":
-            return self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
+            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
+            if dtname == 'unknown':
+                xbmcDialog = xbmcgui.Dialog()
+                xbmcDialog.notification('CoreELEC DT-ID not found', ' Please update /flash/dtb.img!', xbmcgui.NOTIFICATION_WARNING, 30000)
+            return dtname
         elif self.oe.PROJECT in ['Allwinner', 'Amlogic', 'NXP', 'Qualcomm', 'Rockchip', 'RPi', 'Samsung' ]:
             return self.get_hardware_flags_dtflag()
         else:
