@@ -287,7 +287,11 @@ class updates:
         elif self.oe.PROJECT == "RPi":
             return self.get_hardware_flags_rpi()
         elif self.oe.PROJECT in ['Allwinner', 'Amlogic', 'Amlogic-ng', 'Rockchip']:
-            return self.oe.get_dtname()
+            dtname = self.oe.get_dtname()
+            if dtname == 'unknown':
+                xbmcDialog = xbmcgui.Dialog()
+                xbmcDialog.notification('CoreELEC DT-ID not found', ' Please update /flash/dtb.img!', xbmcgui.NOTIFICATION_WARNING, 30000)
+            return dtname
         else:
             self.oe.dbg_log('updates::get_hardware_flags', 'Project is %s, no hardware flag available' % self.oe.PROJECT, 0)
             return ""
