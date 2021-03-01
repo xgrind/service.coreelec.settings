@@ -61,8 +61,8 @@ class about:
     def do_wizard(self):
         try:
             self.oe.dbg_log('about::do_wizard', 'enter_function', 0)
-            self.oe.winOeMain.set_wizard_title(self.oe._(32317))
-            self.oe.winOeMain.set_wizard_text(self.oe._(32318))
+            self.oe.winOeMain.set_wizard_title(self.oe._(32317).encode('utf-8'))
+            self.oe.winOeMain.set_wizard_text(self.oe._(32318).encode('utf-8'))
             self.oe.dbg_log('about::do_wizard', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('about::do_wizard', 'ERROR: (' + repr(e) + ')')

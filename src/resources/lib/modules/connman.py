@@ -712,23 +712,23 @@ class connman:
                                 '')
                 wait_file.close()
             # IPTABLES
-            nf_values = [self.oe._(32397), self.oe._(32398), self.oe._(32399)]
+            nf_values = [self.oe._(32397).encode('utf-8'), self.oe._(32398).encode('utf-8'), self.oe._(32399).encode('utf-8')]
             nf_custom_rules = [self.NF_CUSTOM_PATH + "rules.v4" , self.NF_CUSTOM_PATH + "rules.v6"]
             for custom_rule in nf_custom_rules:
                 if os.path.exists(custom_rule):
-                    nf_values.append(self.oe._(32396))
+                    nf_values.append(self.oe._(32396).encode('utf-8'))
                     break
             self.struct['advanced']['settings']['netfilter']['values'] = nf_values
             if self.oe.get_service_state('iptables') == '1':
                 nf_option = self.oe.get_service_option('iptables', 'RULES', 'home')
                 if nf_option == "custom":
-                    nf_option_str = self.oe._(32396)
+                    nf_option_str = self.oe._(32396).encode('utf-8')
                 elif nf_option == "home":
-                    nf_option_str = self.oe._(32398)
+                    nf_option_str = self.oe._(32398).encode('utf-8')
                 elif nf_option == "public":
-                    nf_option_str = self.oe._(32399)
+                    nf_option_str = self.oe._(32399).encode('utf-8')
             else:
-                nf_option_str = self.oe._(32397)
+                nf_option_str = self.oe._(32397).encode('utf-8')
             self.struct['advanced']['settings']['netfilter']['value'] = nf_option_str
 
             # CUSTOM regdom
@@ -991,7 +991,7 @@ class connman:
                         apName = dbusServiceProperties['Name']
                     else:
                         if 'Security' in dbusServiceProperties:
-                            apName = self.oe._(32208) + ' (' + unicode(dbusServiceProperties['Security'][0]) + ')'
+                            apName = self.oe._(32208).encode('utf-8') + ' (' + unicode(dbusServiceProperties['Security'][0]) + ')'
                         else:
                             apName = ''
                     if apName != '':
@@ -1077,29 +1077,29 @@ class connman:
                 return
             if listItem.getProperty('State') in ['ready', 'online']:
                 values[1] = {
-                    'text': self.oe._(32143),
+                    'text': self.oe._(32143).encode('utf-8'),
                     'action': 'disconnect_network',
                     }
             else:
                 values[1] = {
-                    'text': self.oe._(32144),
+                    'text': self.oe._(32144).encode('utf-8'),
                     'action': 'connect_network',
                     }
             if listItem.getProperty('Favorite') == '1':
                 values[2] = {
-                    'text': self.oe._(32150),
+                    'text': self.oe._(32150).encode('utf-8'),
                     'action': 'configure_network',
                     }
             if listItem.getProperty('Favorite') == '1' and listItem.getProperty('netType') == 'wifi':
                 values[3] = {
-                    'text': self.oe._(32141),
+                    'text': self.oe._(32141).encode('utf-8'),
                     'action': 'delete_network',
                     }
             if hasattr(self, 'technologie_properties'):
                 for (path, technologie) in self.technologie_properties:
                     if path == '/net/connman/technology/wifi':
                         values[4] = {
-                            'text': self.oe._(32142),
+                            'text': self.oe._(32142).encode('utf-8'),
                             'action': 'refresh_network',
                             }
                         break
@@ -1410,11 +1410,11 @@ class connman:
                 self.set_value(kwargs['listItem'])
             state = 1
             options = {}
-            if self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32396):
+            if self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32396).encode('utf-8'):
                 options['RULES'] = "custom"
-            elif self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32398):
+            elif self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32398).encode('utf-8'):
                 options['RULES'] = "home"
-            elif self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32399):
+            elif self.struct['advanced']['settings']['netfilter']['value'] == self.oe._(32399).encode('utf-8'):
                 options['RULES'] = "public"
             else:
                 state = 0
@@ -1427,10 +1427,10 @@ class connman:
     def do_wizard(self):
         try:
             self.oe.dbg_log('connman::do_wizard', 'enter_function', 0)
-            self.oe.winOeMain.set_wizard_title(self.oe._(32305))
-            self.oe.winOeMain.set_wizard_text(self.oe._(32306))
+            self.oe.winOeMain.set_wizard_title(self.oe._(32305).encode('utf-8'))
+            self.oe.winOeMain.set_wizard_text(self.oe._(32306).encode('utf-8'))
             self.oe.winOeMain.set_wizard_button_title('')
-            self.oe.winOeMain.set_wizard_list_title(self.oe._(32309))
+            self.oe.winOeMain.set_wizard_list_title(self.oe._(32309).encode('utf-8'))
             self.oe.winOeMain.getControl(1391).setLabel('show')
 
             self.oe.winOeMain.getControl(self.oe.winOeMain.buttons[2]['id'

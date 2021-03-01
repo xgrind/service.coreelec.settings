@@ -596,17 +596,17 @@ class services:
     def do_wizard(self):
         try:
             self.oe.dbg_log('services::do_wizard', 'enter_function', 0)
-            self.oe.winOeMain.set_wizard_title(self.oe._(32311))
+            self.oe.winOeMain.set_wizard_title(self.oe._(32311).encode('utf-8'))
 
             # Enable samba
             self.struct['samba']['settings']['samba_autostart']['value'] = '1'
             self.initialize_samba()
 
             if hasattr(self, 'samba'):
-                self.oe.winOeMain.set_wizard_text(self.oe._(32313) + '[CR][CR]' + self.oe._(32312))
+                self.oe.winOeMain.set_wizard_text(self.oe._(32313).encode('utf-8') + '[CR][CR]' + self.oe._(32312).encode('utf-8'))
             else:
-                self.oe.winOeMain.set_wizard_text(self.oe._(32312))
-            self.oe.winOeMain.set_wizard_button_title(self.oe._(32316))
+                self.oe.winOeMain.set_wizard_text(self.oe._(32312).encode('utf-8'))
+            self.oe.winOeMain.set_wizard_button_title(self.oe._(32316).encode('utf-8'))
             self.set_wizard_buttons()
             self.oe.dbg_log('services::do_wizard', 'exit_function', 0)
         except Exception, e:
@@ -616,14 +616,14 @@ class services:
         try:
             self.oe.dbg_log('services::set_wizard_buttons', 'enter_function', 0)
             if self.struct['ssh']['settings']['ssh_autostart']['value'] == '1':
-                self.oe.winOeMain.set_wizard_radiobutton_1(self.oe._(32201), self, 'wizard_set_ssh', True)
+                self.oe.winOeMain.set_wizard_radiobutton_1(self.oe._(32201).encode('utf-8'), self, 'wizard_set_ssh', True)
             else:
-                self.oe.winOeMain.set_wizard_radiobutton_1(self.oe._(32201), self, 'wizard_set_ssh')
+                self.oe.winOeMain.set_wizard_radiobutton_1(self.oe._(32201).encode('utf-8'), self, 'wizard_set_ssh')
             if not 'hidden' in self.struct['samba']:
                 if self.struct['samba']['settings']['samba_autostart']['value'] == '1':
-                    self.oe.winOeMain.set_wizard_radiobutton_2(self.oe._(32200), self, 'wizard_set_samba', True)
+                    self.oe.winOeMain.set_wizard_radiobutton_2(self.oe._(32200).encode('utf-8'), self, 'wizard_set_samba', True)
                 else:
-                    self.oe.winOeMain.set_wizard_radiobutton_2(self.oe._(32200), self, 'wizard_set_samba')
+                    self.oe.winOeMain.set_wizard_radiobutton_2(self.oe._(32200).encode('utf-8'), self, 'wizard_set_samba')
             self.oe.dbg_log('services::set_wizard_buttons', 'exit_function', 0)
         except Exception, e:
             self.oe.dbg_log('services::set_wizard_buttons', 'ERROR: (%s)' % repr(e))
@@ -669,7 +669,7 @@ class services:
     def wizard_sshpasswd(self):
         SSHresult = False
         while SSHresult == False:
-            changeSSH = xbmcDialog.yesno(self.oe._(32209), self.oe._(32210), yeslabel=self.oe._(32213), nolabel=self.oe._(32214))
+            changeSSH = xbmcDialog.yesno(self.oe._(32209).encode('utf-8'), self.oe._(32210).encode('utf-8'), yeslabel=self.oe._(32213).encode('utf-8'), nolabel=self.oe._(32214).encode('utf-8'))
             if changeSSH:
                 SSHresult = True
             else:
@@ -682,7 +682,7 @@ class services:
         try:
             self.oe.dbg_log('system::do_sshpasswd', 'enter_function', 0)
             SSHchange = False
-            newpwd = xbmcDialog.input(self.oe._(746))
+            newpwd = xbmcDialog.input(self.oe._(746).encode('utf-8'))
             if newpwd:
                 if newpwd == "coreelec":
                     self.oe.execute('cp -fp /usr/cache/shadow /storage/.cache/shadow')
@@ -696,14 +696,14 @@ class services:
                     ssh.stdin.write(newpwd + '\n')
                     readout3 = ssh.stdout.readline()
                 if "Bad password" in readout3:
-                    xbmcDialog.ok(self.oe._(32220), self.oe._(32221))
+                    xbmcDialog.ok(self.oe._(32220).encode('utf-8'), self.oe._(32221).encode('utf-8'))
                     self.oe.dbg_log('system::do_sshpasswd', 'exit_function password too weak', 0)
                     return
                 elif "Retype password" in readout3:
-                    xbmcDialog.ok(self.oe._(32222), self.oe._(32223))
+                    xbmcDialog.ok(self.oe._(32222).encode('utf-8'), self.oe._(32223).encode('utf-8'))
                     SSHchange = True
                 else:
-                    xbmcDialog.ok(self.oe._(32224), self.oe._(32225))
+                    xbmcDialog.ok(self.oe._(32224).encode('utf-8'), self.oe._(32225).encode('utf-8'))
                 self.oe.dbg_log('system::do_sshpasswd', 'exit_function', 0)
             else:
                 self.oe.dbg_log('system::do_sshpasswd', 'user_cancelled', 0)

@@ -524,7 +524,7 @@ class system:
             xbmcDialog = xbmcgui.Dialog()
             answer = xbmcDialog.yesno(part + ' Reset', self.oe._(32326).encode('utf-8'), self.oe._(32328).encode('utf-8'))
             if answer == 1:
-                if self.oe.reboot_counter(30, self.oe._(32323)) == 1:
+                if self.oe.reboot_counter(30, self.oe._(32323).encode('utf-8')) == 1:
                     return 1
                 else:
                     return 0
@@ -638,7 +638,7 @@ class system:
                 xbmcDialog = xbmcgui.Dialog()
                 answer = xbmcDialog.yesno('Restore', txt[0], txt[1], txt[2])
                 if answer == 1:
-                    if self.oe.reboot_counter(10, self.oe._(32371)) == 1:
+                    if self.oe.reboot_counter(10, self.oe._(32371).encode('utf-8')) == 1:
                         self.oe.winOeMain.close()
                         time.sleep(1)
                         xbmc.executebuiltin('Reboot')
@@ -760,18 +760,18 @@ class system:
         try:
             self.oe.dbg_log('system::set_pinlock', 'enter_function', 0)
             oldpin = self.oe.read_setting('system', 'pinlock_pin')
-            newpin = xbmcDialog.input(self.oe._(32226), type=xbmcgui.INPUT_NUMERIC)
+            newpin = xbmcDialog.input(self.oe._(32226).encode('utf-8'), type=xbmcgui.INPUT_NUMERIC)
             if len(newpin) == 4 :
-               newpinConfirm = xbmcDialog.input(self.oe._(32227), type=xbmcgui.INPUT_NUMERIC)
+               newpinConfirm = xbmcDialog.input(self.oe._(32227).encode('utf-8'), type=xbmcgui.INPUT_NUMERIC)
                if newpin != newpinConfirm:
-                   xbmcDialog.ok(self.oe._(32228), self.oe._(32229))
+                   xbmcDialog.ok(self.oe._(32228).encode('utf-8'), self.oe._(32229).encode('utf-8'))
                else:
                    encodePin = self.oe.hash_password(newpin)
                    self.oe.write_setting('system', 'pinlock_pin', encodePin)
-                   xbmcDialog.ok(self.oe._(32230), self.oe._(32231), newpin)
+                   xbmcDialog.ok(self.oe._(32230).encode('utf-8'), self.oe._(32231).encode('utf-8'), newpin)
                    oldpin = newpin
             else:
-                xbmcDialog.ok(self.oe._(32232), self.oe._(32229))
+                xbmcDialog.ok(self.oe._(32232).encode('utf-8'), self.oe._(32229).encode('utf-8'))
             if oldpin == None:
                 self.struct['pinlock']['settings']['pinlock_enable']['value'] = '0'
                 self.oe.write_setting('system', 'pinlock_enable', '0')
@@ -782,9 +782,9 @@ class system:
     def do_wizard(self):
         try:
             self.oe.dbg_log('system::do_wizard', 'enter_function', 0)
-            self.oe.winOeMain.set_wizard_title(self.oe._(32003))
-            self.oe.winOeMain.set_wizard_text(self.oe._(32304))
-            self.oe.winOeMain.set_wizard_button_title(self.oe._(32308))
+            self.oe.winOeMain.set_wizard_title(self.oe._(32003).encode('utf-8'))
+            self.oe.winOeMain.set_wizard_text(self.oe._(32304).encode('utf-8'))
+            self.oe.winOeMain.set_wizard_button_title(self.oe._(32308).encode('utf-8'))
             self.oe.winOeMain.set_wizard_button_1(self.struct['ident']['settings']['hostname']['value'], self, 'wizard_set_hostname')
             self.oe.dbg_log('system::do_wizard', 'exit_function', 0)
         except Exception, e:

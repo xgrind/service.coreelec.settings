@@ -427,24 +427,24 @@ class bluetooth:
                 return 0
             self.oe.dbg_log('bluetooth::menu_connections', 'enter_function', 0)
             if not 'org.bluez' in self.oe.dbusSystemBus.list_names():
-                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32346))
+                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32346).encode('utf-8'))
                 self.clear_list()
                 self.oe.winOeMain.getControl(int(self.oe.listObject['btlist'])).reset()
                 self.oe.dbg_log('bluetooth::menu_connections', 'exit_function (BT Disabled)', 0)
                 return
             if self.dbusBluezAdapter == None:
-                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32338))
+                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32338).encode('utf-8'))
                 self.clear_list()
                 self.oe.winOeMain.getControl(int(self.oe.listObject['btlist'])).reset()
                 self.oe.dbg_log('bluetooth::menu_connections', 'exit_function (No Adapter)', 0)
                 return
             if int(self.adapter_info(self.dbusBluezAdapter, 'Powered')) != 1:
-                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32338))
+                self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32338).encode('utf-8'))
                 self.clear_list()
                 self.oe.winOeMain.getControl(int(self.oe.listObject['btlist'])).reset()
                 self.oe.dbg_log('bluetooth::menu_connections', 'exit_function (No Adapter Powered)', 0)
                 return
-            self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32339))
+            self.oe.winOeMain.getControl(1301).setLabel(self.oe._(32339).encode('utf-8'))
             if not hasattr(self, 'discovery_thread'):
                 self.start_discovery()
                 self.discovery_thread = discoveryThread(self.oe)
@@ -513,9 +513,9 @@ class bluetooth:
                         value = self.dbusDevices[dbusDevice][name]
                         if name == 'Connected':
                             if value:
-                                dictProperties['ConnectedState'] = self.oe._(32334)
+                                dictProperties['ConnectedState'] = self.oe._(32334).encode('utf-8')
                             else:
-                                dictProperties['ConnectedState'] = self.oe._(32335)
+                                dictProperties['ConnectedState'] = self.oe._(32335).encode('utf-8')
                         if properties[prop]['type'] == 1:
                             value = unicode(int(value))
                         if properties[prop]['type'] == 2:
@@ -544,17 +544,17 @@ class bluetooth:
                 listItem = self.oe.winOeMain.getControl(self.oe.listObject['btlist']).getSelectedItem()
             if listItem.getProperty('Paired') != '1':
                 values[1] = {
-                    'text': self.oe._(32145),
+                    'text': self.oe._(32145).encode('utf-8'),
                     'action': 'init_device',
                     }
                 if listItem.getProperty('Trusted') != '1':
                     values[2] = {
-                        'text': self.oe._(32358),
+                        'text': self.oe._(32358).encode('utf-8'),
                         'action': 'trust_connect_device',
                         }
             if listItem.getProperty('Connected') == '1':
                 values[3] = {
-                    'text': self.oe._(32143),
+                    'text': self.oe._(32143).encode('utf-8'),
                     'action': 'disconnect_device',
                     }
                 devices = self.oe.read_setting('bluetooth', 'standby')
@@ -564,30 +564,30 @@ class bluetooth:
                     devices = []
                 if listItem.getProperty('entry') in devices:
                     values[4] = {
-                        'text': self.oe._(32389),
+                        'text': self.oe._(32389).encode('utf-8'),
                         'action': 'disable_device_standby',
                         }
                 else:
                     values[4] = {
-                        'text': self.oe._(32388),
+                        'text': self.oe._(32388).encode('utf-8'),
                         'action': 'enable_device_standby',
                         }
             elif listItem.getProperty('Paired') == '1':
                 values[1] = {
-                    'text': self.oe._(32144),
+                    'text': self.oe._(32144).encode('utf-8'),
                     'action': 'init_device',
                     }
             elif listItem.getProperty('Trusted') == '1':
                 values[2] = {
-                    'text': self.oe._(32144),
+                    'text': self.oe._(32144).encode('utf-8'),
                     'action': 'trust_connect_device',
                     }
             values[5] = {
-                'text': self.oe._(32141),
+                'text': self.oe._(32141).encode('utf-8'),
                 'action': 'remove_device',
                 }
             values[6] = {
-                'text': self.oe._(32142),
+                'text': self.oe._(32142).encode('utf-8'),
                 'action': 'menu_connections',
                 }
             items = []
@@ -609,7 +609,7 @@ class bluetooth:
             self.oe.dbg_log('bluetooth::open_pinkey_window', 'enter_function', 0)
             self.pinkey_window = oeWindows.pinkeyWindow('service-CoreELEC-Settings-getPasskey.xml', self.oe.__cwd__, 'Default')
             self.pinkey_window.show()
-            self.pinkey_window.set_title(self.oe._(title))
+            self.pinkey_window.set_title(self.oe._(title).encode('utf-8'))
             self.pinkey_timer = pinkeyTimer(self, runtime)
             self.pinkey_timer.start()
             self.oe.dbg_log('bluetooth::open_pinkey_window', 'exit_function', 0)
@@ -1188,7 +1188,7 @@ class obexAgent(dbus.service.Object):
             properties = transfer.GetAll('org.bluez.obex.Transfer1')
             self.oe.input_request = True
             xbmcDialog = xbmcgui.Dialog()
-            answer = xbmcDialog.yesno('Bluetooth', self.oe._(32381), properties['Name'])
+            answer = xbmcDialog.yesno('Bluetooth', self.oe._(32381).encode('utf-8'), properties['Name'])
             self.oe.dbg_log('bluetooth::obexAgent::AuthorizePush::answer=', repr(answer), 0)
             self.busy()
             if answer != 1:

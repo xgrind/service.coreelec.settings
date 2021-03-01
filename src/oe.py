@@ -132,9 +132,9 @@ class ProgressDialog:
 
     def update(self, chunk):
         if self.dialog and self.needsUpdate(chunk):
-            line1 = '%s: %s' % (self.label1, self.source.rsplit('/', 1)[1])
-            line2 = '%s: %s KB/s' % (self.label2, '{:,}'.format(self.speed))
-            line3 = '%s: %d m %d s' % (self.label3, self.minutes, self.seconds)
+            line1 = '%s: %s' % (self.label1.decode('utf-8'), self.source.rsplit('/', 1)[1])
+            line2 = '%s: %s KB/s' % (self.label2.decode('utf-8'), '{:,}'.format(self.speed))
+            line3 = '%s: %d m %d s' % (self.label3.decode('utf-8'), self.minutes, self.seconds)
             self.dialog.update(self.percent, line1, line2, line3)
             self.last_update = time.time()
 
