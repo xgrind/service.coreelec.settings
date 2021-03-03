@@ -700,7 +700,7 @@ class system:
                     except:
                         pass
                     return 0
-                itempath = os.path.join(folder, item)
+                itempath = os.path.join(folder, item).encode('utf-8', 'replace').decode()
                 if itempath == self.XBMC_THUMBNAILS:
                     continue
                 if os.path.islink(itempath):
@@ -712,7 +712,7 @@ class system:
                         tar.add(itempath)
                     else:
                         self.tar_add_folder(tar, itempath)
-                else:
+                elif os.path.exists(itempath):
                     self.done_backup_size += os.path.getsize(itempath)
                     tar.add(itempath)
                     if hasattr(self, 'backup_dlg'):
