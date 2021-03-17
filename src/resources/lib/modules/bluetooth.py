@@ -505,7 +505,7 @@ class bluetooth:
                 dictProperties['modul'] = self.__class__.__name__
                 dictProperties['action'] = 'open_context_menu'
                 if 'Name' in self.dbusDevices[dbusDevice]:
-                    apName = self.dbusDevices[dbusDevice]['Name']
+                    apName = self.dbusDevices[dbusDevice]['Name'].encode('utf-8')
                 if not 'Icon' in self.dbusDevices[dbusDevice]:
                     dictProperties['Icon'] = 'default'
                 for prop in properties:

@@ -110,7 +110,7 @@ class mainWindow(xbmcgui.WindowXMLDialog):
         try:
             lstItem = xbmcgui.ListItem(label=strName)
             for strProp in dictProperties:
-                lstItem.setProperty(strProp, unicode(dictProperties[strProp]))
+                lstItem.setProperty(strProp, dictProperties[strProp])
             self.getControl(int(strType)).addItem(lstItem)
             return lstItem
         except Exception, e:
