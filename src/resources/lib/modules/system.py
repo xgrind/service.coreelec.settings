@@ -166,7 +166,7 @@ class system:
                         'xbmc_reset': {
                             'name': 32324,
                             'value': '0',
-                            'action': 'reset_xbmc',
+                            'action': 'reset_soft',
                             'type': 'button',
                             'InfoText': 724,
                             'order': 1,
@@ -174,7 +174,7 @@ class system:
                         'oe_reset': {
                             'name': 32325,
                             'value': '0',
-                            'action': 'reset_oe',
+                            'action': 'reset_hard',
                             'type': 'button',
                             'InfoText': 725,
                             'order': 2,
@@ -479,9 +479,9 @@ class system:
         except Exception as e:
             self.oe.dbg_log('system::set_hw_clock', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
 
-    def reset_xbmc(self, listItem=None):
+    def reset_soft(self, listItem=None):
         try:
-            self.oe.dbg_log('system::reset_xbmc', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('system::reset_soft', 'enter_function', self.oe.LOGDEBUG)
             if self.ask_sure_reset('Soft') == 1:
                 self.oe.set_busy(1)
                 open(self.XBMC_RESET_FILE, 'a').close()
@@ -489,14 +489,14 @@ class system:
                 self.oe.xbmcm.waitForAbort(1)
                 xbmc.executebuiltin('Reboot')
             self.oe.set_busy(0)
-            self.oe.dbg_log('system::reset_xbmc', 'exit_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('system::reset_soft', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
             self.oe.set_busy(0)
-            self.oe.dbg_log('system::reset_xbmc', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+            self.oe.dbg_log('system::reset_soft', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
 
-    def reset_oe(self, listItem=None):
+    def reset_hard(self, listItem=None):
         try:
-            self.oe.dbg_log('system::reset_oe', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('system::reset_hard', 'enter_function', self.oe.LOGDEBUG)
             if self.ask_sure_reset('Hard') == 1:
                 self.oe.set_busy(1)
                 open(self.COREELEC_RESET_FILE, 'a').close()
@@ -504,10 +504,10 @@ class system:
                 self.oe.xbmcm.waitForAbort(1)
                 xbmc.executebuiltin('Reboot')
                 self.oe.set_busy(0)
-            self.oe.dbg_log('system::reset_oe', 'exit_function', self.oe.LOGDEBUG)
+            self.oe.dbg_log('system::reset_hard', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
             self.oe.set_busy(0)
-            self.oe.dbg_log('system::reset_oe', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
+            self.oe.dbg_log('system::reset_hard', 'ERROR: (' + repr(e) + ')', self.oe.LOGERROR)
 
     def ask_sure_reset(self, part):
         try:
