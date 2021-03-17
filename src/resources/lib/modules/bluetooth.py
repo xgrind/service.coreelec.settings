@@ -13,6 +13,7 @@ import dbus.service
 import threading
 import oeWindows
 
+from dbus import DBusException
 
 class bluetooth:
 
@@ -851,13 +852,17 @@ class bluetooth:
                     if 'org.bluez.' in interface:
                         device = self.oe.dbusSystemBus.get_object('org.bluez', path)
                         device_iface = dbus.Interface(device, dbus.PROPERTIES_IFACE)
-                        device_path = device_iface.Get(interface, 'Device')
 
-                        device_path = self.oe.dbusSystemBus.get_object('org.bluez', device_path)
-                        device = dbus.Interface(device_path, dbus.PROPERTIES_IFACE)
+                        try:
+                            device_path = device_iface.Get(interface, 'Device')
+                            device_path = self.oe.dbusSystemBus.get_object('org.bluez', device_path)
+                            device = dbus.Interface(device_path, dbus.PROPERTIES_IFACE)
 
-                        Address = str(device.Get('org.bluez.Device1', 'Address'))
-                        Class = int(device.Get('org.bluez.Device1', 'Class'))
+                            Address = str(device.Get('org.bluez.Device1', 'Address'))
+                            Class = int(device.Get('org.bluez.Device1', 'Class'))
+                        except DBusException as e:
+                            self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'WARNING: (' + repr(e) + ')', self.oe.LOGDEBUG)
+                            continue
 
                         if not Address in self.devices:
                             self.devices[Address] = {}
