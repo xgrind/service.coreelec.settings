@@ -372,6 +372,10 @@ msgctxt "#904"
 msgid "Configure DVB GPIO support"
 msgstr ""
 
+msgctxt "#905"
+msgid "Configure Wired Network Interface"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1261,6 +1265,10 @@ msgstr ""
 
 msgctxt "#32530"
 msgid "DVB GPIO Support"
+msgstr ""
+
+msgctxt "#32531"
+msgid "Wired Network Interface"
 msgstr ""
 
 msgctxt "#33510"

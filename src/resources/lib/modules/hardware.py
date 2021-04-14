@@ -263,6 +263,15 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
+                        'int_ext_phy': {
+                            'order': 9,
+                            'name': 32531,
+                            'InfoText': 905,
+                            'value': '',
+                            'xml_node': 'int_ext_phy',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
                         },
                     },
                 'display': {
@@ -482,6 +491,12 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['dvb'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['emmc'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['slowsdio'])
+
+            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
+            if 'khadas_vim3' in dtname:
+                self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
+            else:
+                self.struct['dtb_settings']['settings']['int_ext_phy']['hidden'] = 'true'
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
