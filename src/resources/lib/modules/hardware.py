@@ -237,7 +237,7 @@ class hardware:
                             },
                         'dvb': {
                             'order': 6,
-                            'name': 32535,
+                            'name': 32530,
                             'InfoText': 904,
                             'value': '',
                             'xml_node': 'dvb',

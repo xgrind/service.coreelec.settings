@@ -1260,26 +1260,6 @@ msgid "IR Protocol Type"
 msgstr ""
 
 msgctxt "#32530"
-msgid "Device OSD Name"
-msgstr ""
-
-msgctxt "#32531"
-msgid "CEC Wake-Up"
-msgstr ""
-
-msgctxt "#32532"
-msgid "Auto power on"
-msgstr ""
-
-msgctxt "#32533"
-msgid "Streaming path/Routing change"
-msgstr ""
-
-msgctxt "#32534"
-msgid "Active route"
-msgstr ""
-
-msgctxt "#32535"
 msgid "DVB GPIO Support"
 msgstr ""
 
