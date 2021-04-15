@@ -336,8 +336,8 @@ class connmanService(object):
     def menu_loader(self, menuItem):
         try:
             self.oe.dbg_log('connmanService::menu_loader', 'enter_function', 0)
-            self.winOeCon.showButton(1, self.oe._(32140).encode('utf-8'), 'connmanNetworkConfig', 'save_network')
-            self.winOeCon.showButton(2, self.oe._(32212).encode('utf-8'), 'connmanNetworkConfig', 'cancel')
+            self.winOeCon.showButton(1, 32140, 'connmanNetworkConfig', 'save_network')
+            self.winOeCon.showButton(2, 32212, 'connmanNetworkConfig', 'cancel')
             self.winOeCon.build_menu(self.struct, fltr=[menuItem.getProperty('category')])
             self.oe.dbg_log('connmanService::menu_loader', 'exit_function', 0)
         except Exception, e:
