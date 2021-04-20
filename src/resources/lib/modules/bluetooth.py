@@ -879,7 +879,7 @@ class bluetooth:
                                          "params": {"setting": "audiooutput.audiodevice"}}
                                 response = self.oe.jsonrpc(query)
 
-                                if not 'PULSE' in response['value']:
+                                if response is not None and not 'PULSE' in response['value']:
                                     self.oe.write_setting('bluetooth', 'default_audio_device', response['value'])
 
                                     query = {"method": "Settings.GetSettingValue",
@@ -894,7 +894,7 @@ class bluetooth:
                                     else:
                                         self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Failed to change audio device to PULSE:Default', self.oe.LOGDEBUG)
 
-                                    if response_passthrough['value'] == True:
+                                    if response_passthrough is not None and response_passthrough['value'] == True:
                                         self.oe.write_setting('bluetooth', 'passthrough', 'true')
 
                                         query = {"method": "Settings.SetSettingValue",
@@ -934,7 +934,7 @@ class bluetooth:
                             response = self.oe.jsonrpc(query)
                             default_audio_device = self.oe.read_setting('bluetooth', 'default_audio_device')
 
-                            if 'PULSE' in response['value'] and default_audio_device:
+                            if response is not None and 'PULSE' in response['value'] and default_audio_device:
                                 self.oe.write_setting('bluetooth', 'default_audio_device', '')
                                 query = {"method": "Settings.SetSettingValue",
                                          "params": {"setting": "audiooutput.audiodevice", "value": default_audio_device}}
