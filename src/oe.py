@@ -82,8 +82,10 @@ sys.path.append(xbmcvfs.translatePath(os.path.join(__cwd__, 'resources', 'lib'))
 sys.path.append(xbmcvfs.translatePath(os.path.join(__cwd__, 'resources', 'lib', 'modules')))
 
 ## set default encoding
-
-encoding = locale.getpreferredencoding(do_setlocale=True)
+try:
+    encoding = locale.getpreferredencoding(do_setlocale=True)
+except Exception as e:
+    xbmc.log('## CoreELEC Addon ## ' + 'ERROR: (' + repr(e) + ')')
 imp.reload(sys)
 # sys.setdefaultencoding(encoding)
 
