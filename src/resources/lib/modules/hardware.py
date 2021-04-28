@@ -491,12 +491,7 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['dvb'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['emmc'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['slowsdio'])
-
-            dtname = self.oe.execute('/usr/bin/dtname', get_result=1).rstrip('\x00\n')
-            if 'khadas_vim3' in dtname:
-                self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
-            else:
-                self.struct['dtb_settings']['settings']['int_ext_phy']['hidden'] = 'true'
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
