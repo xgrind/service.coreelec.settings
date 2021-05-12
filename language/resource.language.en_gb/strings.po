@@ -1271,6 +1271,10 @@ msgctxt "#32531"
 msgid "Wired Network Interface"
 msgstr ""
 
+msgctxt "#32532"
+msgid "Green LED"
+msgstr ""
+
 msgctxt "#33510"
 msgid "Warning!"
 msgstr ""

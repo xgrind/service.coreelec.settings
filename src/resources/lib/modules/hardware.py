@@ -208,8 +208,17 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
-                        'spicc0': {
+                        'green_led': {
                             'order': 3,
+                            'name': 32532,
+                            'InfoText': 789,
+                            'value': '',
+                            'xml_node': 'green_led',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
+                        'spicc0': {
+                            'order': 4,
                             'name': 32528,
                             'InfoText': 902,
                             'value': '',
@@ -218,7 +227,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'spicc1': {
-                            'order': 4,
+                            'order': 5,
                             'name': 32528,
                             'InfoText': 902,
                             'value': '',
@@ -227,7 +236,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'remote_type': {
-                            'order': 5,
+                            'order': 6,
                             'name': 32529,
                             'InfoText': 903,
                             'value': 'NEC',
@@ -236,7 +245,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'dvb': {
-                            'order': 6,
+                            'order': 7,
                             'name': 32530,
                             'InfoText': 904,
                             'value': '',
@@ -245,7 +254,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'emmc': {
-                            'order': 7,
+                            'order': 8,
                             'name': 32525,
                             'InfoText': 900,
                             'value': '',
@@ -255,7 +264,7 @@ class hardware:
                             'dangerous': True,
                             },
                         'slowsdio': {
-                            'order': 8,
+                            'order': 9,
                             'name': 32526,
                             'InfoText': 901,
                             'value': '',
@@ -264,7 +273,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'int_ext_phy': {
-                            'order': 9,
+                            'order': 10,
                             'name': 32531,
                             'InfoText': 905,
                             'value': '',
@@ -486,6 +495,7 @@ class hardware:
 
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['sys_led'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['red_led'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['green_led'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['spicc0'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['spicc1'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['dvb'])
