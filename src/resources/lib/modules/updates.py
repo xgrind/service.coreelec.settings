@@ -533,7 +533,7 @@ class updates:
                                     update_files.append(regex.findall(self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'][i]['file']['name'])[0].strip('.tar'))
                                 else:
                                     build = self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'][i]['file']['name']
-                                    if shortname in build:
+                                    if build.startswith(shortname + '/'):
                                         break
             self.oe.dbg_log('updates::get_available_builds', 'exit_function', self.oe.LOGDEBUG)
             if build is None:
