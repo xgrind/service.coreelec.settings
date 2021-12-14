@@ -281,6 +281,15 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
+                        'ip1001': {
+                            'order': 11,
+                            'name': 32533,
+                            'InfoText': 906,
+                            'value': '',
+                            'xml_node': 'ip1001',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
                         },
                     },
                 'display': {
@@ -502,6 +511,7 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['emmc'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['slowsdio'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['ip1001'])
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'

@@ -376,6 +376,10 @@ msgctxt "#905"
 msgid "Configure Wired Network Interface"
 msgstr ""
 
+msgctxt "#906"
+msgid "Choose if IP1001 is assembled"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1273,6 +1277,10 @@ msgstr ""
 
 msgctxt "#32532"
 msgid "Green LED"
+msgstr ""
+
+msgctxt "#32533"
+msgid "IP1001 Ethernet Transceiver"
 msgstr ""
 
 msgctxt "#33510"
