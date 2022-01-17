@@ -380,6 +380,10 @@ msgctxt "#906"
 msgid "Choose if IP1001 is assembled"
 msgstr ""
 
+msgctxt "#907"
+msgid "Switch between using the USB3 interface or the PCIE interface on m.2 connector"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1282,6 +1286,11 @@ msgstr ""
 msgctxt "#32533"
 msgid "IP1001 Ethernet Transceiver"
 msgstr ""
+
+msgctxt "#32534"
+msgid "VIM3 USB3/PCIE Switch"
+msgstr ""
+
 
 msgctxt "#33510"
 msgid "Warning!"

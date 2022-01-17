@@ -290,6 +290,15 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
+                        'k_usb3_pcie': {
+                            'order': 12,
+                            'name': 32534,
+                            'InfoText': 907,
+                            'value': '',
+                            'xml_node': 'k_usb3_pcie',
+                            'action': 'set_k_usbpcie',
+                            'type': 'multivalue',
+                            },
                         },
                     },
                 'display': {
@@ -512,6 +521,7 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['slowsdio'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['ip1001'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['k_usb3_pcie'])
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'
@@ -893,6 +903,28 @@ class hardware:
             self.oe.dbg_log('hardware::set_disk_idle', 'exit_function', 0)
         except Exception as e:
             self.oe.dbg_log('hardware::set_disk_idle', 'ERROR: (%s)' % repr(e), 4)
+        finally:
+            self.oe.set_busy(0)
+
+    def set_k_usbpcie(self, listItem=None):
+        try:
+            self.oe.dbg_log('hardware::set_k_usbpcie', 'enter_function', 0)
+            self.oe.set_busy(1)
+            if not listItem == None:
+                self.set_value(listItem)
+
+                usb_pcie_switch_mode = open('/sys/class/mcu/usb_pcie_switch_mode', 'w')
+                if self.struct['dtb_settings']['settings']['k_usb3_pcie']['value'] == 'USB3':
+                    usb_pcie_switch_mode.write('0')
+                if self.struct['dtb_settings']['settings']['k_usb3_pcie']['value'] == 'PCIE':
+                    usb_pcie_switch_mode.write('1')
+                usb_pcie_switch_mode.close()
+
+                self.oe.set_dtbxml_value(listItem.getProperty('entry'), listItem.getProperty('value'))
+                hardware.check_for_reboot = True
+            self.oe.dbg_log('hardware::set_k_usbpcie', 'exit_function', 0)
+        except Exception as e:
+            self.oe.dbg_log('hardware::set_k_usbpcie', 'ERROR: (%s)' % repr(e), 4)
         finally:
             self.oe.set_busy(0)
 
