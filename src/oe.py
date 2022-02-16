@@ -534,7 +534,7 @@ def get_dtbxml_multivalues(var, retry='yes'):
             return get_dtbxml_multivalues(var, 'no')
         else:
             return None
-    for sub_node in node[0].getchildren():
+    for sub_node in list(node[0]):
         multivalue.append(sub_node.get('name'))
     return multivalue
 
