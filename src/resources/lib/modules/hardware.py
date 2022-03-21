@@ -299,6 +299,15 @@ class hardware:
                             'action': 'set_k_usbpcie',
                             'type': 'multivalue',
                             },
+                        'smartchip': {
+                            'order': 13,
+                            'name': 32535,
+                            'InfoText': 908,
+                            'value': '',
+                            'xml_node': 'smartchip',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
                         },
                     },
                 'display': {
@@ -474,6 +483,19 @@ class hardware:
         finally:
             return IBL.returncode
 
+    def get_sdio_devices(self):
+        try:
+            lines = ''
+            self.oe.dbg_log('hardware::get_sdio_devices', 'enter_function', 0)
+            if os.path.exists('/sys/bus/sdio/devices'):
+                stream = os.popen('udevadm info /sys/bus/sdio/devices/* | grep SDIO_ID | cut -d= -f2')
+                lines = stream.read()
+            self.oe.dbg_log('hardware::get_sdio_devices', 'exit_function', 0)
+        except Exception as e:
+            self.oe.dbg_log('hardware::get_sdio_devices', 'ERROR: (' + repr(e) + ')')
+        finally:
+            return lines
+
     def inject_check_compatibility(self):
         try:
             self.oe.dbg_log('hardware::inject_check_compatibility', 'enter_function', 0)
@@ -522,6 +544,13 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['int_ext_phy'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['ip1001'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['k_usb3_pcie'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['smartchip'])
+
+            # check if Smartchip device is found
+            if os.path.exists('/sys/bus/sdio/devices'):
+                sdio_devices = self.get_sdio_devices().split('\n')
+                if sdio_devices.count("02E7:9086") == 0:
+                    self.struct['dtb_settings']['settings']['smartchip']['hidden'] = 'true'
 
             if not self.inject_check_compatibility():
                 self.struct['power']['settings']['inject_bl301']['hidden'] = 'true'

@@ -384,6 +384,10 @@ msgctxt "#907"
 msgid "Switch between using the USB3 interface or the PCIE interface on m.2 connector"
 msgstr ""
 
+msgctxt "#908"
+msgid "Choose assembled Smartchip device"
+msgstr ""
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1289,6 +1293,10 @@ msgstr ""
 
 msgctxt "#32534"
 msgid "VIM3 USB3/PCIE Switch"
+msgstr ""
+
+msgctxt "#32535"
+msgid "Smartchip WiFi Driver"
 msgstr ""
 
 
