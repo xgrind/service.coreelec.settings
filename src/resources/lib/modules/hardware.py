@@ -549,7 +549,7 @@ class hardware:
             # check if Smartchip device is found
             if os.path.exists('/sys/bus/sdio/devices'):
                 sdio_devices = self.get_sdio_devices().split('\n')
-                if sdio_devices.count("02E7:9086") == 0:
+                if sdio_devices.count("02E7:908") == 0:
                     self.struct['dtb_settings']['settings']['smartchip']['hidden'] = 'true'
 
             if not self.inject_check_compatibility():
