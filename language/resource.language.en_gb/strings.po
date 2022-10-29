@@ -388,6 +388,23 @@ msgctxt "#908"
 msgid "Choose assembled Smartchip device"
 msgstr ""
 
+msgctxt "#909"
+msgid "Set to ON to enable service"
+msgstr ""
+
+msgctxt "#910"
+msgid "Set to ON to send invitation to the @DISTRONAME@ developers for remote debugging"
+msgstr ""
+
+msgctxt "#911"
+msgid "Select the SSH key used for access control"
+msgstr ""
+
+msgctxt "#912"
+msgid "Forum username to identify the connection"
+msgstr ""
+
+
 msgctxt "#32001"
 msgid "Services"
 msgstr ""
@@ -1358,4 +1375,29 @@ msgstr ""
 
 msgctxt "#33524"
 msgid "[COLOR red]Are you sure to change this value?[/COLOR][CR]Please enter confirmation code '%s'"
+msgstr ""
+
+
+msgctxt "#33525"
+msgid "Terminal sharing"
+msgstr ""
+
+msgctxt "#33526"
+msgid "Enable terminal sharing"
+msgstr ""
+
+msgctxt "#33527"
+msgid "Send invitation to @DISTRONAME@ developers"
+msgstr ""
+
+msgctxt "#33528"
+msgid "Hint: enable this option only when requested by team @DISTRONAME@"
+msgstr ""
+
+msgctxt "#33529"
+msgid "Access control key"
+msgstr ""
+
+msgctxt "#33530"
+msgid "Connection name"
 msgstr ""

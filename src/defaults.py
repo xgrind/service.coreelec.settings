@@ -58,6 +58,10 @@ services = {
     'D_SSH_DISABLE_PW_AUTH': '0',
     'AVAHI_DAEMON': '/usr/sbin/avahi-daemon',
     'CRON_DAEMON': '/sbin/crond',
+    'TMATE_DAEMON': '/usr/bin/tmate',
+    'D_TMATE_INVITE': '0',
+    'D_TMATE_SSH_KEY': 'User key',
+    'D_TMATE_USERNAME': '',
     }
 
 system = {
@@ -106,4 +110,5 @@ _services = {
     'obexd': ['obex.service'],
     'crond': ['cron.service'],
     'iptables': ['iptables.service'],
+    'tmate': ['tmate.service'],
     }

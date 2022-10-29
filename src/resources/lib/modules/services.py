@@ -33,6 +33,11 @@ class services:
     OPT_SSH_NOPASSWD = None
     AVAHI_DAEMON = None
     CRON_DAEMON = None
+    TMATE_DAEMON = None
+    D_TMATE_INVITE = None
+    D_TMATE_SSH_KEY = None
+    D_TMATE_USERNAME = None
+
     menu = {'6': {
         'name': 32001,
         'menuLoader': 'load_menu',
@@ -218,6 +223,63 @@ class services:
                         'InfoText': 745,
                         }},
                     },
+
+                'tmate': {
+                    'order': 7,
+                    'name': 33525,
+                    'not_supported': [],
+                    'settings': {
+                        'tmate_autostart': {
+                            'order': 1,
+                            'name': 33526,
+                            'value': None,
+                            'action': 'initialize_tmate',
+                            'type': 'bool',
+                            'InfoText': 909,
+                            },
+                        'tmate_invite': {
+                            'order': 2,
+                            'name': 33527,
+                            'value': None,
+                            'action': 'initialize_tmate',
+                            'type': 'bool',
+                            'parent': {
+                                'entry': 'tmate_autostart',
+                                'value': ['1'],
+                                },
+                            'InfoText': 910,
+                            },
+                        'tmate_ssh_key': {
+                            'order': 3,
+                            'name': 33529,
+                            'value': '',
+                            'action': 'initialize_tmate',
+                            'type': 'multivalue',
+                            'values': [
+                                'User key',
+                                'None',
+                                ],
+                            'parent': {
+                                'entry': 'tmate_invite',
+                                'value': ['0'],
+                                },
+                            'InfoText': 911,
+                            },
+                        'tmate_username': {
+                            'order': 4,
+                            'name': 33530,
+                            'value': "",
+                            'action': 'initialize_tmate',
+                            'type': 'text',
+                            'parent': {
+                                'entry': 'tmate_autostart',
+                                'value': ['1'],
+                                },
+                            'InfoText': 912,
+                            },
+                        },
+                    },
+
                 'bluez': {
                     'order': 6,
                     'name': 32331,
@@ -317,6 +379,7 @@ class services:
             self.initialize_ssh(service=1)
             self.initialize_avahi(service=1)
             self.initialize_cron(service=1)
+            self.initialize_tmate(service=1)
             self.init_bluetooth(service=1)
             self.oe.dbg_log('services::start_service', 'exit_function', self.oe.LOGDEBUG)
         except Exception as e:
@@ -409,6 +472,22 @@ class services:
                 self.struct['cron']['settings']['cron_autostart']['value'] = self.oe.get_service_state('crond')
             else:
                 self.struct['cron']['hidden'] = 'true'
+
+            # TMATE
+
+            if os.path.isfile(self.TMATE_DAEMON):
+                self.struct['tmate']['settings']['tmate_autostart']['value'] = self.oe.get_service_state('tmate')
+                self.struct['tmate']['settings']['tmate_invite']['value'] = self.oe.get_service_option('tmate', 'TMATE_INVITE',
+                        self.D_TMATE_INVITE).replace('true', '1').replace('false', '0').replace('"', '')
+                self.struct['tmate']['settings']['tmate_ssh_key']['value'] = self.oe.get_service_option('tmate', 'TMATE_SSH_KEY',
+                        self.D_TMATE_SSH_KEY).replace('"', '')
+                self.struct['tmate']['settings']['tmate_username']['value'] = self.oe.get_service_option('tmate', 'TMATE_USERNAME',
+                        self.D_TMATE_USERNAME).replace('"', '')
+
+                if self.struct['tmate']['settings']['tmate_invite']['value'] == 1:
+                    self.struct['tmate']['settings']['tmate_ssh_key']['hidden'] = True
+            else:
+                self.struct['tmate']['hidden'] = 'true'
 
             # BLUEZ / OBEX
 
@@ -541,6 +620,50 @@ class services:
         except Exception as e:
             self.oe.set_busy(0)
             self.oe.dbg_log('services::initialize_cron', 'ERROR: (%s)' % repr(e), self.oe.LOGERROR)
+
+    def initialize_tmate(self, **kwargs):
+        try:
+            self.oe.dbg_log('services::initialize_tmate', 'enter_function', self.oe.LOGDEBUG)
+            self.oe.set_busy(1)
+            if 'listItem' in kwargs:
+                self.set_value(kwargs['listItem'])
+            state = 1
+            options = {}
+
+            if not 'service' in kwargs:
+                tmateInvitePrevious = self.oe.get_service_option('tmate', 'TMATE_INVITE',
+                        self.D_TMATE_INVITE).replace('true', '1').replace('false', '0').replace('"', '')
+
+                if tmateInvitePrevious == '0' and self.struct['tmate']['settings']['tmate_invite']['value'] == '1':
+                    enableInvite = xbmcDialog.yesno(self.oe._(33527), self.oe._(33528), yeslabel=self.oe._(32334), nolabel=self.oe._(32335))
+                    if not enableInvite:
+                        self.struct['tmate']['settings']['tmate_invite']['value'] = '0'
+
+            if self.struct['tmate']['settings']['tmate_invite']['value'] == '1':
+                options['TMATE_INVITE'] = 'true'
+            else:
+                options['TMATE_INVITE'] = 'false'
+
+            if self.struct['tmate']['settings']['tmate_autostart']['value'] != '1':
+                state = 0
+
+            options['TMATE_SSH_KEY'] = '"%s"' % self.struct['tmate']['settings']['tmate_ssh_key']['value']
+            options['TMATE_USERNAME'] = '"%s"' % self.struct['tmate']['settings']['tmate_username']['value']
+
+            self.oe.set_service('tmate', options, state)
+
+            if self.struct['tmate']['settings']['tmate_invite']['value'] == '0':
+                if 'hidden' in self.struct['tmate']['settings']['tmate_ssh_key']:
+                    del self.struct['tmate']['settings']['tmate_ssh_key']['hidden']
+
+            if self.struct['tmate']['settings']['tmate_autostart']['value'] == '0':
+            	  self.struct['tmate']['settings']['tmate_ssh_key']['hidden'] = True
+
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_tmate', 'exit_function', self.oe.LOGDEBUG)
+        except Exception as e:
+            self.oe.set_busy(0)
+            self.oe.dbg_log('services::initialize_tmate', 'ERROR: (%s)' % repr(e), self.oe.LOGERROR)
 
     def init_bluetooth(self, **kwargs):
         try:
