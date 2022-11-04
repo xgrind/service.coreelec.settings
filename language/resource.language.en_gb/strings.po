@@ -1217,7 +1217,7 @@ msgid "Speed Level"
 msgstr ""
 
 msgctxt "#32515"
-msgid "Inject BL301 Blob"
+msgid "Inject BL30 Blob"
 msgstr ""
 
 msgctxt "#32516"
@@ -1321,35 +1321,35 @@ msgid "Error!"
 msgstr ""
 
 msgctxt "#33515"
-msgid "Inject Bootloader BL301 Blob..."
+msgid "Inject Bootloader BL30 Blob..."
 msgstr ""
 
 msgctxt "#33516"
-msgid "[B][COLOR red]Note: This will modify the firmware on your device.[/COLOR][/B][CR]The BL301 bootloader blob has been customized by the CoreELEC Team to support all features used to wake a device from a suspend or power off state!"
+msgid "[B][COLOR red]Note: This will modify the firmware on your device.[/COLOR][/B][CR]The BL30 bootloader blob has been customized by the CoreELEC Team to support all features used to wake a device from a suspend or power off state!"
 msgstr ""
 
 msgctxt "#33517"
-msgid "Finished update of the BL301 on internal eMMC.[CR]A reboot is now required!"
+msgid "Finished update of the BL30 on internal eMMC.[CR]A reboot is now required!"
 msgstr ""
 
 msgctxt "#33518"
-msgid "Error [%d] has occurred while using the 'inject_bl301' tool![CR]See '/storage/inject_bl301.log' for details."
+msgid "Error [%d] has occurred while using the 'inject_BL30' tool![CR]See '/storage/inject_BL30.log' for details."
 msgstr ""
 
 msgctxt "#33519"
-msgid "System is not supported by BL301 injection![CR]See '/storage/inject_bl301.log' for details."
+msgid "System is not supported by BL30 injection![CR]See '/storage/inject_BL30.log' for details."
 msgstr ""
 
 msgctxt "#33520"
-msgid "Update of BL301 on eMMC is not needed."
+msgid "Update of BL30 on eMMC is not needed."
 msgstr ""
 
 msgctxt "#33521"
-msgid "[B][COLOR red]Note: This will remove the bl301 injection on your device.[/COLOR][CR]The injected BL301 bootloader blob will be removed by the backup done automatically before injection.[/B]"
+msgid "[B][COLOR red]Note: This will remove the BL30 injection on your device.[/COLOR][CR]The injected BL30 bootloader blob will be removed by the backup done automatically before injection.[/B]"
 msgstr ""
 
 msgctxt "#33522"
-msgid "Finished remove of the BL301 on internal eMMC.[CR]A reboot is now required!"
+msgid "Finished remove of the BL30 on internal eMMC.[CR]A reboot is now required!"
 msgstr ""
 
 msgctxt "#33523"

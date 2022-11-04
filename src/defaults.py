@@ -91,7 +91,10 @@ updates = {
 
 about = {'ENABLED': True}
 
-hardware = {'ENABLED': True}
+hardware = {
+    'ENABLED': True,
+    'KERNEL_CMD': '/proc/cmdline'
+    }
 
 xdbus = {'ENABLED': True}
 
