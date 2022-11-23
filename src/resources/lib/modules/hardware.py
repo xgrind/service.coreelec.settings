@@ -995,6 +995,7 @@ class hardware:
                     var['hidden'] = 'true'
             else:
                 self.oe.dbg_log('hardware::fill_values_by_xml', '"%s" could not be read from dtb.xml' % var['xml_node'], 0)
+                var['hidden'] = 'true'
             self.oe.dbg_log('hardware::fill_values_by_xml', 'exit_function', 0)
         except Exception as e:
             self.oe.dbg_log('hardware::fill_values_by_xml', 'ERROR: (%s)' % repr(e), 4)
