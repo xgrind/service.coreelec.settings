@@ -404,6 +404,10 @@ msgctxt "#912"
 msgid "Forum username to identify the connection"
 msgstr ""
 
+msgctxt "#913"
+msgid "Choose if Motorcomm PHY is assembled"
+msgstr ""
+
 
 msgctxt "#32001"
 msgid "Services"
@@ -1314,6 +1318,10 @@ msgstr ""
 
 msgctxt "#32535"
 msgid "Smartchip WiFi Driver"
+msgstr ""
+
+msgctxt "#32536"
+msgid "Motorcomm Ethernet Transceiver"
 msgstr ""
 
 

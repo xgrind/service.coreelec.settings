@@ -314,6 +314,15 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
+                        'motorcomm': {
+                            'order': 14,
+                            'name': 32536,
+                            'InfoText': 913,
+                            'value': '',
+                            'xml_node': 'motorcomm',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
                         },
                     },
                 'display': {
@@ -543,6 +552,7 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['ip1001'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['k_usb3_pcie'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['smartchip'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['motorcomm'])
 
             # check if Smartchip device is found
             if os.path.exists('/sys/bus/sdio/devices'):
