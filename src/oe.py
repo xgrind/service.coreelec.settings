@@ -740,21 +740,21 @@ def openWizard():
     except Exception as e:
         dbg_log('oe::openWizard', 'ERROR: (' + repr(e) + ')')
 
-def openReleaseNotes():
+def showPopUp(title, path):
     global winOeMain, __cwd__, __oe__
     try:
-        RNOTES = load_file('/etc/release-notes')
-        RNOTES_TITLE = 'Release Notes: CoreELEC %s' % VERSION
+        NOTES = load_file(path)
+        NOTES_TITLE = title
 
         #TODO: fix so this can be done in a way that doesn't leave blank line
         regex = '\[TITLE\](.*?)\[\/TITLE\]'
-        match = re.search(regex, RNOTES, re.IGNORECASE)
+        match = re.search(regex, NOTES, re.IGNORECASE)
         if match:
-          RNOTES_TITLE = match.group(1)
-          RNOTES = re.sub(regex, "", RNOTES)
+          NOTES_TITLE = match.group(1)
+          NOTES = re.sub(regex, "", NOTES)
 
         CLdialog = xbmcgui.Dialog()
-        CLdialog.textviewer(RNOTES_TITLE, RNOTES, 1)
+        CLdialog.textviewer(NOTES_TITLE, NOTES, 1)
     except Exception as e:
         dbg_log('oe::openChangeLog', 'ERROR: (' + repr(e) + ')')
 
