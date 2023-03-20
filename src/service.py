@@ -55,6 +55,10 @@ class service_thread(threading.Thread):
                 threading.Thread(target=self.oe.openWizard).start()
             elif self.oe.BOOT_HINT == 'UPDATE' and self.oe.HAS_RNOTES:
                 threading.Thread(target=self.oe.showPopUp, args=('Release Notes: CoreELEC %s' % oe.VERSION, '/etc/release-notes',)).start()
+
+            if os.path.isfile('/tmp/tee.message'):
+                threading.Thread(target=self.oe.showPopUp, args=('CoreELEC Media Playback', '/tmp/tee.message',)).start()
+
             while self.stopped == False:
                 self.oe.dbg_log('_service_::run', 'WAITING:', self.oe.LOGINFO)
                 conn, addr = self.sock.accept()
