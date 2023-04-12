@@ -223,8 +223,17 @@ class hardware:
                             'action': 'set_value_xml',
                             'type': 'multivalue',
                             },
-                        'spicc0': {
+                        'bct3236_led': {
                             'order': 4,
+                            'name': 32519,
+                            'InfoText': 789,
+                            'value': '',
+                            'xml_node': 'bct3236_led',
+                            'action': 'set_value_xml',
+                            'type': 'multivalue',
+                            },
+                        'spicc0': {
+                            'order': 5,
                             'name': 32528,
                             'InfoText': 902,
                             'value': '',
@@ -233,7 +242,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'spicc1': {
-                            'order': 5,
+                            'order': 6,
                             'name': 32528,
                             'InfoText': 902,
                             'value': '',
@@ -242,7 +251,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'remote_type': {
-                            'order': 6,
+                            'order': 7,
                             'name': 32529,
                             'InfoText': 903,
                             'value': 'NEC',
@@ -251,7 +260,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'dvb': {
-                            'order': 7,
+                            'order': 8,
                             'name': 32530,
                             'InfoText': 904,
                             'value': '',
@@ -260,7 +269,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'emmc': {
-                            'order': 8,
+                            'order': 9,
                             'name': 32525,
                             'InfoText': 900,
                             'value': '',
@@ -270,7 +279,7 @@ class hardware:
                             'dangerous': True,
                             },
                         'slowsdio': {
-                            'order': 9,
+                            'order': 10,
                             'name': 32526,
                             'InfoText': 901,
                             'value': '',
@@ -279,7 +288,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'int_ext_phy': {
-                            'order': 10,
+                            'order': 11,
                             'name': 32531,
                             'InfoText': 905,
                             'value': '',
@@ -288,7 +297,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'ip1001': {
-                            'order': 11,
+                            'order': 12,
                             'name': 32533,
                             'InfoText': 906,
                             'value': '',
@@ -297,7 +306,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'k_usb3_pcie': {
-                            'order': 12,
+                            'order': 13,
                             'name': 32534,
                             'InfoText': 907,
                             'value': '',
@@ -306,7 +315,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'smartchip': {
-                            'order': 13,
+                            'order': 14,
                             'name': 32535,
                             'InfoText': 908,
                             'value': '',
@@ -315,7 +324,7 @@ class hardware:
                             'type': 'multivalue',
                             },
                         'motorcomm': {
-                            'order': 14,
+                            'order': 15,
                             'name': 32536,
                             'InfoText': 913,
                             'value': '',
@@ -543,6 +552,7 @@ class hardware:
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['sys_led'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['red_led'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['green_led'])
+            self.fill_values_by_xml(self.struct['dtb_settings']['settings']['bct3236_led'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['spicc0'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['spicc1'])
             self.fill_values_by_xml(self.struct['dtb_settings']['settings']['dvb'])
