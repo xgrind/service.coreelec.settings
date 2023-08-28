@@ -612,6 +612,11 @@ class hardware:
 
                 self.struct['power']['settings']['remote_power']['values'] = remote_names
 
+                if os.access('/sys/class/bl301_manager/setup_bl301', os.W_OK):
+                    setup_bl301 = open('/sys/class/bl301_manager/setup_bl301', 'w')
+                    setup_bl301.write('1')
+                    setup_bl301.close()
+
             wol = self.oe.get_config_ini('wol', '0')
             if any("stmmac" in s for s in os.listdir('/sys/bus/mdio_bus/drivers/RTL8211F Gigabit Ethernet')):
                 hide_power_section = False
