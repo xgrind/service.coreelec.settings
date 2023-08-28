@@ -656,6 +656,11 @@ class hardware:
                     if "1" in usbpower:
                         self.struct['power']['settings']['usbpower']['value'] = '1'
 
+                if os.access('/sys/class/bl30_manager/setup_bl30', os.W_OK):
+                    setup_bl30 = open('/sys/class/bl30_manager/setup_bl30', 'w')
+                    setup_bl30.write('1')
+                    setup_bl30.close()
+
             if os.path.exists('/flash/vesa.enable'):
                 self.struct['display']['settings']['vesa_enable']['value'] = '1'
             else:
