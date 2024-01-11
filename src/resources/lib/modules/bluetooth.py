@@ -887,7 +887,7 @@ class bluetooth:
                                     response_passthrough = self.oe.jsonrpc(query)
 
                                     query = {"method": "Settings.SetSettingValue",
-                                             "params": {"setting": "audiooutput.audiodevice", "value": "PULSE:Default"}}
+                                             "params": {"setting": "audiooutput.audiodevice", "value": "PULSE:Default|Bluetooth Audio (PULSEAUDIO)"}}
                                     if self.oe.jsonrpc(query):
                                         self.oe.dbg_log('bluetooth::monitor::InterfacesAdded', 'Changed audio device from %s to PULSE:Default'
                                             % self.oe.read_setting('bluetooth', 'default_audio_device'), self.oe.LOGDEBUG)
