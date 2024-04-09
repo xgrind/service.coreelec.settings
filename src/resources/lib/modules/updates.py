@@ -528,13 +528,21 @@ class updates:
                     if channel in self.update_json:
                         regex = re.compile(self.update_json[channel]['prettyname_regex'])
                         if self.oe.ARCHITECTURE in self.update_json[channel]['project']:
+                            tagstrip = []
                             for i in sorted(self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'], key=int, reverse=True):
                                 if shortname is None:
-                                    update_files.append(regex.findall(self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'][i]['file']['name'])[0].strip('.tar'))
+                                    tagname = regex.findall(self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'][i]['file']['name'])[0]
+                                    if tagname != tagname.strip('.tar'):
+                                        tagstrip.append(tagname.strip('.tar'))
+                                    update_files.append(tagname)
                                 else:
                                     build = self.update_json[channel]['project'][self.oe.ARCHITECTURE]['releases'][i]['file']['name']
                                     if build.startswith(shortname + '/'):
                                         break
+
+                            for tag in tagstrip:
+                                update_files = [i for i in update_files if i != tag]
+                                self.oe.dbg_log('updates::get_available_builds', 'removed tag name "%s" from list' % (tag))
             self.oe.dbg_log('updates::get_available_builds', 'exit_function', self.oe.LOGDEBUG)
             if build is None:
                 return update_files
