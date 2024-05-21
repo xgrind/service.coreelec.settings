@@ -334,38 +334,47 @@ class system:
                 with open(timezone, 'r') as f:
                     value = f.readline().replace('\n', '').split('=')[1]
                     if not value == "":
-                        zone_tab = '/usr/share/zoneinfo/zone.tab'
-                        timezone_cities = [x.replace('\n', '') for x in open(zone_tab, 'r') if not x.startswith('#')]
-                        timezone_country_code = str([x.split('\t')[0] for x in timezone_cities if value in x][0])
-                        timezone_cities = [x.split('\t')[2] for x in timezone_cities if x.startswith(timezone_country_code)]
-                        timezone_cities.sort()
+                        timezone_country_code, timezone_cities = self.filter_timezone_city(value, None)
                         self.struct['timezone']['settings']['timezone']['values'] = timezone_cities
                         self.struct['timezone']['settings']['timezone']['value'] = value
                         self.oe.dbg_log('system::load_values', 'current timezone city: %s, %s' % (value, timezone_country_code))
 
-                        iso3166_tab = '/usr/share/zoneinfo/iso3166.tab'
-                        timezone_countries = [x.replace('\n', '') for x in open(iso3166_tab, 'r') if not x.startswith('#')]
-                        timezone_country = str([x.split('\t')[1] for x in timezone_countries if x.startswith(timezone_country_code)][0])
-                        timezone_countries = [x.split('\t')[1] for x in timezone_countries]
-                        timezone_countries.sort()
+                        timezone_country, timezone_countries = self.filter_timezone_country(None, timezone_country_code)
                         self.struct['timezone']['settings']['timezone_country']['values'] = timezone_countries
                         self.struct['timezone']['settings']['timezone_country']['value'] = timezone_country
                         self.oe.dbg_log('system::load_values', 'current timezone country: %s, %s' % (timezone_country, timezone_country_code))
 
             if value == "":
-                iso3166_tab = '/usr/share/zoneinfo/iso3166.tab'
-                timezone_countries = [x.replace('\n', '') for x in open(iso3166_tab, 'r') if not x.startswith('#')]
-                timezone_countries = [x.split('\t')[1] for x in timezone_countries]
-                timezone_countries.sort()
-                self.struct['timezone']['settings']['timezone_country']['values'] = timezone_countries
-                self.struct['timezone']['settings']['timezone_country']['value'] = ''
+                timezone_url = 'https://time.coreelec.org'
+                timezone_data = self.oe.load_url(timezone_url)
+                if not timezone_data is None:
+                    try:
+                        timezone_json = json.loads(timezone_data)
+                        value = timezone_json['timezone']
+                        if not value == "":
+                            self.oe.dbg_log('system::load_values', 'using WorldTimeAPI timezone city: %s' % value)
+                    except KeyError:
+                        self.oe.dbg_log('system::load_values', 'value: not found')
 
-                zone_tab = '/usr/share/zoneinfo/zone.tab'
-                timezone_cities = [x.replace('\n', '') for x in open(zone_tab, 'r') if not x.startswith('#')]
-                timezone_cities = [x.split('\t')[2] for x in timezone_cities]
-                timezone_cities.sort()
-                self.struct['timezone']['settings']['timezone']['values'] = timezone_cities
-                self.struct['timezone']['settings']['timezone']['value'] = ''
+                if not value == "":
+                    timezone_country_code, timezone_cities = self.filter_timezone_city(value, None)
+                    self.struct['timezone']['settings']['timezone']['values'] = timezone_cities
+                    self.struct['timezone']['settings']['timezone']['value'] = value
+                    self.set_timezone(value)
+                    self.oe.dbg_log('system::load_values', 'current timezone city: %s, %s' % (value, timezone_country_code))
+
+                    timezone_country, timezone_countries = self.filter_timezone_country(None, timezone_country_code)
+                    self.struct['timezone']['settings']['timezone_country']['values'] = timezone_countries
+                    self.struct['timezone']['settings']['timezone_country']['value'] = timezone_country
+                    self.oe.dbg_log('system::load_values', 'current timezone country: %s, %s' % (timezone_country, timezone_country_code))
+                else:
+                    timezone_countries = self.filter_timezone_country(None, None)
+                    self.struct['timezone']['settings']['timezone_country']['values'] = timezone_countries
+                    self.struct['timezone']['settings']['timezone_country']['value'] = ''
+
+                    timezone_cities = self.filter_timezone_city(None, None)
+                    self.struct['timezone']['settings']['timezone']['values'] = timezone_cities
+                    self.struct['timezone']['settings']['timezone']['value'] = ''
 
             # PIN Lock
             self.struct['pinlock']['settings']['pinlock_enable']['value'] = '1' if self.oe.PIN.isEnabled() else '0'
@@ -802,6 +811,56 @@ class system:
             elif os.path.isdir(itempath):
                 self.get_folder_size(itempath, includeThumbnails)
 
+    def filter_timezone_country(self, country=None, country_code=None):
+        try:
+            self.oe.dbg_log('system::filter_timezone_country', 'enter_function', self.oe.LOGDEBUG)
+            iso3166_tab = '/usr/share/zoneinfo/iso3166.tab'
+            timezone_countries = [x.replace('\n', '') for x in open(iso3166_tab, 'r') if not x.startswith('#')]
+            timezone_country = ''
+            timezone_country_code = ''
+            if not country is None:
+                timezone_country_code = str([x.replace('\n', '').split('\t')[0] for x in timezone_countries if country in x][0])
+                self.oe.dbg_log('system::filter_timezone_country', 'exit_function', self.oe.LOGDEBUG)
+                return timezone_country_code
+            if not country_code is None:
+                timezone_country = str([x.split('\t')[1] for x in timezone_countries if x.startswith(country_code)][0])
+                timezone_countries = [x.split('\t')[1] for x in timezone_countries]
+                timezone_countries.sort()
+                self.oe.dbg_log('system::filter_timezone_country', 'exit_function', self.oe.LOGDEBUG)
+                return timezone_country, timezone_countries
+            timezone_countries = [x.split('\t')[1] for x in timezone_countries]
+            timezone_countries.sort()
+            self.oe.dbg_log('system::filter_timezone_country', 'exit_function', self.oe.LOGDEBUG)
+            return timezone_countries
+        except Exception as e:
+            self.oe.dbg_log('system::filter_timezone_country', 'ERROR: (%s)' % repr(e), self.oe.LOGERROR)
+
+    def filter_timezone_city(self, city=None, country_code=None):
+        try:
+            self.oe.dbg_log('system::filter_timezone_city', 'enter_function', self.oe.LOGDEBUG)
+            zone_tab = '/usr/share/zoneinfo/zone.tab'
+            timezone_cities = [x.replace('\n', '') for x in open(zone_tab, 'r') if not x.startswith('#')]
+            timezone_city = ''
+            timezone_country_code = ''
+            if not city is None:
+                timezone_country_code = str([x.split('\t')[0] for x in timezone_cities if city in x][0])
+                timezone_cities = [x.split('\t')[2] for x in timezone_cities if x.startswith(timezone_country_code)]
+                timezone_cities.sort()
+                self.oe.dbg_log('system::filter_timezone_city', 'exit_function', self.oe.LOGDEBUG)
+                return (timezone_country_code, timezone_cities)
+            if not country_code is None:
+                timezone_cities = [x.split('\t')[2] for x in timezone_cities if x.startswith(country_code)]
+                timezone_cities.sort()
+                timezone_city = str(timezone_cities[0])
+                self.oe.dbg_log('system::filter_timezone_city', 'exit_function', self.oe.LOGDEBUG)
+                return (timezone_city, timezone_cities)
+            timezone_cities = [x.split('\t')[2] for x in timezone_cities]
+            timezone_cities.sort()
+            self.oe.dbg_log('system::filter_timezone_city', 'exit_function', self.oe.LOGDEBUG)
+            return timezone_cities
+        except Exception as e:
+            self.oe.dbg_log('system::filter_timezone_city', 'ERROR: (%s)' % repr(e), self.oe.LOGERROR)
+
     def set_timezone(self, zone=None):
         try:
             self.oe.dbg_log('system::set_timezone', 'enter_function', self.oe.LOGDEBUG)
@@ -821,18 +880,12 @@ class system:
             self.oe.dbg_log('system::set_timezone_country', 'enter_function', self.oe.LOGDEBUG)
 
             if not listItem == None:
-                iso3166_tab = '/usr/share/zoneinfo/iso3166.tab'
                 value = listItem.getProperty('value')
                 self.struct['timezone']['settings']['timezone_country']['value'] = value
-                timezone_country_code = str([x.replace('\n', '').split('\t')[0] for x in open(iso3166_tab, 'r')
-                    if value in x and not x.startswith('#')][0])
+                timezone_country_code = self.filter_timezone_country(value, None)
 
                 if not timezone_country_code is None:
-                    zone_tab = '/usr/share/zoneinfo/zone.tab'
-                    timezone_cities = [x.replace('\n', '') for x in open(zone_tab, 'r') if not x.startswith('#')]
-                    timezone_cities = [x.split('\t')[2] for x in timezone_cities if x.startswith(timezone_country_code)]
-                    timezone_cities.sort()
-                    timezone_city = str(timezone_cities[0])
+                    timezone_city, timezone_cities = self.filter_timezone_city(None, timezone_country_code)
                     self.struct['timezone']['settings']['timezone']['values'] = timezone_cities
                     self.struct['timezone']['settings']['timezone']['value'] = timezone_city
                     self.set_timezone(timezone_city)
