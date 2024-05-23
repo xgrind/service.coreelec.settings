@@ -46,6 +46,14 @@ msgctxt "#608"
 msgid "Architecture: "
 msgstr "Arquitetura:"
 
+msgctxt "#609"
+msgid "CoreELEC is created by a global team of Linux and Kodi enthusiasts who contribute time and effort to manage the project, write code, and provide support. We have fun making it. We hope you have fun using it!"
+msgstr "CoreELEC é criado por uma equipe global de entusiastas de Linux e Kodi que contribuem com tempo e esforço para gerenciar o projeto, escrever código e fornecer suporte. Nós nos divertimos fazendo isso. Esperamos que você se divirta usando-o!"
+
+msgctxt "#610"
+msgid "[B]Support[/B] is provided via our forum:[CR]https://discourse.coreelec.org[CR][CR][B]Documentation[/B] can be read at our website:[CR]https://coreelec.org[CR][CR][B]Wiki[/B] can be read at our website:[CR]https://wiki.coreelec.org[CR][CR][B]Code[/B] can be found on GitHub:[CR]https://github.com/CoreELEC[CR][CR]"
+msgstr "[B]O suporte[/B] é fornecido por meio de nosso fórum:[CR]https://discourse.coreelec.org[CR][CR]A[B] documentação[/B] pode ser lida em nosso site:[CR] https://coreelec.org[CR][CR]O[B] Wiki[/B] pode ser lido em nosso site:[CR]https://wiki.coreelec.org[CR][CR]O[B] código[/B] pode ser encontrado no GitHub:[CR]https://github.com/CoreELEC[CR][CR]"
+
 msgctxt "#700"
 msgid ""
 "Configure a hostname, keyboard type, perform a reset, update, or backups and"
@@ -68,6 +76,10 @@ msgstr "Configure serviços do sistema como Samba, SSH, Cron, Avahi e Syslog"
 msgctxt "#704"
 msgid "Configure and pair Bluetooth devices"
 msgstr "Configurar e emparelhar dispositivos Bluetooth"
+
+msgctxt "#705"
+msgid "Useful information like version and architecture details, support and documentation links."
+msgstr "Informações úteis como detalhes de versão e arquitetura, links de suporte e documentação."
 
 msgctxt "#707"
 msgid "Configure updates"
@@ -103,6 +115,10 @@ msgid ""
 "Set to ON and an on-screen notification will be displayed when a new update "
 "is available"
 msgstr "Defina como ON e uma notificação na tela será exibida quando uma nova atualização estiver disponível"
+
+msgctxt "#716"
+msgid "Update to the next stable release instead of remaining on nightly builds, when the next stable release is ready."
+msgstr "Atualizar para a próxima versão estável em vez de permanecer nas compilações noturnas, quando a próxima versão estável estiver pronta."
 
 msgctxt "#718"
 msgid ""
@@ -332,7 +348,126 @@ msgid ""
 "Set the idle timeout (in minutes) before devices will be disconnected "
 "(defaults to 0 for no timeout). Applies to devices where \"Enable Standby\" "
 "has been activated in the LibreELEC device connection context menu."
-msgstr ""
+msgstr "Definir o tempo limite de inatividade (em minutos) antes que os dispositivos sejam desconectados "
+"(o padrão é 0 para sem tempo limite). Aplica-se a dispositivos onde \"Ativar modo de espera\" "
+"foi ativado no menu de contexto de conexão do dispositivo no LibreELEC."
+
+msgctxt "#774"
+msgid "Automatic reconnect previously paired device after booting"
+msgstr "Reconexão automática do dispositivo emparelhado anteriormente após a inicialização"
+
+msgctxt "#775"
+msgid "Automatic change audio output to PULSE when a audio device get connected"
+msgstr "Alteração automática da saída de áudio para PULSE quando um dispositivo de áudio for conectado"
+
+msgctxt "#780"
+msgid "Configure hardware settings"
+msgstr "Definir configurações de hardware"
+
+msgctxt "#781"
+msgid "Set fan mode (off/auto/manual)"
+msgstr "Definir modo de ventoinha (off/auto/manual)"
+
+msgctxt "#782"
+msgid "Set fan speed level"
+msgstr "Definir o nível de velocidade da ventoinha"
+
+msgctxt "#786"
+msgid "Set the IR remote control power button code"
+msgstr "Definir o código do botão power do controle remoto IR (infravermelho)"
+
+msgctxt "#785"
+msgid "Modify Vendor Bootloader to support all wake-up features such as CEC, Wake-On-LAN, IR, and GPIO wake-up from suspend or power off state!"
+msgstr "Modifique o bootloader do fornecedor para oferecer suporte a todos os recursos de ativação, como CEC, Wake-On-LAN, IR (infravermelho) e GPIO despertar do estado suspenso ou desligado!
+"
+
+msgctxt "#787"
+msgid "Enable/Disable Wake-on-LAN"
+msgstr "Ativar/Desativar Wake-on-LAN"
+
+msgctxt "#788"
+msgid "Enable/Disable USB Power when device is off/suspend"
+msgstr "Ativar/desativar alimentação USB quando o dispositivo estiver desligado/suspenso"
+
+msgctxt "#789"
+msgid "Change device LED behavior"
+msgstr "Alterar o comportamento do LED do dispositivo"
+
+msgctxt "#790"
+msgid "Enable/Disable VESA display modes"
+msgstr "Ativar/desativar modos de exibição VESA"
+
+msgctxt "#791"
+msgid "Set CPU governor for all cores"
+msgstr "Definir o governador de CPU para todos os núcleos"
+
+msgctxt "#792"
+msgid "Enable/Disable HDD parking on power off/suspend"
+msgstr "Ativar/desativar o estacionamento do HDD ao desligar/suspender"
+
+msgctxt "#793"
+msgid "Time in seconds to wait for the HDD to spin down when parking"
+msgstr "Tempo em segundos para esperar que o HDD gire ao estacionar"
+
+msgctxt "#794"
+msgid "Time in minutes/hours until the HDD should enter suspend mode"
+msgstr "Tempo em minutos/horas até o HDD entrar no modo de suspensão"
+
+msgctxt "#900"
+msgid "Configure eMMC speed mode"
+msgstr "Configurar o modo de velocidade do eMMC"
+
+msgctxt "#901"
+msgid "Configure WiFi SoC SDIO speed"
+msgstr "Configurar a velocidade do WiFi SoC SDIO"
+
+msgctxt "#902"
+msgid "Enable/Disable SPI interface"
+msgstr "Ativar/desativar interface SPI"
+
+msgctxt "#903"
+msgid "Choose IR protocol type for meson-remote"
+msgstr "Escolha o tipo de protocolo IR (infravermelho) para meson-remote"
+
+msgctxt "#904"
+msgid "Configure DVB GPIO support"
+msgstr "Configurar suporte DVB GPIO"
+
+msgctxt "#905"
+msgid "Configure Wired Network Interface"
+msgstr "Configurar interface de rede com fio"
+
+msgctxt "#906"
+msgid "Choose if IP1001 is assembled"
+msgstr "Escolha se o IP1001 está montado"
+
+msgctxt "#907"
+msgid "Switch between using the USB3 interface or the PCIE interface on m.2 connector"
+msgstr "Alternar entre usar a interface USB3 ou a interface PCIE no conector m.2"
+
+msgctxt "#908"
+msgid "Choose assembled Smartchip device"
+msgstr "Escolha o dispositivo Smartchip montado"
+
+msgctxt "#909"
+msgid "Set to ON to enable service"
+msgstr "Defina como LIGADO para ativar o serviço"
+
+msgctxt "#910"
+msgid "Set to ON to send invitation to the @DISTRONAME@ developers for remote debugging"
+msgstr "Defina como LIGADO para enviar convite aos desenvolvedores do @DISTRONAME@ para depuração remota"
+
+msgctxt "#911"
+msgid "Select the SSH key used for access control"
+msgstr "Selecione a chave SSH usada para controle de acesso"
+
+msgctxt "#912"
+msgid "Forum username to identify the connection"
+msgstr "Nome de usuário do fórum para identificar a conexão"
+
+msgctxt "#913"
+msgid "Choose if Motorcomm PHY is assembled"
+msgstr "Escolha se o Motorcomm PHY está montado"
 
 msgctxt "#32001"
 msgid "Services"
@@ -345,6 +480,10 @@ msgstr "Sistema"
 msgctxt "#32003"
 msgid "Interface"
 msgstr "Interface"
+
+msgctxt "#32004"
+msgid "Hardware"
+msgstr "Hardware"
 
 msgctxt "#32005"
 msgid "Updates"
@@ -400,41 +539,49 @@ msgstr "Enviar estatísticas"
 
 msgctxt "#32022"
 msgid "Firmware Updates"
-msgstr ""
+msgstr "Atualizações de Firmware"
 
 msgctxt "#32023"
 msgid "Updating will occur once the system is rebooted."
-msgstr ""
+msgstr "A atualização ocorrerá assim que o sistema for reinicializado."
 
 msgctxt "#32024"
 msgid "Bootloader EEPROM"
-msgstr ""
+msgstr "EEPROM do bootloader"
 
 msgctxt "#32025"
 msgid ""
 "Update the Raspberry Pi Bootloader EEPROM to the latest version. This option"
 " is automatically disabled after rebooting. Reboot the system to apply the "
 "update."
-msgstr ""
+msgstr "Atualize a EEPROM do bootloader do Raspberry Pi para a versão mais recente. Esta opção"
+" é desativada automaticamente após a reinicialização. Reinicie o sistema para aplicar a "
+"atualização."
 
 msgctxt "#32026"
 msgid "VIA USB3 Firmware"
-msgstr ""
+msgstr "VIA Firmware USB3"
 
 msgctxt "#32027"
 msgid ""
 "Update the Raspberry Pi VIA USB3 firmware to the latest version. This option"
 " is automatically disabled after rebooting. Reboot the system to apply the "
 "update."
-msgstr ""
+msgstr "Atualize o firmware da Raspberry Pi VIA USB3 para a versão mais recente. Esta opção"
+" é desativada a automaticamente após a reinicialização. Reinicie o sistema para aplicar a "
+"atualização."
 
 msgctxt "#32028"
 msgid "update from %s to %s"
-msgstr ""
+msgstr "atualizar de %s para %s"
 
 msgctxt "#32029"
 msgid "up to date: %s"
-msgstr ""
+msgstr "atualizado: %s"
+
+msgctxt "#32030"
+msgid "Update To Next Stable"
+msgstr "Atualizar para o próximo estável"
 
 msgctxt "#32100"
 msgid "Connections"
@@ -582,15 +729,15 @@ msgstr "Emparelhar"
 
 msgctxt "#32146"
 msgid "Hidden Network Name"
-msgstr "Nome de Rede Oculta"
+msgstr "Nome de rede oculta"
 
 msgctxt "#32147"
 msgid "Wireless Network Passphrase"
-msgstr "Senha da Rede Sem-Fio"
+msgstr "Senha da rede sem-Fio"
 
 msgctxt "#32148"
 msgid "Wireless Network Username"
-msgstr "Usuário da Rede Sem-Fio"
+msgstr "Usuário da rede sem-Fio"
 
 msgctxt "#32150"
 msgid "Edit"
@@ -598,11 +745,11 @@ msgstr "Editar"
 
 msgctxt "#32180"
 msgid "Would you like to update @DISTRONAME@ now?"
-msgstr "Você gostaria de atualizar a @DISTRONAME@ agora?"
+msgstr "Você gostaria de atualizar o @DISTRONAME@ agora?"
 
 msgctxt "#32181"
 msgid "Filename"
-msgstr "Nome de Arquivo"
+msgstr "Nome de arquivo"
 
 msgctxt "#32182"
 msgid "Download speed"
@@ -622,15 +769,15 @@ msgstr "Extrair velocidade"
 
 msgctxt "#32186"
 msgid "Initialize Archive File"
-msgstr "Inicializar Arquivo de Arquivo"
+msgstr "Inicializar arquivo compactado"
 
 msgctxt "#32187"
 msgid "New Version"
-msgstr "Nova Versão"
+msgstr "Nova versão"
 
 msgctxt "#32188"
 msgid "Current Version"
-msgstr "Versão Atual"
+msgstr "Versão atual"
 
 msgctxt "#32189"
 msgid "Identification"
@@ -646,15 +793,15 @@ msgstr "URL Inválida"
 
 msgctxt "#32192"
 msgid "PIN lock"
-msgstr ""
+msgstr "Bloqueio de PIN"
 
 msgctxt "#32193"
 msgid "Enable @DISTRONAME@ Settings PIN Lock"
-msgstr ""
+msgstr "Ativar bloqueio de PIN nas configurações do @DISTRONAME@"
 
 msgctxt "#32194"
 msgid "Change @DISTRONAME@ Settings PIN Lock"
-msgstr ""
+msgstr "Alterar bloqueio de PIN das configurações do @DISTRONAME@"
 
 msgctxt "#32196"
 msgid "About"
@@ -674,23 +821,23 @@ msgstr "SSH"
 
 msgctxt "#32202"
 msgid "Use Samba Password Authentication"
-msgstr "Utilizar Senha de Autenticação do Samba"
+msgstr "Utilizar senha de autenticação do samba"
 
 msgctxt "#32203"
 msgid "Disable SSH Password"
-msgstr "Desabilitar Senha SSH"
+msgstr "Desativar senha SSH"
 
 msgctxt "#32204"
 msgid "Enable Samba"
-msgstr "Habilitar Samba"
+msgstr "Ativar samba"
 
 msgctxt "#32205"
 msgid "Enable SSH"
-msgstr "Habilitar SSH"
+msgstr "Ativar SSH"
 
 msgctxt "#32206"
 msgid "Enable Avahi (Zeroconf)"
-msgstr "Habilitar Avahi (Zeroconf)"
+msgstr "Ativar Avahi (Zeroconf)"
 
 msgctxt "#32207"
 msgid "Avahi"
@@ -744,7 +891,7 @@ msgstr "Senha ruim!"
 
 msgctxt "#32221"
 msgid "The entered password is too weak.[CR]SSH password is unchanged."
-msgstr "A senha digitada é muito fraca.[CR]A senha do SSH não é alterada."
+msgstr "A senha digitada é muito fraca.[CR]A senha do SSH não foi alterada."
 
 msgctxt "#32222"
 msgid "Password changed!"
@@ -764,71 +911,73 @@ msgstr "Houve um erro durante o processo.[CR]A senha do SSH não foi alterada."
 
 msgctxt "#32226"
 msgid "Enter new 4 digit PIN"
-msgstr ""
+msgstr "Insira o novo PIN de 4 dígitos"
 
 msgctxt "#32227"
 msgid "Re-enter PIN"
-msgstr ""
+msgstr "Digite novamente o PIN"
 
 msgctxt "#32228"
 msgid "Error - PIN codes did not match!"
-msgstr ""
+msgstr "Erro - os códigos PIN não correspondem!"
 
 msgctxt "#32229"
 msgid "@DISTRONAME@ Settings PIN lock not set.[CR][CR]Please try again."
-msgstr ""
+msgstr "O bloqueio de PIN das configurações do @DISTRONAME@ não definido.[CR][CR]Tente novamente."
 
 msgctxt "#32230"
 msgid "@DISTRONAME@ Settings PIN lock set."
-msgstr ""
+msgstr "O bloqueio de PIN das configurações do @DISTRONAME@ foi definido."
 
 msgctxt "#32231"
 msgid "Your @DISTRONAME@ Settings PIN lock has been set to:"
-msgstr ""
+msgstr "Seu bloqueio de PIN das configurações do @DISTRONAME@ foi definido para:"
 
 msgctxt "#32232"
 msgid "Error - PIN code not 4 digits!"
-msgstr ""
+msgstr "Erro - Código PIN não tem 4 dígitos!"
 
 msgctxt "#32233"
 msgid "@DISTRONAME@ Settings Locked[CR]Enter 4 digit PIN"
-msgstr ""
+msgstr "Configurações do @DISTRONAME@ bloqueadas[CR]Insira o PIN de 4 dígitos"
 
 msgctxt "#32234"
 msgid "Incorrect PIN!"
-msgstr ""
+msgstr "PIN incorreto!"
 
 msgctxt "#32235"
 msgid " attempts remaining."
-msgstr ""
+msgstr " tentativas restantes."
 
 msgctxt "#32236"
 msgid ""
 "You have entered an incorrect PIN too many times.[CR][CR]You will need to "
 "wait 5 minutes before trying again."
-msgstr ""
+msgstr "Você digitou um PIN incorreto muitas vezes.[CR][CR]Você precisará "
+"esperar 5 minutos antes de tentar novamente.""
 
 msgctxt "#32237"
 msgid "@DISTRONAME@ Settings Locked!"
-msgstr ""
+msgstr "Configurações do @DISTRONAME@ bloqueadas"
 
 msgctxt "#32238"
 msgid ""
 "Time remaining before PIN can be entered: %02d:%02d[CR][CR]Too many previous"
 " failed attempts."
-msgstr ""
+msgstr "Tempo restante antes que o PIN possa ser inserido: %02d:%02d[CR][CR]Muitas "
+"tentativas falhadas anteriormente."
 
 msgctxt "#32240"
 msgid "Wireless Regulatory Domain"
-msgstr ""
+msgstr "Domínio regulatório sem fio"
 
 msgctxt "#32300"
 msgid "Welcome to @DISTRONAME@"
-msgstr "Bem Vindo para @DISTRONAME@"
+msgstr "Bem-vindo ao @DISTRONAME@"
 
 msgctxt "#32301"
 msgid "Welcome"
-msgstr "Bem-Vindo"
+msgstr "Bem-vindo"
 
 msgctxt "#32302"
 msgid ""
@@ -836,7 +985,7 @@ msgid ""
 "@DISTRONAME@ installation - setting your location, timezone and connecting "
 "you to the internet.[CR][CR]These settings can be changed later by "
 "navigating to Programs > @DISTRONAME@ Settings."
-msgstr "Este assistente irá guiá-lo através do processo de configuração do novo @DISTRONAME@ Instalação - definir sua localização, fuso horário e conectá-lo à Internet.[CR][CR]Essas configurações podem ser alteradas posteriormente navegando para Programas > @DISTRONAME@ Configurações."
+msgstr "Este assistente irá guiá-lo através do processo de configuração de sua nova instalação do @DISTRONAME@ - definir sua localização, fuso horário e conectá-lo à Internet.[CR][CR]Essas configurações podem ser alteradas posteriormente navegando para Programas > @DISTRONAME@ Configurações."
 
 msgctxt "#32303"
 msgid "Next"
@@ -848,7 +997,10 @@ msgid ""
 "a name.[CR][CR]Try to choose something meaningful - like the room it's in - "
 "so you'll know what it is when you see it on the network.[CR][CR]This name "
 "is used when configuring network services, like file sharing using samba."
-msgstr "Para ser facilmente identificado na rede, o seu @DISTRONAME@ A máquina precisa de um nome.[CR][CR]Tente escolher algo significativo - como a sala em que está - para que você saiba o que é quando você vê-lo na rede.[CR][CR]Esse nome é usado ao configurar serviços de rede, como o compartilhamento de arquivos usando samba."
+msgstr "Para ser facilmente identificado na rede, sua máquina com o novo @DISTRONAME@ "
+"precisa de um nome.[CR][CR]Tente escolher algo significativo - como a sala "
+"em que está - para que você saiba o que é quando você vê-lo na rede.[CR][CR]Esse "
+"nome é usado ao configurar serviços de rede, como o compartilhamento de arquivos usando samba."
 
 msgctxt "#32305"
 msgid "Networking"
@@ -860,11 +1012,13 @@ msgid ""
 "TV shows and to stream online content from sites like YouTube, @DISTRONAME@ "
 "needs to be connected the Internet.[CR][CR]An Internet connection is also "
 "required for @DISTRONAME@ to automatically update itself."
-msgstr "Para transferir backdrops, banners e miniaturas para os seus filmes e programas de TV e para transmitir conteúdo online a partir de sites como o YouTube, @DISTRONAME@ Precisa estar conectado à Internet.[CR][CR]Também é necessária uma ligação à Internet para @DISTRONAME@ Para se atualizar automaticamente."
+msgstr "Para transferir backdrops, banners e miniaturas para os seus filmes e "
+"programas de TV e para transmitir conteúdo online a partir de sites como o YouTube, "
+"o @DISTRONAME@ precisa estar conectado à Internet.[CR][CR]Também é necessário "
 
 msgctxt "#32307"
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 msgctxt "#32308"
 msgid "Hostname:"
@@ -876,11 +1030,11 @@ msgstr "As seguintes redes estão disponíveis atualmente"
 
 msgctxt "#32310"
 msgid "Language:"
-msgstr ""
+msgstr "Idioma:"
 
 msgctxt "#32311"
 msgid "Sharing and Remote Access"
-msgstr "Compartilhamento e Acesso Remoto"
+msgstr "Compartilhamento e ecesso remoto"
 
 msgctxt "#32312"
 msgid ""
@@ -888,7 +1042,9 @@ msgid ""
 " who wish to interact with @DISTRONAME@'s underlying operating system. The "
 "default user is [COLOR blue]root[/COLOR] and the default password is [COLOR "
 "blue]@ROOT_PASSWORD@[/COLOR]."
-msgstr "@DISTRONAME@ Também suporta SSH para acesso remoto. Isto é para usuários avançados que desejam interagir com @DISTRONAME@'s Sistema operacional subjacente. O usuário padrão é [COLOR blue]root[/COLOR] E a senha padrão é [COLOR blue]@ROOT_PASSWORD@[/COLOR]."
+msgstr "O @DISTRONAME@ também suporta SSH para acesso remoto. Isto é para usuários "
+"avançados que desejam interagir com sistemas operacionais subjacentes ao @DISTRONAME@."
+" O usuário padrão é [COLOR blue]root[/COLOR] e a senha padrão é [COLOR blue]@ROOT_PASSWORD@[/COLOR]."
 
 msgctxt "#32313"
 msgid ""
@@ -896,7 +1052,9 @@ msgid ""
 "incorporated a samba server. This samba server can be integrated into your "
 "local network by accessing it in a familiar way with Finder or Windows "
 "Explorer."
-msgstr "Para compartilhar seus arquivos entre seus computadores @DISTRONAME@ Incorporou um servidor samba. Este servidor samba pode ser integrado em sua rede local, acessando-o de uma maneira familiar com o Finder ou Windows Explorer."
+msgstr "Para compartilhar seus arquivos entre seus computadores, o @DISTRONAME@ "
+"incorporou um servidor samba. Este servidor samba pode ser integrado em sua rede "
+"local, acessando-o de uma maneira familiar com o Finder ou Windows Explorer."
 
 msgctxt "#32316"
 msgid "Configure Services:"
@@ -906,13 +1064,23 @@ msgctxt "#32317"
 msgid "Thank you"
 msgstr "Obrigado"
 
+msgctxt "#32318"
+msgid "Your @DISTRONAME@ installation is now complete and you are about to enter Kodi where you can set up your media libraries. For help with this, there is a guide available at wiki.kodi.tv[CR][CR]@DISTRONAME@ is developed by a dedicated team of developers who work purely in their spare time.[CR][CR]Finally, we hope you enjoy using @DISTRONAME@ as much as we've enjoyed building it. If you need any more help, you can find links to our support forum along with latest news at our website."
+msgstr "A instalação do @DISTRONAME@ está concluída e você está prestes a entrar "
+"no Kodi, onde poderá configurar suas bibliotecas de mídia. Para obter ajuda com "
+"isso, há um guia disponível em wiki.kodi.tv[CR][CR]O @DISTRONAME@ é desenvolvido "
+"por uma equipe dedicada de desenvolvedores que trabalham exclusivamente em seu "
+"tempo livre.[CR][CR]Finalmente, nós esperamos que você goste de usar o @DISTRONAME@ "
+"tanto quanto nós gostamos de criá-lo. Se precisar de mais ajuda, você pode encontrar "
+"links para nosso fórum de suporte junto com as últimas notícias em nosso site."
+
 msgctxt "#32319"
 msgid "Cron"
 msgstr "Cron"
 
 msgctxt "#32320"
 msgid "Enable Cron"
-msgstr "Habilitar Cron"
+msgstr "Ativar Cron"
 
 msgctxt "#32323"
 msgid "Reset to Defaults"
@@ -966,23 +1134,24 @@ msgctxt "#32339"
 msgid ""
 "No Bluetooth device found. Please put your Bluetooth device into discovery "
 "mode[CR]and start the scan"
-msgstr "Nenhum dispositivo Bluetooth encontrado. Coloque o dispositivo Bluetooth no modo de descoberta [CR] e inicie a digitalização"
+msgstr "Nenhum dispositivo Bluetooth encontrado. Por favor, coloque seu dispositivo "
+"Bluetooth no modo de descoberta[CR] e inicie a varredura."
 
 msgctxt "#32343"
 msgid "Enter the following Key on your Device."
-msgstr "Entre a seguinte chave no seu dispositivo."
+msgstr "Insira a seguinte chave em seu dispositivo."
 
 msgctxt "#32344"
 msgid "Enable Bluetooth"
-msgstr "Habilitar Bluetooth"
+msgstr "Ativar Bluetooth"
 
 msgctxt "#32346"
 msgid "Bluetooth is disabled"
-msgstr "Bluetooth está desabilitado"
+msgstr "Bluetooth está desativado"
 
 msgctxt "#32358"
 msgid "Trust and Connect"
-msgstr "Confiar e Conectar"
+msgstr "Confiar e conectar"
 
 msgctxt "#32362"
 msgid "Check for updates now:"
@@ -998,11 +1167,11 @@ msgstr "Atualização Disponível"
 
 msgctxt "#32365"
 msgid "Show Update Notifications"
-msgstr "Mostrar Notificações de Atualização"
+msgstr "Mostrar notificações de atualização"
 
 msgctxt "#32366"
 msgid "Update Download Completed"
-msgstr "Completado Download da Atualização"
+msgstr "Download da atualização concluído"
 
 msgctxt "#32367"
 msgid "Update Extract Complete"
@@ -1010,15 +1179,15 @@ msgstr "Extração de atualização concluído"
 
 msgctxt "#32368"
 msgid "Advanced Network Settings"
-msgstr "Configurações Avançadas da Rede"
+msgstr "Configurações avançadas da rede"
 
 msgctxt "#32369"
 msgid "Wait for network before starting Kodi"
-msgstr "Aguarde rede antes de iniciar o Kodi"
+msgstr "Aguarde a rede antes de iniciar o Kodi"
 
 msgctxt "#32370"
 msgid "Maximum Wait Time (Sec.)"
-msgstr "Tempo de espera máximo (Sec.)"
+msgstr "Tempo de espera máximo (Seg.)"
 
 msgctxt "#32371"
 msgid "Backup"
@@ -1026,15 +1195,20 @@ msgstr "Backup"
 
 msgctxt "#32372"
 msgid "Create System and Kodi Backup"
-msgstr "Criar Backup do Sistema e Kodi"
+msgstr "Criar backup do sistema e do Kodi"
 
 msgctxt "#32373"
 msgid "Restore Backup"
-msgstr "Restaurar Backup"
+msgstr "Restaurar backup"
+
+msgctxt "#32374"
+msgid "Restore file cannot be accessed by the system, it must be located on the local filesystem"
+msgstr "O arquivo de restauração não pode ser acessado pelo sistema, ele deve "
+"estar localizado no sistema de arquivos local"
 
 msgctxt "#32375"
 msgid "Backup Progress"
-msgstr "Progresso do Backup"
+msgstr "Progresso do backup"
 
 msgctxt "#32376"
 msgid "Submit Log"
@@ -1042,11 +1216,11 @@ msgstr "Enviar Log"
 
 msgctxt "#32377"
 msgid "Upload latest Kodi log and configs, and view the short URL"
-msgstr "Faça o upload do log e das configurações mais recentes do Kodi e visualize o URL curto"
+msgstr "Faça o upload do log e das configurações mais recentes do Kodi e visualize a URL curta"
 
 msgctxt "#32378"
 msgid "Upload latest Kodi crash log and configs, and view the short URL"
-msgstr "Faça o upload do log e configurações mais recentes do crash do Kodi e visualize o URL curto"
+msgstr "Faça o upload do log e configurações mais recentes do crash do Kodi e visualize a URL curto"
 
 msgctxt "#32379"
 msgid "There is not enough free storage space to continue!"
@@ -1056,7 +1230,8 @@ msgctxt "#32380"
 msgid ""
 "Restoring system settings requires a reboot. Are you sure you want to "
 "restore?"
-msgstr "A restauração das configurações do sistema requer uma reinicialização. Tem certeza de que deseja restaurar?"
+msgstr "A restauração das configurações do sistema requer uma reinicialização. "
+"Tem certeza de que deseja restaurar?"
 
 msgctxt "#32381"
 msgid "Accept incoming Bluetooth Filetransfer ?"
@@ -1068,31 +1243,31 @@ msgstr "Velocidade"
 
 msgctxt "#32383"
 msgid "Play Files ?"
-msgstr "Tocar Arquivos ?"
+msgstr "Reproduzir arquivos ?"
 
 msgctxt "#32384"
 msgid "OBEX Enabled"
-msgstr "OBEX Habilitado"
+msgstr "OBEX ativado"
 
 msgctxt "#32385"
 msgid "OBEX Upload Folder"
-msgstr "Carregar Pasta OBEX"
+msgstr "Pasta de upload do OBEX"
 
 msgctxt "#32386"
 msgid "Keyboard Layout Variant #1"
-msgstr "Leiaute Variável do Teclado #1"
+msgstr "Variante de layout do teclado #1"
 
 msgctxt "#32387"
 msgid "Keyboard Layout Variant #2"
-msgstr "Leiaute Variável do Teclado #2"
+msgstr "Variante de layout do teclado #2"
 
 msgctxt "#32388"
 msgid "Enable Standby"
-msgstr "Habilitar Modo de Espera"
+msgstr "Ativar modo de espera"
 
 msgctxt "#32389"
 msgid "Disable Standby"
-msgstr "Desabilitar Modo de Espera"
+msgstr "Desativar modo de espera"
 
 msgctxt "#32390"
 msgid "Settings addon is not yet ready, please try again later."
@@ -1100,11 +1275,11 @@ msgstr "O addon de configurações ainda não está pronto. Tente novamente mais
 
 msgctxt "#32391"
 msgid "Upload configs and other debug info without logs, and view the short URL"
-msgstr ""
+msgstr "Faça o upload das configurações e outras informações de depuração sem registros e visualize a URL curta"
 
 msgctxt "#32393"
 msgid "** SAFE MODE! ** SAFE MODE! ** SAFE MODE! **"
-msgstr "** MODO DE SEGURANÇA! ** MODO DE SEGURANÇA! **"
+msgstr "** MODO DE SEGURANÇA! ** MODO DE SEGURANÇA! ** ** MODO DE SEGURANÇA!"
 
 msgctxt "#32395"
 msgid "Firewall"
@@ -1128,4 +1303,220 @@ msgstr "Público"
 
 msgctxt "#32400"
 msgid "Idle Timeout"
-msgstr ""
+msgstr "Tempo limite de inatividade"
+
+msgctxt "#32401"
+msgid "Connect paired devices"
+msgstr "Conectar dispositivos emparelhados"
+
+msgctxt "#32402"
+msgid "Switch audio device on connection"
+msgstr "Alternar dispositivo de áudio na conexão"
+
+msgctxt "#32500"
+msgid "Fan"
+msgstr "Ventoinha"
+
+msgctxt "#32501"
+msgid "Power"
+msgstr "Alimentação"
+
+msgctxt "#32502"
+msgid "Display"
+msgstr "Display"
+
+msgctxt "#32503"
+msgid "Performance"
+msgstr "Desempenho"
+
+msgctxt "#32504"
+msgid "CEC"
+msgstr "CEC"
+
+msgctxt "#32505"
+msgid "HDD"
+msgstr "HDD"
+
+msgctxt "#32506"
+msgid "Device Tree"
+msgstr "Árvore de dispositivos"
+
+msgctxt "#32510"
+msgid "Fan Mode"
+msgstr "Modo ventoinha"
+
+msgctxt "#32511"
+msgid "Speed Level"
+msgstr "Nível de velocidade"
+
+msgctxt "#32515"
+msgid "Inject BL30 Blob"
+msgstr "Injetar blob BL30"
+
+msgctxt "#32516"
+msgid "IR Remote Power Code"
+msgstr "Código de alimentação remota IR(infravermelho)"
+
+msgctxt "#32517"
+msgid "Wake-on-LAN"
+msgstr "Wake-on-LAN"
+
+msgctxt "#32518"
+msgid "USB Power"
+msgstr "Alimentação USB"
+
+msgctxt "#32519"
+msgid "System LED"
+msgstr "Sistema LED"
+
+msgctxt "#32520"
+msgid "VESA modes"
+msgstr "Modos VESA"
+
+msgctxt "#32521"
+msgid "CPU governor"
+msgstr "Governador de CPU"
+
+msgctxt "#32522"
+msgid "Parking"
+msgstr "Estacionamento"
+
+msgctxt "#32523"
+msgid "Parking Time"
+msgstr "Tempo de estacionamento"
+
+msgctxt "#32524"
+msgid "Idle Time"
+msgstr "Tempo inativo"
+
+msgctxt "#32525"
+msgid "eMMC Speed Mode"
+msgstr "Modo de velocidade eMMC"
+
+msgctxt "#32526"
+msgid "WiFi SoC SDIO Speed"
+msgstr "Velocidade do WiFi SoC SDIO"
+
+msgctxt "#32527"
+msgid "Red LED"
+msgstr "LED vermelho"
+
+msgctxt "#32528"
+msgid "SPI Interface"
+msgstr "Interface SPI"
+
+msgctxt "#32529"
+msgid "IR Protocol Type"
+msgstr "Tipo de protocolo IR (infravermelho)"
+
+msgctxt "#32530"
+msgid "DVB GPIO Support"
+msgstr "Suporte a DVB GPIO"
+
+msgctxt "#32531"
+msgid "Wired Network Interface"
+msgstr "Interface de rede cabeada"
+
+msgctxt "#32532"
+msgid "Green LED"
+msgstr "LED verde"
+
+msgctxt "#32533"
+msgid "IP1001 Ethernet Transceiver"
+msgstr "Transceptor Ethernet IP1001"
+
+msgctxt "#32534"
+msgid "VIM3 USB3/PCIE Switch"
+msgstr "Switch VIM3 USB3/PCIE"
+
+msgctxt "#32535"
+msgid "Smartchip WiFi Driver"
+msgstr "Driver de WiFi Smartchip"
+
+msgctxt "#32536"
+msgid "Motorcomm Ethernet Transceiver"
+msgstr "Transceptor Ethernet Motorcomm"
+
+msgctxt "#33510"
+msgid "Warning!"
+msgstr "Aviso!"
+
+msgctxt "#33511"
+msgid "Continue"
+msgstr "Continuar"
+
+msgctxt "#33512"
+msgid "Finished!"
+msgstr "Finalizado!"
+
+msgctxt "#33513"
+msgid "Notice!"
+msgstr "Aviso prévio!"
+
+msgctxt "#33514"
+msgid "Error!"
+msgstr "Erro!"
+
+msgctxt "#33515"
+msgid "Inject Bootloader BL30 Blob..."
+msgstr "Injetar blob BL30 do bootloader..."
+
+msgctxt "#33516"
+msgid "[B][COLOR red]Note: This will modify the firmware on your device.[/COLOR][/B][CR]The BL30 bootloader blob has been customized by the CoreELEC Team to support all features used to wake a device from a suspend or power off state!"
+msgstr "[B][COLOR red]Nota: Isto modificará o firmware do seu dispositivo.[/COLOR][/B][CR]O blob BL30 do bootloader foi personalizado pela equipe CoreELEC para suportar todos os recursos usados para despertar um dispositivo de um estado suspenso ou desligado!"
+
+msgctxt "#33517"
+msgid "Finished update of the BL30 on internal eMMC.[CR]A reboot is now required!"
+msgstr "Atualização do BL30 concluída no eMMC interno.[CR]Agora é necessário reiniciar!"
+
+msgctxt "#33518"
+msgid "Error [%d] has occurred while using the 'inject_BL30' tool![CR]See '/storage/inject_BL30.log' for details."
+msgstr "Ocorreu um erro [%d] ao usar a ferramenta 'inject_BL30'![CR]Veja '/storage/inject_BL30.log' para detalhes."
+
+msgctxt "#33519"
+msgid "System is not supported by BL30 injection![CR]See '/storage/inject_BL30.log' for details."
+msgstr "O sistema não é suportado pela injeção BL30![CR]Veja '/storage/inject_BL30.log' para detalhes."
+
+msgctxt "#33520"
+msgid "Update of BL30 on eMMC is not needed."
+msgstr "Atualização do BL30 no eMMC não é necessária."
+
+msgctxt "#33521"
+msgid "[B][COLOR red]Note: This will remove the BL30 injection on your device.[/COLOR][CR]The injected BL30 bootloader blob will be removed by the backup done automatically before injection.[/B]"
+msgstr "[B][COLOR red]Nota: Isto removerá a injeção BL30 do seu dispositivo.[/COLOR][CR]O blob BL30 do bootloader injetado será removido pelo backup feito automaticamente antes da injeção.[/B]"
+
+msgctxt "#33522"
+msgid "Finished remove of the BL30 on internal eMMC.[CR]A reboot is now required!"
+msgstr "Remoção concluída do BL30 no eMMC interno.[CR]Agora é necessário reiniciar!"
+
+msgctxt "#33523"
+msgid "Finished update of /flash/dtb.img.[CR]A reboot is now required!"
+msgstr "Atualização de /flash/dtb.img concluída.[CR]Agora é necessário reiniciar!"
+
+msgctxt "#33524"
+msgid "[COLOR red]Are you sure to change this value?[/COLOR][CR]Please enter confirmation code '%s'"
+msgstr "[COLOR red]Tem certeza de que deseja alterar este valor?[/COLOR][CR]Por favor, insira o código de confirmação '%s'"
+
+msgctxt "#33525"
+msgid "Terminal sharing"
+msgstr "Compartilhamento de terminal"
+
+msgctxt "#33526"
+msgid "Enable terminal sharing"
+msgstr "Ativar compartilhamento de terminal"
+
+msgctxt "#33527"
+msgid "Send invitation to @DISTRONAME@ developers"
+msgstr "Enviar convite para os desenvolvedores do @DISTRONAME@"
+
+msgctxt "#33528"
+msgid "Hint: enable this option only when requested by team @DISTRONAME@"
+msgstr "Dica: ative esta opção somente quando for solicitada pela equipe do @DISTRONAME@"
+
+msgctxt "#33529"
+msgid "Access control key"
+msgstr "Chave de controle de acesso"
+
+msgctxt "#33530"
+msgid "Connection name"
+msgstr "Nome da conexão"
